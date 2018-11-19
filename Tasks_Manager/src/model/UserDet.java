@@ -8,6 +8,13 @@ public class UserDet implements Serializable
 	private String ename;
 	private String dept;
 	private String role;
+	private String grant;
+	public String getGrant() {
+		return grant;
+	}
+	public void setGrant(String grant) {
+		this.grant = grant;
+	}
 	public int getEid() {
 		return eid;
 	}

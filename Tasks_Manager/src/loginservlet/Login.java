@@ -57,13 +57,20 @@ public class Login extends HttpServlet
 										HttpSession session=request.getSession();
 										UserDet	ud=getUserObj(user);
 										session.setAttribute("UserDet",ud);
-										if(ud.getRole().equalsIgnoreCase("P.P.E")||ud.getRole().equalsIgnoreCase("GM"))
+										if(ud.getRole().equalsIgnoreCase("P.P.E")||ud.getRole().equalsIgnoreCase("GM")||ud.getGrant().equalsIgnoreCase("yes"))
 										{	
 											
 											//request.setAttribute("UserDet",ud);
 											RequestDispatcher rd=request.getRequestDispatcher("admin.jsp");
-										    rd.forward(request, response);
-									
+											
+											
+											
+											
+											
+											
+											
+											rd.forward(request, response);
+										    								
 										}
 										else 
 										{
@@ -99,6 +106,7 @@ public class Login extends HttpServlet
 		ud.setEid(Integer.parseInt(rs.getString(1)));
 		ud.setRole(rs.getString(5));
 		ud.setDept(rs.getString(3));
+		ud.setGrant(rs.getString(6));
 		return ud;
 	}
 }
