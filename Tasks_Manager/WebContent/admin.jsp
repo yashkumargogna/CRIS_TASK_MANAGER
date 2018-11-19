@@ -13,6 +13,6 @@
 %>
 <h1><center>WELCOME   <%=ud.getEname()%> </center></h1>
 THIS IS ADMIN PAGE
-<a href="checkcontext.jsp">click to check context role</a>
+
 </body>
 </html>
