@@ -1,0 +1,48 @@
+#mainthis {
+	margin: 0px auto; border: 0px solid red; border-image: none; width: 1000px; color: black; padding-top: 20px; padding-bottom: 10px; font-family: "Times New Roman", serif; position: relative; background-color: white;
+}
+#footerthis {
+	background: url("../images/a3.gif") repeat-x; margin: 0px auto 25px; width: 830px; text-align: center; text-transform: none; padding-top: 10px; clear: both;
+}
+#header_inner_this {
+	margin: 0px auto; width: 1000px; height: 104px; position: relative;
+}
+#header_inner_this h1 {
+	background: inherit; left: 0px; bottom: 10px; color: rgb(255, 255, 255); text-transform: none; letter-spacing: -1px; font-size: 37px; font-weight: normal; position: absolute;
+}
+#header_inner_this h1 span {
+	background: inherit; color: rgb(218, 218, 218);
+}
+#header_inner_this h1 .subspan1 {
+	color: rgb(186, 225, 81);
+}
+#unicode_head {
+	background: inherit; width: 280px; right: 110px; bottom: 16px; color: rgb(218, 218, 218); letter-spacing: 1px; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: normal; position: absolute;
+}
+#uniul {
+	margin-bottom: 10px;
+}
+#uniul li {
+	font: 12px/normal "Trebuchet MS"; color: gray; font-size-adjust: none; font-stretch: normal;
+}
+.backto {
+	font: 16px/normal "Trebuchet MS"; color: blue; margin-top: 5px; font-size-adjust: none; font-stretch: normal;
+}
+#mintext {
+	font: 12px/normal "Trebuchet MS"; font-size-adjust: none; font-stretch: normal;
+}
+#footmenu {
+	font: 13px/normal Arial; width: 1000px; color: gray; position: relative; font-size-adjust: none; font-stretch: normal;
+}
+#footmenu a {
+	background: none; padding: 0px; color: gray; font-size: 13px; text-decoration: none;
+}
+#footmenu a:hover {
+	text-decoration: underline;
+}
+.iltspan {
+	text-align: right; color: gray; letter-spacing: 0px; font-family: Trebuchet MS; font-size: 12px; font-weight: normal; margin-top: -50px; display: block;
+}
+.iltspan a {
+	color: rgb(51, 51, 51); text-decoration: none; border-bottom-color: rgb(206, 206, 206); border-bottom-width: 1px; border-bottom-style: dotted; background-image: none;
+}

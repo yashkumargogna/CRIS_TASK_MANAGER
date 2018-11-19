@@ -1,0 +1,204 @@
+* {
+	margin: 0px; padding: 0px;
+}
+body {
+	color: rgb(159, 159, 159); font-family: "trebuchet ms", helvetica, sans-serif; font-size: 11px; background-color: rgb(255, 255, 255);
+}
+a {
+	color: rgb(147, 179, 0); text-decoration: underline;
+}
+a:hover {
+	background: url("images/bbg1.gif") repeat-x rgb(211, 227, 120); color: rgb(255, 255, 255); text-decoration: none;
+}
+strong {
+	background: inherit; color: rgb(80, 81, 77);
+}
+#header {
+	background: url("images/a1.gif") repeat-x; width: 100%; height: 104px; color: rgb(255, 255, 255);
+}
+#header_inner {
+	margin: 0px auto; width: 850px; height: 104px; position: relative;
+}
+#header_inner h1 {
+	background: inherit; left: 0px; bottom: 10px; color: rgb(255, 255, 255); text-transform: lowercase; letter-spacing: -2px; font-size: 39px; font-weight: normal; position: absolute;
+}
+#header_inner h1 span {
+	background: inherit; color: rgb(218, 218, 218);
+}
+#slogan {
+	background: inherit; width: 287px; text-align: right; right: 6px; bottom: 10px; color: rgb(218, 218, 218); text-transform: lowercase; font-size: 13px; position: absolute;
+}
+#slogan3 {
+	background: inherit; right: 38px; bottom: 19px; color: rgb(218, 218, 218); text-transform: lowercase; font-size: 13px; position: absolute;
+}
+#slogan2 {
+	top: -5px; width: 200px; font-size: 14px; position: relative;
+}
+#main {
+	margin: 0px auto; width: 850px; padding-top: 20px; padding-bottom: 10px; position: relative;
+}
+#menu ul {
+	list-style: none; margin: 0px;
+}
+#menu li {
+	background: none; padding: 0px; font-weight: bold;
+}
+#menu a {
+	background-position: inherit; width: 200px; height: 27px; color: rgb(99, 99, 99); text-transform: lowercase; padding-top: 11px; padding-left: 17px; font-size: 13px; text-decoration: none; margin-bottom: 1px; display: block; position: relative; background-image: url("images/bbg0.gif"); background-attachment: inherit; background-repeat: inherit; background-size: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit;
+}
+#menu a span {
+	background: url("images/x1.gif") no-repeat; width: 7px; height: 7px; right: 0px; margin-top: 5px; margin-right: 15px; position: absolute;
+}
+#menu a:hover span {
+	background: url("images/x2.gif") no-repeat; width: 7px; height: 7px; right: 0px; margin-top: 5px; margin-right: 15px; position: absolute;
+}
+#menu a:hover {
+	background-position: inherit; color: rgb(255, 255, 255); background-image: url("images/bbg1.gif"); background-attachment: inherit; background-repeat: inherit; background-size: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit;
+}
+#menu_end {
+	width: 217px; height: 30px; background-image: url("images/a2.gif");
+}
+h1 {
+	background: inherit; color: rgb(80, 81, 77); text-transform: lowercase; font-size: 26px;
+}
+h1 span {
+	background: inherit; color: rgb(133, 172, 30);
+}
+h1 span sup {
+	background: inherit; color: rgb(133, 172, 30); font-size: 14px;
+}
+h3 {
+	background: url("images/a3.gif") repeat-x 0px 17px; height: 34px; color: rgb(80, 81, 77); text-transform: lowercase; font-size: 15px; margin-top: 30px;
+}
+h3 span {
+	background: inherit; color: rgb(133, 172, 30);
+}
+h3.first {
+	margin-top: 0px;
+}
+#lcol {
+	width: 200px; float: left; position: relative;
+}
+#lcontent {
+	padding: 0px 15px; position: relative;
+}
+#rcontent {
+	padding: 25px 20px 0px; position: relative;
+}
+ul {
+	list-style: none;
+}
+li {
+	background: url("images/x1.gif") no-repeat 0px 5px; padding-left: 15px;
+}
+p {
+	text-align: justify; line-height: 20px; margin-bottom: 25px;
+}
+#lcol p {
+	margin: 0px; line-height: 16px; font-size: 10px;
+}
+.divider {
+	margin: 10px 0px; width: 100%; height: 1px; font-size: 0px; border-bottom-color: rgb(245, 245, 245); border-bottom-width: 1px; border-bottom-style: solid; position: relative;
+}
+.summary {
+	text-align: left; font-style: italic;
+}
+ul.divided li {
+	background-position: 0px 9px; padding-top: 4px; margin-top: 4px; border-top-color: rgb(245, 245, 245); border-top-width: 1px; border-top-style: solid;
+}
+ul.divided li.first {
+	background-position: 0px 5px; padding-top: 0px; margin-top: 0px; border-top-color: currentColor; border-top-width: 0px; border-top-style: none;
+}
+#rcol {
+	width: 620px; margin-left: 220px; position: relative; background-image: url("images/a2.gif"); background-repeat: repeat-x;
+}
+.box {
+	background: inherit; border: 1px dashed rgb(218, 218, 218); border-image: none; color: rgb(170, 177, 101); margin-top: 15px; position: relative;
+}
+.box h2 {
+	background: inherit; color: rgb(108, 116, 37); text-transform: lowercase; font-size: 18px; font-weight: normal; margin-bottom: 5px;
+}
+.box p {
+	margin: 0px; line-height: 16px; font-size: 10px;
+}
+.box_inner {
+	background: url("images/a4.gif") repeat-x rgb(255, 255, 233); padding: 15px; border: 1px solid rgb(255, 255, 255); border-image: none; color: inherit;
+}
+.captioned_image {
+	padding-bottom: 15px; margin-right: 17px; float: left; position: relative;
+}
+.captioned_image div {
+	left: 0px; bottom: 0px; font-size: 9px; position: absolute;
+}
+#footer {
+	background: url("images/a2.gif") repeat-x; margin: 0px auto 25px; width: 680px; text-align: center; text-transform: lowercase; padding-top: 10px; clear: both;
+}
+#footer p {
+	text-align: center;
+}
+#firefox {
+	opacity: 0.6;
+}
+#firefox a:hover {
+	background: repeat-x rgb(211, 227, 120); color: rgb(255, 255, 255); text-decoration: none;
+}
+#rcontent p.lyrics {
+	letter-spacing: 0px; font-size: 14px;
+}
+#rcontent ul.lyrics {
+	letter-spacing: 0px; font-size: 14px;
+}
+.myul {
+	list-style: none; font-size: 14px;
+}
+.myul li {
+	background: none; list-style: none; padding-left: 5px; margin-top: 2px;
+}
+.myul span {
+	font-size: 16px;
+}
+.myul span.some {
+	font-size: 19px;
+}
+.myul2 {
+	padding-left: 0px;
+}
+.myul2 li {
+	background: none; list-style: none; padding-left: 5px; font-size: 14px;
+}
+.orangelink {
+	color: rgb(228, 133, 34);
+}
+.linkspan {
+	text-align: right; padding-right: 10px; display: block;
+}
+.lex {
+	margin-top: 20px;
+}
+.onelink {
+	color: rgb(80, 81, 77); text-decoration: none;
+}
+#googlechat {
+	border: 1px dashed rgb(206, 206, 206); border-image: none; text-align: center; padding-top: 5px; margin-top: 7px; margin-bottom: 15px; background-color: rgb(255, 255, 244);
+}
+.noback {
+	background: none;
+}
+.noback a {
+	background: none;
+}
+#mainpara {
+	font-size: 11px;
+}
+#langlinks a {
+	
+}
+#langlinks a:hover {
+	background: none;
+}
+#langlinks img {
+	border: 0px currentColor; border-image: none;
+}
+.bottomadvt {
+	text-align: center;
+}
