@@ -1,22 +1,19 @@
-<%@page import="DTO.ICMSTeamMember"%>
+
+<%@page import="java.util.Set"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="common.CommonDetails"%>
+<%@page import="model.UserDet"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="common.adminCacheData"%>
-<%@page	import="java.text.DateFormat, java.text.SimpleDateFormat, java.util.Date, java.io.*"%>
+<%@page	import="java.text.DateFormat, java.text.SimpleDateFormat, java.util.Date, java.io.*,javax.servlet.http.*"%>
 
 <!DOCTYPE HTML>
-<HTML>
+<html>
 <HEAD>
-<jsp:useBean id="UserInfo" class="common.UserInfo" scope="session"></jsp:useBean>
-<jsp:useBean id="IcmsadminFilter" class="common.IcmsadminFilter" scope="request"></jsp:useBean>
-<jsp:useBean id="TeamMeetingsDTO" class="DTO.TeamMeetingsDTO" scope="request"></jsp:useBean>
-<jsp:useBean id="IcmsadminMessage" class="common.IcmsadminMessage" scope="request"></jsp:useBean>
-<jsp:include page="/include/head_tags.html" flush="true"/>
-<jsp:include page="/TeamMeetings/Menu.jsp" flush="true"/>
 <style>
  #createtable {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	border-collapse: collapse;
-	width: 100%;
+	width: 70%;
 }
 
 #createtable td, #createtable th {
@@ -43,6 +40,22 @@
 </style>
 
 <SCRIPT>
+var timepicker = new TimePicker('time', {
+  lang: 'en',
+  theme: 'dark'
+});
+timepicker.on('change', function(evt) {
+  
+  var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+  evt.element.value = value;
+
+})
+
+function getModule()
+{
+		
+}
+
 function checkForm()
 {
 var frm= document.frm;
@@ -99,308 +112,103 @@ var radios = frm.meetingReq;
 			alert("Please Enter Time To!");
 			return;
 		}
-	frm.action="IcmsadminServlet?action=MicsUtilites&subAction=TeamMeeting&event=addConfirm";
+	frm.action="registerTask";
 	
 	frm.submit(); 
 	lockBackContent();
 	fnPleaseWait();
 }
 </SCRIPT>
-<jsp:include page="/include/messages_app.jsp" flush="true"/>
+
 <IMG height=1 src="images/grey.gif" width="100%" align="top"/>
 </head>
 <body>
-<%try{%>
+<%try{
+UserDet ud=(UserDet)session.getAttribute("UserDet");
+%>
 <div id="divReportContent">
-<FIELDSET><legend><span class="blueRow12NR">:: Add Meetings ::</span></legend>
+<FIELDSET><legend><span class="blueRow12NR">:: Task ::</span></legend>
 <form name="frm" id="createform" method="post" >
 			<table id="createtable">
+				
 				<tr>
-					<td>Meeting Title<font color="red" size=2>*</font> :</td>
-					<td><input id="meetingTitle" name="meetingTitle" size=100 required autofocus /></td>
+					<td>Task Name<font color="red" size=2>*</font> :</td>
+					<td><input id="taskname" name="taskname" size=100 required autofocus /></td>
 				</tr>
 				<tr>
-					<td>Meeting Description<font color="red" size=2>*</font> :</td>
-					<td><textarea id="meetingDesc" name="meetingDesc" cols="80" rows="4"></textarea></td>
-				</tr>
-				<tr>
-					<td>Meeting Place<font color="red" size=2>*</font> :</td>
-					<td><select name="meetingPlace">
-							<option value="RB">RB - RAILWAY BOARD</option>
-							<option value="GM">GM - GM ROOM</option>
-							<option value="ICMS">ICMS - ICMS HALL</option>
-							<option value="CRISHQ">CRISHQ - CRIS HEAD QUARTER</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Attended By ICMS Engineer Name<font color="red" size=2>*</font> :</td>
-					<td><select name="attendedICMSErName" required multiple="multiple" size="5">
-							<%for(TeamMember itm:adminCacheData.getvICMSTeamMember()){%>
-							<option value="<%=itm.getEmployeeId()%>"><%=itm.getNameTitle()%> <%=itm.getEmployeeName()%> <%=itm.getDesignation() == null ? "" : itm.getDesignation()%></option>
-						<%}%>
-						</select>
-					</td>
-					
-				</tr>
-
-				<tr>
-					<td>Other Person :</td>
-					<td><input name="otherPerson" size=50 required /></td>
-				</tr>
-
-				<tr>
-					<td>Meeting Called By<font color="red" size=2>*</font> :</td><td>
-						<select name=meetingCalledBy required>
-							<option selected value="">--select--</option>
-							<option value="RB">RB - RAILWAY BOARD</option>
-							<option value="CRISHQ">CRISHQ - CRIS HEAD QUARTER</option>
-							<option value="ITPI">ITPI - ITPI, ITO</option>
-						</select>
-					</td>
-				</tr>
-					
-				<tr>
-					<td>Meeting Called By Person Name <font color="red" size=2>*</font> :</td>
-					<td><input name="meetingCalledByPerson" size=50 required/></td>
-				</tr>
-
-				<tr>
-					<td>Is Requirement of Meeting Justified ? <font color="red" size=2>*</font> :</td>
-					<td><input type=radio name="meetingReq" value="1"/>Yes
-					    <input type=radio name="meetingReq" value="0"/>No
-					</td>
-				</tr>
-
-				<tr>
-					<td>Meeting Date<font color="red" size=2>*</font> :</td>
-					<td><jsp:include page="/include/dateInput2.jsp" flush="true"/></td>
-				</tr>
-				<tr>
-			<td>Time From:</td> 
-			<td align="left">	
-				<select name="fromHH">
-					<option value="00" selected>00</option>
-					<option value="01">01</option>
-					<option value="02">02</option>
-					<option value="03">03</option>
-					<option value="04">04</option>
-					<option value="05">05</option>
-					<option value="06">06</option>
-					<option value="07">07</option>
-					<option value="08">08</option>
-					<option value="09">09</option>
-				<SCRIPT>
-                 <!--
-                 for(i=10;i<24;i++)
-				 {
-                    document.write("<option value=\""+i+"\">"+i+"</option>");  
-				 }
-                 //-->
-                </SCRIPT></select>Hr.:
-				<select name="fromMI">
-					<option value="01" selected>01</option>
-					<option value="02">02</option>
-					<option value="03">03</option>
-					<option value="04">04</option>
-					<option value="05">05</option>
-					<option value="06">06</option>
-					<option value="07">07</option>
-					<option value="08">08</option>
-					<option value="09">09</option>
-					<option value="10">10</option>
-				<SCRIPT>
-                 <!--
-                 for(i=10;i<60;i++)
-				 {
-                    document.write("<option value=\""+i+"\">"+i+"</option>");  
-				 }
-                 //-->
-                </SCRIPT></select>Mn. to 
-				<select name="toHH">
-					<option value="00">00</option>
-					<option value="01">01</option>
-					<option value="02">02</option>
-					<option value="03">03</option>
-					<option value="04">04</option>
-					<option value="05">05</option>
-					<option value="06">06</option>
-					<option value="07">07</option>
-					<option value="08">08</option>
-					<option value="09">09</option>
-				<SCRIPT>
-                 <!--
-                 for(i=10;i<24;i++)
-				 {
-                    document.write("<option value=\""+i+"\">"+i+"</option>");  
-				 }
-                 //-->
-                document.forms[0].toHH.selectedIndex = 23;
-                </SCRIPT></select>Hr.:
-				<select name="toMI">
-					<option value="01" selected>01</option>
-					<option value="02">02</option>
-					<option value="03">03</option>
-					<option value="04">04</option>
-					<option value="05">05</option>
-					<option value="06">06</option>
-					<option value="07">07</option>
-					<option value="08">08</option>
-					<option value="09">09</option>
-					<option value="10">10</option>
-				<SCRIPT>
-                 <!--
-                 for(i=10;i<60;i++)
-				 {
-                    document.write("<option value=\""+i+"\">"+i+"</option>");  
-				 }
-                 //-->
-                 document.forms[0].toMI.selectedIndex = 59;
-                </SCRIPT></select>Mn.
-			</td>
-		</tr>
-				<tr>
-					<td>Meeting Utilized Time<font color="red" size=2>*</font> :</td>
-					<td><select name=mUtilizedTimeHr required>
-						<option value="00">00</option>
-						<option value="01">01</option>
-						<option value="02">02</option>
-						<option value="03">03</option>
-						<option value="04">04</option>
-						<option value="05">05</option>
-						<option value="06">06</option>
-						<option value="07">07</option>
-						<option value="08">08</option>
-						<option value="09">09</option>
-						<option value="10">10</option>
-						 <!--
-                 		for(i=10;i<24;i++)
-				 		{
-                    		document.write("<option value=\""+i+"\">"+i+"</option>");  
-				 		}
-                 		//-->
-						</select>Hr.:
-									<select name=mUtilizedTimeMn>
-									<option value="01" selected>01</option>
-									<option value="02">02</option>
-									<option value="03">03</option>
-									<option value="04">04</option>
-									<option value="05">05</option>
-									<option value="06">06</option>
-									<option value="07">07</option>
-									<option value="08">08</option>
-									<option value="09">09</option>
-									<option value="10">10</option>
-									<SCRIPT>
-                					 <!--
-                					 for(i=10;i<60;i++)
-				 					{
-                    				document.write("<option value=\""+i+"\">"+i+"</option>");  
-				 					}
-                 					//-->
-                 					document.forms[0].toMI.selectedIndex = 59;
-                					</SCRIPT></select>Mn.
-					</td>
-				</tr>
-
-				<tr>
-					<td>Wasted Time<font color="red" size=2>*</font> :</td>
-			<td><select name=mWastedTimeHr >
-					<option value="00">00</option>
-						<option value="01">01</option>
-						<option value="02">02</option>
-						<option value="03">03</option>
-						<option value="04">04</option>
-						<option value="05">05</option>
-						<option value="06">06</option>
-						<option value="07">07</option>
-						<option value="08">08</option>
-						<option value="09">09</option>
-						<option value="10">10</option>
-						 <!--
-                 		for(i=10;i<24;i++)
-				 		{
-                    		document.write("<option value=\""+i+"\">"+i+"</option>");  
-				 		}
-                 		//-->
-						</select>Hr.:
-					<select name=mWastedTimeMn>
-					<option value="01" selected>01</option>
-									<option value="02">02</option>
-									<option value="03">03</option>
-									<option value="04">04</option>
-									<option value="05">05</option>
-									<option value="06">06</option>
-									<option value="07">07</option>
-									<option value="08">08</option>
-									<option value="09">09</option>
-									<option value="10">10</option>
-									<SCRIPT>
-                					 <!--
-                					 for(i=10;i<60;i++)
-				 					{
-                    				document.write("<option value=\""+i+"\">"+i+"</option>");  
-				 					}
-                 					//-->
-                 					document.forms[0].toMI.selectedIndex = 59;
-                					</SCRIPT></select>Mn.
-					</td>
+					<td>Task Description<font color="red" size=2>*</font> :</td>
+					<td><textarea id="taskDesc" name="taskDesc" cols="80" rows="4"></textarea></td>
 				</tr>
 				
 				<tr>
-					<td>Travel Time<font color="red" size=2>*</font> :</td>
-					<td>	
-					<select name="fromHH">
-					<option value="00" selected>00</option>
-					<option value="01">01</option>
-					<option value="02">02</option>
-					<option value="03">03</option>
-					<option value="04">04</option>
-					<option value="05">05</option>
-					<option value="06">06</option>
-					<option value="07">07</option>
-					<option value="08">08</option>
-					<option value="09">09</option>
-				<SCRIPT>
-                 <!--
-                 for(i=10;i<24;i++)
-				 {
-                    document.write("<option value=\""+i+"\">"+i+"</option>");  
-				 }
-                 //-->
-                </SCRIPT></select>Hr.:
-				<select name="fromMI">
-					<option value="01" selected>01</option>
-					<option value="02">02</option>
-					<option value="03">03</option>
-					<option value="04">04</option>
-					<option value="05">05</option>
-					<option value="06">06</option>
-					<option value="07">07</option>
-					<option value="08">08</option>
-					<option value="09">09</option>
-					<option value="10">10</option>
-				<SCRIPT>
-                 <!--
-                 for(i=10;i<60;i++)
-				 {
-                    document.write("<option value=\""+i+"\">"+i+"</option>");  
-				 }
-                 //-->
-                </SCRIPT></select>Mn.
+					<td>Start Date<font color="red" size=2>*</font> : </td>
+					<td><input type="date" name="startDate" />In Time<font color="red" size=2>*</font> <input type="time" name="inTime" >
+				</tr>
+				<tr>
+					<td>Target Date<font color="red" size=2>*</font> : </td> 
+					<td><input type="date" name="targetDate" />Out Time<font color="red" size=2>*</font> <input type="time" name="inTime"></td>
+				</tr>
+				
+
+				<tr>
+					<td>Time Duration<font color="red" size=2>*</font> :</td>
+					<td><input name="meetingDesc" size=100 required /></td>
+				</tr>
+
+				<tr>
+			
+				<tr>
+					<td>Task Type <font color="red" size=2>*</font> :</td>
+					<td>
+						<input type="hidden" name="task_type" value="task"/>
 					</td>
 				</tr>
 				<tr>
-					<td>Meeting Description<font color="red" size=2>*</font> :</td>
-					<td><input name="meetingDesc" size=100 required /></td>
+					<select name="project" onselect=getModule() >
+					<%		
+						HashMap<Integer,String> proj_det=CommonDetails.dep_proj.get(ud.getDept());
+						Set<Integer> proj_id_set=proj_det.keySet();
+						for(Integer i:proj_id_set)
+						{	
+					%>
+					
+							<option value=<%=i%>> <%=(String)proj_det.get(i)%> </option>
+					<%
+						}					
+					%>	
+
+					</select>
 				</tr>
+				<tr>
+				
+					<td>Assign Work<font color="red" size=2>*</font> :</td>
+					<td>
+					<select name="assignwork" multiple>
+					<%		
+						HashMap<Integer,String> emp_det=CommonDetails.dep_emp.get(ud.getDept());
+						Set<Integer> emp_id_set=emp_det.keySet();
+						for(Integer i:emp_id_set)
+						{	
+					%>
+					
+							<option value=<%=i%>> <%=(String)emp_det.get(i)%> </option>
+					<%
+						}					
+					%>	
+
+						</select>
+					</td>
+				</tr>
+				
 			</table>
 			<br>
-			<TABLE><tr><TD align="center" width=1000><input type="button" value="Submit" onClick="checkForm();"/></TD></TR></TABLE>
+			<TABLE><tr><TD align="center" width=500><input type="button" value="Submit" onClick="checkForm();"/></TD></TR></TABLE>
 		</form>
 		</FIELDSET>
 </div>
 <%}catch(Exception e){e.getStackTrace();}%>
-<jsp:include page="/include/footer.jsp" flush="true"/>
+
 </body>
+
+
 </html>

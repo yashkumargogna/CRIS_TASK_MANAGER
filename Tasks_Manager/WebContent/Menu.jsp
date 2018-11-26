@@ -58,8 +58,8 @@
 																	<TR>
 																		<TD><ul class="topnav">
 																				<li><div class="topnav"><a href="IcmsadminServlet?action=MicsUtilites&subAction=TeamMeeting&event=addMain"; title="This is for Meetings Entry Form !" tabindex="1">ADD TASK</a></div></li>
-																				<li><div class="topnav"><a href="IcmsadminServlet?action=MicsUtilites&subAction=TeamMeeting&event=editMain"; title="This is for Meetings Edit Form !" tabindex="2">EDIT MEETING</a></div></li>
-																				<li><div class="topnav"><a href="IcmsadminServlet?action=MicsUtilites&subAction=MeetingReport&event=mReportMain"; title="This is for Meetings Report Form !" tabindex="3">TASK REPORT</a></div></li>
+																				<li><div class="topnav"><a href="IcmsadminServlet?action=MicsUtilites&subAction=TeamMeeting&event=editMain"; title="This is for Meetings Edit Form !" tabindex="2">TASK REPORT</a></div></li>
+																				<li><div class="topnav"><a href="IcmsadminServlet?action=MicsUtilites&subAction=MeetingReport&event=mReportMain"; title="This is for Meetings Report Form !" tabindex="3">TASK STATUS</a></div></li>
 																			</ul>
 																		</TD>
 																	</TR>
