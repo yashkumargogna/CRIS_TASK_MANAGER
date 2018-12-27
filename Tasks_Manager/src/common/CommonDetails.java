@@ -12,7 +12,12 @@ public class CommonDetails
 	public static HashMap<String,HashMap<Integer,String>> dep_emp=new HashMap<String,HashMap<Integer,String>>();
 	public static HashMap<String,HashMap<Integer,String>> dep_proj=new HashMap<String,HashMap<Integer,String>>();
 	public static HashMap<Integer,HashMap<Integer,String>> proj_mod=new HashMap<Integer,HashMap<Integer,String>>();
-			static
+	
+	
+	
+	
+	
+	static
 			{
 				try
 				{
@@ -120,26 +125,7 @@ public class CommonDetails
 		
 		}
 
-		public static void main(String args[])
-		{
-			try
-			{
-			CommonDetails.loadData();
-			HashMap<Integer,String> emp_det1=dep_emp.get("ICMS");
-			System.out.println(emp_det1.get(8431)+"   and   "+emp_det1.get(5468));
-			
-			HashMap<Integer,String> proj_det1=dep_proj.get("ICMS");
-			System.out.println(proj_det1.get(2)+"   and   "+proj_det1.get(3));
-			HashMap<Integer,String> proj_det2=dep_proj.get("NEW");
-			System.out.println(proj_det2.get(4));
-			
-			HashMap<Integer,String> mod_det1=proj_mod.get(3);
-			System.out.println(mod_det1.get(1)+"   and   "+mod_det1.get(2));
-			
-			
-			}
-			catch(Exception e){e.printStackTrace();}
-		}
+		
 
 
 

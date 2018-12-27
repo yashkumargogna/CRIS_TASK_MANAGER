@@ -11,12 +11,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import common.DateTime;
 import model.AddTask;
 
 /**
  * Servlet implementation class RegisterTask
  */
-@WebServlet("/addTask")
+@WebServlet("/registerTask")
 public class RegisterTask extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
@@ -39,7 +40,12 @@ public class RegisterTask extends HttpServlet
 				DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 				con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","yash");
 				st=con.createStatement();
-				//AddTask add_task=new AddTask();
+				AddTask add_task=new AddTask();
+				add_task.setTask_name(request.getParameter("taskname"));
+				add_task.setTask_type("TASK");
+				add_task.setProject(request.getParameter("project"));
+				add_task.setId_related_to(Integer.parseInt(request.getParameter("module")));
+				//add_task.setSt_dt(new DateTime(request.getParameter("startDate")).getDate());
 				String ins_task="insert into cris_works (workname,work_id,desp,id_related_to,name_related_to,module,work_type,st_date,tg_date,status,remarks) values "; 
 				
 				

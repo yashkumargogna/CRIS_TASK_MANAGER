@@ -2,15 +2,16 @@ package model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class AddTask implements Serializable
 {
 	int task_id;
-	String task_name;
-	String task_desp;
-	Date st_dt;
-	Date tg_dt;
+	String task_name=" ";
+	String task_desp=" ";
+	Timestamp st_dt;
+	Timestamp tg_dt;
 	String task_type;
 	int id_related_to;
 	String module;
@@ -52,16 +53,16 @@ public class AddTask implements Serializable
 	public void setTask_desp(String task_desp) {
 		this.task_desp = task_desp;
 	}
-	public Date getSt_dt() {
+	public Timestamp getSt_dt() {
 		return st_dt;
 	}
-	public void setSt_dt(Date st_dt) {
+	public void setSt_dt(Timestamp st_dt) {
 		this.st_dt = st_dt;
 	}
-	public Date getTg_dt() {
+	public Timestamp getTg_dt() {
 		return tg_dt;
 	}
-	public void setTg_dt(Date tg_dt) {
+	public void setTg_dt(Timestamp tg_dt) {
 		this.tg_dt = tg_dt;
 	}
 	public String getTask_type() {

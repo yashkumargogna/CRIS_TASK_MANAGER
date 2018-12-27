@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.CommonDetails;
 import model.UserDet;
 
 
@@ -41,11 +42,11 @@ public class Login extends HttpServlet
 					try
 					{
 					
-									DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());	
-							    	con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","yash");
-							    	st=con.createStatement();
-							    	ServletContext context=request.getServletContext();
-							    	context.setAttribute("conn",con);
+								DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());	
+								con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","yash");
+							    st=con.createStatement();
+							    ServletContext context=request.getServletContext();
+							   // context.setAttribute("conn",con);
 							    	// System.out.println(con);
 							    	
 							    	
@@ -62,13 +63,6 @@ public class Login extends HttpServlet
 											
 											//request.setAttribute("UserDet",ud);
 											RequestDispatcher rd=request.getRequestDispatcher("admin.jsp");
-											
-											
-											
-											
-											
-											
-											
 											rd.forward(request, response);
 										    								
 										}

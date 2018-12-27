@@ -40,6 +40,61 @@
 </style>
 
 <SCRIPT>
+
+function loadJSON(str){
+    var data_file = "getModule?p_id="+str;
+    console.log(data_file);
+    var http_request = new XMLHttpRequest();
+    try{
+       // Opera 8.0+, Firefox, Chrome, Safari
+       http_request = new XMLHttpRequest();
+    }catch (e){
+       // Internet Explorer Browsers
+       try{
+          http_request = new ActiveXObject("Msxml2.XMLHTTP");
+			
+       }catch (e) {
+		
+          try{
+             http_request = new ActiveXObject("Microsoft.XMLHTTP");
+          }catch (e){
+             // Something went wrong
+             alert("Your browser broke!");
+             return false;
+          }
+			
+       }
+    }
+	
+    http_request.onreadystatechange = function()
+    {
+	
+       if (http_request.readyState == 4  ){
+          // Javascript function JSON.parse to parse JSON data
+          var jsonObj = JSON.parse(http_request.responseText);
+
+          // jsonObj variable now contains the data structure and can
+          // be accessed as jsonObj.Module 
+       
+          for(key in jsonObj)
+        	 {
+        	 	console.log(key,jsonObj[key]);	
+        	 		document.getElementByName("module").options.add(new Option(key,jsonObj[key],true));
+        	 
+        	 
+        	 }
+     
+       }
+    }
+	
+    http_request.open("GET", data_file, true);
+    http_request.send();
+ }
+ 
+ 
+ 
+<!-- 
+ 
 var timepicker = new TimePicker('time', {
   lang: 'en',
   theme: 'dark'
@@ -51,11 +106,7 @@ timepicker.on('change', function(evt) {
 
 })
 
-function getModule()
-{
-		
-}
-
+  
 function checkForm()
 {
 var frm= document.frm;
@@ -118,6 +169,8 @@ var radios = frm.meetingReq;
 	lockBackContent();
 	fnPleaseWait();
 }
+-->
+
 </SCRIPT>
 
 <IMG height=1 src="images/grey.gif" width="100%" align="top"/>
@@ -128,7 +181,7 @@ UserDet ud=(UserDet)session.getAttribute("UserDet");
 %>
 <div id="divReportContent">
 <FIELDSET><legend><span class="blueRow12NR">:: Task ::</span></legend>
-<form name="frm" id="createform" method="post" >
+<form name="frm" id="createform" method="post" action="">
 			<table id="createtable">
 				
 				<tr>
@@ -156,7 +209,13 @@ UserDet ud=(UserDet)session.getAttribute("UserDet");
 				</tr>
 
 				<tr>
-			
+							
+							
+							
+							
+							
+							
+							
 				<tr>
 					<td>Task Type <font color="red" size=2>*</font> :</td>
 					<td>
@@ -164,7 +223,7 @@ UserDet ud=(UserDet)session.getAttribute("UserDet");
 					</td>
 				</tr>
 				<tr>
-					<select name="project" onselect=getModule() >
+					<select name="project" onselect=loadJSON(this.value) >
 					<%		
 						HashMap<Integer,String> proj_det=CommonDetails.dep_proj.get(ud.getDept());
 						Set<Integer> proj_id_set=proj_det.keySet();
@@ -178,6 +237,15 @@ UserDet ud=(UserDet)session.getAttribute("UserDet");
 					%>	
 
 					</select>
+				
+				
+					<select name="module">
+					
+					
+					</select>
+				
+				
+				
 				</tr>
 				<tr>
 				
@@ -203,6 +271,7 @@ UserDet ud=(UserDet)session.getAttribute("UserDet");
 			</table>
 			<br>
 			<TABLE><tr><TD align="center" width=500><input type="button" value="Submit" onClick="checkForm();"/></TD></TR></TABLE>
+			<input type="submit" value="submit"/>
 		</form>
 		</FIELDSET>
 </div>
