@@ -1,3 +1,5 @@
+
+<html>
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -14,11 +16,11 @@
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Create NEW<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">PROJECT</a></li>
-            <li><a href="#">MODULE</a></li>
-            <li><a href="#">TASK</a></li>
-            <li><a href="#">SPRINT</a></li>
-            <li><a href="#">DAILY SCRUMS</a></li>
+           <div id = "id01"> <li>PROJECT</a></li></div>
+            <div id = "id02"<li><a href="#id02" onclick="showDivWithID('id02');" >MODULE</a></li>
+           <div id = "id03" <li><a href="#" id = "id02">TASK</a></li>
+            <div id = "id04"<li><a href="#" id = "id03">SPRINT</a></li>
+            <div id = "id05"<li><a href="#" id = "id04">DAILY SCRUMS</a></li>
           </ul>
         </li>
         <li><a href="#">MY BOARD</a></li>
@@ -27,6 +29,16 @@
         <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp&nbsp&nbsp  WELCOME, <%=ud.getEname()%></a></li>
       </ul>
     </div>
+    <script>
+    function showDivWithID(id) {
+    	for(var i = 1; i <= 5; i++) {
+    		if("id0" + i != id) {
+    			document.getElementById(id).style.display='none';
+    		}
+    	}
+    	document.getElementById(id).style.display='';
+    }
+    </script>
   </div>
 </nav>
   

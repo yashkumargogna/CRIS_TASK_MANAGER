@@ -17,6 +17,131 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   	<link rel="icon" href="images/project-management-tools.ico" type="image/x-icon"/>
 	<link rel="shortcut icon" href="images/project-management-tools.ico" type="image/x-icon"/>	
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* Full-width input fields */
+input[type=text], input[type=text], input[type=text],input[type=text],input[type=text], {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+</style>
+
+
+
 <SCRIPT>
 
 function loadJSON(str){
@@ -165,18 +290,25 @@ var radios = frm.meetingReq;
 {
 %>
 <%@include file="include/NavBar.html" %>
-<div id="divReportContent">
-<FIELDSET><legend><span class="blueRow12NR">:: Task ::</span></legend>
-<form name="frm" id="createform" method="post" action="registerTask" >
+
+   <div id="id01" class="modal">
+  
+ <form class="modal-content animate" id="createform" method="post" action="registerTask" >
 			<table id="createtable">
 				
 				<tr>
-					<td>Task Name<font color="red" size=2>*</font> :</td>
-					<td><input id="taskname" name="taskname" size=100 required autofocus /></td>
+					<td>Task  Name<font color="red" size=2>*</font> :</td>
+					<td><input id="taskname" name="taskname" size=30 required autofocus /></td>
 				</tr>
+                <tr>
+                 <td> <iframe src="k.jsp"><input type="file" name="pic" accept="image/*">></td>
+                </tr>
+              <tr>
+                <td><input type="hidden" id="EmpId" name="EmpId" size=50 required autofocus /></td>
+                </tr>
 				<tr>
-					<td>Task Description<font color="red" size=2>*</font> :</td>
-					<td><textarea id="taskDesc" name="taskDesc" cols="80" rows="4"></textarea></td>
+					<td>Task Description<font color="red" size=2>*</font></td>
+					<td><textarea id="taskDesc" name="taskDesc" cols="30" rows="4" size=30></textarea></td>
 				</tr>
 				
 				<tr>
@@ -189,7 +321,10 @@ var radios = frm.meetingReq;
 				</tr>
 			
 				<tr>
-					<td>Type:------->>>>>Task <font color="red" size=2></font>
+					<td>Type Task <font color="red" size=2>
+                    <td><input id="taskname" name="taskname" size=30 required autofocus /></td>
+                    
+                    </font>
 						<input type="hidden" name="task_type" value="task"/>
 					</td>
 				</tr>
@@ -209,6 +344,7 @@ var radios = frm.meetingReq;
 					%>	
 
 					</select>
+                    
 				<script>setTimeout(function(){loadJSON(document.getElementById('project').value);} ,1);</script>
 				
 					<select id="module" name="module">
@@ -242,9 +378,131 @@ var radios = frm.meetingReq;
 			</table>
 			<br>
 			<TABLE><tr><TD align="center" width=500><input type="button" value="Submit" /></TD></TR></TABLE>
+            </div>
 		</form>
-		</FIELDSET>
 </div>
+
+<div id="id02" class="modal">
+  
+  <form class="modal-content animate" action="/action_page.php">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+    
+    </div>
+
+    <div class="container">
+      
+      
+        <label for="uname"><b>Project Name</b></label>
+      <input type="text" placeholder="Enter Project Name" name="uname" required>
+      
+        <label for="uname"><b>Project Discription</b></label>
+      <input type="text" placeholder="Enter Project Discription" name="uname" required>
+      
+
+    
+        
+      <button type="submit">SUBMIT</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+    </form>
+    <div id="id02" class="modal">
+  
+  <form class="modal-content animate" action="/action_page.php">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+    
+    </div>
+
+    <div class="container">
+      
+      
+        <label for="uname"><b>Module Name</b></label>
+      <input type="text" placeholder="Enter Project Name" name="uname" required>
+      
+        <label for="uname"><b>Module Description</b></label>
+      <input type="text" placeholder="Enter module Discription" name="uname" required>
+        
+      <button type="submit">SUBMIT</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+    </form>
+    
+    <div id="id04" class="modal">
+  
+  <form class="modal-content animate" action="/action_page.php">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close Modal">&times;</span>
+    </div>
+
+    <div class="container">
+     
+        <label for="uname"><b>Sprint Name</b></label>
+      <input type="text" placeholder="Enter Project Name" name="uname" required>
+      
+        <label for="uname"><b>Sprint Description</b></label>
+      <input type="text" placeholder="Enter Project Discription" name="uname" required>
+      
+
+    
+        
+      <button type="submit">SUBMIT</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+    </form>
+    <div id="id02" class="modal">
+  
+  <form class="modal-content animate" action="/action_page.php">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+    
+    </div>
+
+    <div class="container">
+      
+      
+        <label for="uname"><b>Daily Scrum Name</b></label>
+      <input type="text" placeholder="Enter Project Name" name="uname" required>
+      
+        <label for="uname"><b>Daily Scrum Description</b></label>
+      <input type="text" placeholder="Enter Project Discription" name="uname" required>
+      
+
+    
+        
+      <button type="submit">SUBMIT</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Remember me
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+   
+
 <%}catch(Exception e){e.printStackTrace();}%>
 
 </body>
