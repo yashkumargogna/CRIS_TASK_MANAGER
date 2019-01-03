@@ -21,8 +21,7 @@
 body {font-family: Arial, Helvetica, sans-serif;}
 
 /* Full-width input fields */
-input[type=text], input[type=text], input[type=text],input[type=text],input[type=text],input[type=text],
-input[type=text] {
+input[type=text], input[type=text], input[type=text],input[type=text],input[type=text],input[type=text] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -170,8 +169,9 @@ function loadJSON(str){
     http_request.onreadystatechange = function()
     {
 	
-       if (http_request.readyState == 4  ){
+       if (http_request.readyState == 4){
           // Javascript function JSON.parse to parse JSON data
+          console.log(http_request.responseText);
           var jsonObj = JSON.parse(http_request.responseText);
 
           // jsonObj variable now contains the data structure and can
@@ -190,18 +190,14 @@ function loadJSON(str){
         	} 
         	 
         	 }
-          
-     
        }
-    }
-	
+ 	}
     http_request.open("GET",data_file, true);
-    http_request.send();
- }
+  	 http_request.send();
+}
  
  
- 
-/*
+<%--
  
 var timepicker = new TimePicker('time', {
   lang: 'en',
@@ -278,8 +274,8 @@ var radios = frm.meetingReq;
 	fnPleaseWait();
 }
 
-*/
-*
+--%>
+
 </SCRIPT>
 </HEAD>
 <body>
@@ -290,8 +286,10 @@ var radios = frm.meetingReq;
 
    <div id="id01" class="modal" style="display:none;">
   
- <form class="modal-content__ animate__" id="createform" method="post" action="registerTask" >
+ <form class="modal-content animate" id="createform" method="post" action="registerTask" >
 			<table id="createtable">
+			
+			 <div class="container">
 				
 				<tr>
 					<td>Task  Name<font color="red" size=2>*</font> :</td>
@@ -301,7 +299,7 @@ var radios = frm.meetingReq;
                  <td><input type="file" name="pic" accept="image/*"></td>
                 </tr>
               <tr>
-                <td><input type="hidden" id="EmpId" name="EmpId" size=50 required autofocus /></td>
+                <td><input type="hidden" id="EmpId" name="EmpId" size=30 required autofocus /></td>
                 </tr>
 				<tr>
 					<td>Task Description<font color="red" size=2>*</font></td>
@@ -392,8 +390,8 @@ var radios = frm.meetingReq;
         <label for="uname"><b>Project Name</b></label>
       <input type="text" placeholder="Enter Project Name" name="uname" required>
       
-        <label for="uname"><b>Project Discription</b></label>
-      <input type="text" placeholder="Enter Project Discription" name="uname" required>
+        <label for="uname"><b>Project Description</b></label>
+      <input type="text" placeholder="Enter Project Description" name="uname" required>
       
 
     
