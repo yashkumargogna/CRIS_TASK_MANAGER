@@ -21,7 +21,8 @@
 body {font-family: Arial, Helvetica, sans-serif;}
 
 /* Full-width input fields */
-input[type=text], input[type=text], input[type=text],input[type=text],input[type=text], {
+input[type=text], input[type=text], input[type=text],input[type=text],input[type=text],input[type=text],
+input[type=text] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -139,9 +140,6 @@ span.psw {
   }
 }
 </style>
-
-
-
 <SCRIPT>
 
 function loadJSON(str){
@@ -279,11 +277,10 @@ var radios = frm.meetingReq;
 	lockBackContent();
 	fnPleaseWait();
 }
+
 */
-
+*
 </SCRIPT>
-
-
 </HEAD>
 <body>
 <%try
@@ -291,9 +288,9 @@ var radios = frm.meetingReq;
 %>
 <%@include file="include/NavBar.html" %>
 
-   <div id="id01" class="modal">
+   <div id="id01" class="modal" style="display:none;">
   
- <form class="modal-content animate" id="createform" method="post" action="registerTask" >
+ <form class="modal-content__ animate__" id="createform" method="post" action="registerTask" >
 			<table id="createtable">
 				
 				<tr>
@@ -301,7 +298,7 @@ var radios = frm.meetingReq;
 					<td><input id="taskname" name="taskname" size=30 required autofocus /></td>
 				</tr>
                 <tr>
-                 <td> <iframe src="k.jsp"><input type="file" name="pic" accept="image/*">></td>
+                 <td><input type="file" name="pic" accept="image/*"></td>
                 </tr>
               <tr>
                 <td><input type="hidden" id="EmpId" name="EmpId" size=50 required autofocus /></td>
@@ -321,15 +318,15 @@ var radios = frm.meetingReq;
 				</tr>
 			
 				<tr>
-					<td>Type Task <font color="red" size=2>
-                    <td><input id="taskname" name="taskname" size=30 required autofocus /></td>
+					<td>Type Task </td>
+                    <td><font color="red" size=2><input id="taskname" name="taskname" size=30 required autofocus /></font></td>
                     
-                    </font>
+                    <td>
 						<input type="hidden" name="task_type" value="task"/>
 					</td>
 				</tr>
 				
-				<tr>
+				<tr><td>
 					<select id=project name=project onchange="loadJSON(this.value)" >
 					<%		
 						HashMap<Integer,String> proj_det=CommonDetails.dep_proj.get(ud.getDept());
@@ -352,7 +349,7 @@ var radios = frm.meetingReq;
 					</select>
 				
 				
-				
+				</td>
 				</tr>
 				<tr>
 				
@@ -378,7 +375,6 @@ var radios = frm.meetingReq;
 			</table>
 			<br>
 			<TABLE><tr><TD align="center" width=500><input type="button" value="Submit" /></TD></TR></TABLE>
-            </div>
 		</form>
 </div>
 
@@ -413,7 +409,8 @@ var radios = frm.meetingReq;
       <span class="psw">Forgot <a href="#">password?</a></span>
     </div>
     </form>
-    <div id="id02" class="modal">
+    </div>
+    <div id="id03" class="modal">
   
   <form class="modal-content animate" action="/action_page.php">
     <div class="imgcontainer">
@@ -441,7 +438,7 @@ var radios = frm.meetingReq;
       <span class="psw">Forgot <a href="#">password?</a></span>
     </div>
     </form>
-    
+    </div>
     <div id="id04" class="modal">
   
   <form class="modal-content animate" action="/action_page.php">
@@ -471,7 +468,8 @@ var radios = frm.meetingReq;
       <span class="psw">Forgot <a href="#">password?</a></span>
     </div>
     </form>
-    <div id="id02" class="modal">
+    </div>
+    <div id="id05" class="modal">
   
   <form class="modal-content animate" action="/action_page.php">
     <div class="imgcontainer">
@@ -501,7 +499,8 @@ var radios = frm.meetingReq;
       <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
       <span class="psw">Forgot <a href="#">password?</a></span>
     </div>
-   
+   </form>
+   </div>
 
 <%}catch(Exception e){e.printStackTrace();}%>
 

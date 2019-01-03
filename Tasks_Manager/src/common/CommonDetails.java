@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
+
+import works.Tasks;
 public class CommonDetails
 {
 	public static Connection con;
@@ -12,11 +14,7 @@ public class CommonDetails
 	public static HashMap<String,HashMap<Integer,String>> dep_emp=new HashMap<String,HashMap<Integer,String>>();
 	public static HashMap<String,HashMap<Integer,String>> dep_proj=new HashMap<String,HashMap<Integer,String>>();
 	public static HashMap<Integer,HashMap<Integer,String>> proj_mod=new HashMap<Integer,HashMap<Integer,String>>();
-	
-	
-	
-	
-	
+	public static HashMap<String,HashMap<String,Tasks>> dep_tasks=new HashMap<String,HashMap<String,Tasks>>();	
 	static
 			{
 				try
@@ -121,13 +119,44 @@ public class CommonDetails
 					}
 					
 				
-			}	
+			}
+			
+			
+			
+			
+			ResultSet dep_to_tasks=st.executeQuery("select * from cris_works");
+			while(dep_to_tasks.next())
+			{
+				if(dep_tasks.containsKey(dep_to_tasks.getString(15)))
+				{
+					HashMap<String,Tasks> task_info=dep_tasks.get(dep_to_tasks.getString(15));
+					
+					
+					
+					
+					
+				}
+				else
+				{
+					
+					
+					
+					
+					
+				}
+				
+			}
+			
+			
+		 	
 		
 		}
 
 		
+		
 
-
+		
+		
 
 
 
