@@ -288,6 +288,10 @@ var radios = frm.meetingReq;
   
  <form class="modal-content animate" id="createform" method="post" action="registerTask" >
 			<table id="createtable">
+			<div class="imgcontainer">
+      <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+    
+    </div>
 			
 			 <div class="container">
 				
@@ -303,7 +307,7 @@ var radios = frm.meetingReq;
                 </tr>
 				<tr>
 					<td>Task Description<font color="red" size=2>*</font></td>
-					<td><textarea id="taskDesc" name="taskDesc" cols="30" rows="4" size=30></textarea></td>
+					<td><textarea id="taskDesc" name="taskDesc" cols="30" rows="4" size=30 required autofocus></textarea></td>
 				</tr>
 				
 				<tr>
@@ -384,14 +388,14 @@ var radios = frm.meetingReq;
     
     </div>
 
-    <div class="container">
+    <div class="container" >
       
       
         <label for="uname"><b>Project Name</b></label>
-      <input type="text" placeholder="Enter Project Name" name="uname" required>
+      <input type="text" placeholder="Enter Project Name" name="uname" size=30  required autofocus/>
       
         <label for="uname"><b>Project Description</b></label>
-      <input type="text" placeholder="Enter Project Description" name="uname" required>
+      <input type="text" placeholder="Enter Project Description" name="uname" size=30  required />
       
 
     
@@ -403,16 +407,16 @@ var radios = frm.meetingReq;
     </div>
 
     <div class="container" style="background-color:#f1f1f1">
-      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+      <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
       <span class="psw">Forgot <a href="#">password?</a></span>
-    </div>
+      </div>
     </form>
     </div>
     <div id="id03" class="modal">
   
   <form class="modal-content animate" action="/action_page.php">
     <div class="imgcontainer">
-      <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+      <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
     
     </div>
 
@@ -420,10 +424,10 @@ var radios = frm.meetingReq;
       
       
         <label for="uname"><b>Module Name</b></label>
-      <input type="text" placeholder="Enter Project Name" name="uname" required>
+      <input type="text" placeholder="Enter Project Name" name="uname" size=30  required autofocus/>
       
         <label for="uname"><b>Module Description</b></label>
-      <input type="text" placeholder="Enter module Discription" name="uname" required>
+      <input type="text" placeholder="Enter module Discription" name="uname" size=30  required autofocus/>
         
       <button type="submit">SUBMIT</button>
       <label>
@@ -447,10 +451,10 @@ var radios = frm.meetingReq;
     <div class="container">
      
         <label for="uname"><b>Sprint Name</b></label>
-      <input type="text" placeholder="Enter Project Name" name="uname" required>
+      <input type="text" placeholder="Enter Project Name" name="uname" size=30  required autofocus/>
       
         <label for="uname"><b>Sprint Description</b></label>
-      <input type="text" placeholder="Enter Project Discription" name="uname" required>
+      <input type="text" placeholder="Enter Project Discription" name="uname" size=30  required autofocus/>
       
 
     
@@ -478,11 +482,11 @@ var radios = frm.meetingReq;
     <div class="container">
       
       
-        <label for="uname"><b>Daily Scrum Name</b></label>
-      <input type="text" placeholder="Enter Project Name" name="uname" required>
+        <label for="uname"><b>Daily Scrums Name</b></label>
+      <input type="text" placeholder="Enter Project Name" name="uname" size=30 required>
       
-        <label for="uname"><b>Daily Scrum Description</b></label>
-      <input type="text" placeholder="Enter Project Discription" name="uname" required>
+        <label for="uname"><b>Daily Scrums Description</b></label>
+      <input type="text" placeholder="Enter Project Discription" name="uname" size=30  required>
       
 
     
