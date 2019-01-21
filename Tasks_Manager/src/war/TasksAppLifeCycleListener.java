@@ -1,5 +1,6 @@
 package war;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextAttributeEvent;
 import javax.servlet.ServletContextAttributeListener;
 import javax.servlet.ServletContextEvent;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionBindingListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+
+import com.google.gson.Gson;
 
 import common.CommonDetails;
 
@@ -74,7 +77,13 @@ public class TasksAppLifeCycleListener implements ServletContextListener, Servle
     	System.out.println("Tasks_Manager application started");
     	try {
 			CommonDetails.loadData();
-		}
+			ServletContext context=arg0.getServletContext();
+			context.setAttribute("dep_emp",CommonDetails.dep_emp);
+			context.setAttribute("dep_proj",CommonDetails.dep_proj);
+			context.setAttribute("dep_tasks",CommonDetails.dep_tasks);
+			context.setAttribute("proj_mod",CommonDetails.proj_mod);
+			
+    	}
     	catch (Exception e) {
 			e.printStackTrace();
 		}
