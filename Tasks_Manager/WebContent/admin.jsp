@@ -14,6 +14,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css"/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   	<link rel="icon" href="images/project-management-tools.ico" type="image/x-icon"/>
@@ -128,12 +129,25 @@ span.psw {
 <SCRIPT>
 
 function access(){ 
+	
 	<%
 	HashMap<String, HashMap<String, Tasks>> hm_all=(HashMap<String, HashMap<String, Tasks>>)application.getAttribute("dep_tasks");
-	HashMap<String, Tasks> hm_tasks=hm_all.get(ud.getDept());
-	String json_tasks=new Gson().toJson(hm_tasks,hm_tasks.getClass().getGenericSuperclass());
+	String json_tasks="";
+	if(hm_all.containsKey(ud.getDept()))
+	{
+		
+		HashMap<String, Tasks> hm_tasks=hm_all.get(ud.getDept());
+		json_tasks=new Gson().toJson(hm_tasks,hm_tasks.getClass().getGenericSuperclass());
+	}
+	else
+	{
+		json_tasks="{\" \":\" \"}";
+	}
 	%>
-	return <%=json_tasks%>; 
+		return <%=json_tasks%>;
+		
+
+ 
 	   	   
 	} 
 var tasks_details=access();
@@ -190,10 +204,98 @@ function loadJSON(str){
     http_request.open("GET",data_file, true);
   	 http_request.send();
 }
- 
+function arrangeJson()
+{
+	for(key in tasks_details)
+	{
+		var div_to_write=document.getElementById(tasks_details[key]["status"]);
+		//creating a table
+		var create_table=document.createElement("table");
+				create_table.id=key;
+				
+				console.log(create_table.id);
+		var tbl_row=document.createElement("tr");
+		tbl_row.className = "task";
+				tbl_row.insertCell(0).appendChild(document.createTextNode(key));
+				tbl_row.insertCell(1).appendChild(document.createTextNode(tasks_details[key]["workname"]));
+				tbl_row.insertCell(2).appendChild(document.createTextNode(tasks_details[key]["desp"]));
+				tbl_row.insertCell(3).appendChild(document.createTextNode(tasks_details[key]["module"]));
+				tbl_row.insertCell(4).appendChild(document.createTextNode(tasks_details[key]["project"]));
+				tbl_row.insertCell(5).appendChild(document.createTextNode(tasks_details[key]["dept"]));
+				tbl_row.insertCell(6).appendChild(document.createTextNode(tasks_details[key]["st_date"]));
+				tbl_row.insertCell(7).appendChild(document.createTextNode(tasks_details[key]["tg_date"]));
+				tbl_row.insertCell(8).appendChild(document.createTextNode(tasks_details[key]["remarks"]));
+				tbl_row.insertCell(9).appendChild(document.createTextNode(tasks_details[key]["incharge"]));
+				tbl_row.insertCell(10).appendChild(document.createTextNode(tasks_details[key]["assign_to"]));
+				tbl_row.insertCell(11).appendChild(document.createTextNode(tasks_details[key]["type"]));
+		create_table.appendChild(tbl_row);		
+	var scr=tasks_details[key]["task_scr"];
+				for(sid in scr)
+				{
+							
+							let scr_row=document.createElement("tr");
+							scr_row.className = "Scr";
+							scr_row.insertCell(0).appendChild(document.createTextNode(sid));
+							scr_row.insertCell(1).appendChild(document.createTextNode(scr[sid]["workname"]));
+							scr_row.insertCell(2).appendChild(document.createTextNode(scr[sid]["desp"]));
+							scr_row.insertCell(3).appendChild(document.createTextNode(scr[sid]["module"]));
+							scr_row.insertCell(4).appendChild(document.createTextNode(scr[sid]["project"]));
+							scr_row.insertCell(5).appendChild(document.createTextNode(scr[sid]["dept"]));
+							scr_row.insertCell(6).appendChild(document.createTextNode(scr[sid]["st_date"]));
+							scr_row.insertCell(7).appendChild(document.createTextNode(scr[sid]["tg_date"]));
+							scr_row.insertCell(8).appendChild(document.createTextNode(scr[sid]["remarks"]));
+							scr_row.insertCell(9).appendChild(document.createTextNode(scr[sid]["assign_to"]));
+							scr_row.insertCell(10).appendChild(document.createTextNode(scr[sid]["type"]+" of TASK :- "+tasks_details[key]["workname"]));
+							create_table.appendChild(scr_row);				
+				}
+				
+			var spr=tasks_details[key]["task_spr"];
+			for(spr_id in spr)
+			{
+					let spr_row=document.createElement("tr");
+					spr_row.className = "Spr";
+					spr_row.insertCell(0).appendChild(document.createTextNode(spr_id));
+					spr_row.insertCell(1).appendChild(document.createTextNode(spr[spr_id]["workname"]));
+							spr_row.insertCell(2).appendChild(document.createTextNode(spr[spr_id]["desp"]));
+							spr_row.insertCell(3).appendChild(document.createTextNode(spr[spr_id]["module"]));
+							spr_row.insertCell(4).appendChild(document.createTextNode(spr[spr_id]["project"]));
+							spr_row.insertCell(5).appendChild(document.createTextNode(spr[spr_id]["dept"]));
+							spr_row.insertCell(6).appendChild(document.createTextNode(spr[spr_id]["st_date"]));
+							spr_row.insertCell(7).appendChild(document.createTextNode(spr[spr_id]["tg_date"]));
+							spr_row.insertCell(8).appendChild(document.createTextNode(spr[spr_id]["remarks"]));
+							spr_row.insertCell(9).appendChild(document.createTextNode(spr[spr_id]["assign_to"]));
+							spr_row.insertCell(10).appendChild(document.createTextNode(spr[spr_id]["type"]+"  of TASK :- "+tasks_details[key]["workname"]));
+							create_table.appendChild(spr_row);	
+					let spr_sc=spr[spr_id]["spr_scr"];
+							for(spr_sc_id in spr_sc)
+							{
+									let spr_sc_row=document.createElement("tr");
+							spr_sc_row.insertCell(0).appendChild(document.createTextNode(spr_sc_id));
+							spr_sc_row.insertCell(1).appendChild(document.createTextNode(spr_sc[spr_sc_id]["workname"]));
+							spr_sc_row.insertCell(2).appendChild(document.createTextNode(spr_sc[spr_sc_id]["desp"]));
+							spr_sc_row.insertCell(3).appendChild(document.createTextNode(spr_sc[spr_sc_id]["module"]));
+							spr_sc_row.insertCell(4).appendChild(document.createTextNode(spr_sc[spr_sc_id]["project"]));
+							spr_sc_row.insertCell(5).appendChild(document.createTextNode(spr_sc[spr_sc_id]["dept"]));
+							spr_sc_row.insertCell(6).appendChild(document.createTextNode(spr_sc[spr_sc_id]["st_date"]));
+							spr_sc_row.insertCell(7).appendChild(document.createTextNode(spr_sc[spr_sc_id]["tg_date"]));
+							spr_sc_row.insertCell(8).appendChild(document.createTextNode(spr_sc[spr_sc_id]["remarks"]));
+							spr_sc_row.insertCell(9).appendChild(document.createTextNode(spr_sc[spr_sc_id]["assign_to"]));
+							spr_sc_row.insertCell(10).appendChild(document.createTextNode(spr_sc[spr_sc_id]["type"]+" of Sprint:- "+spr[spr_id]["workname"]+" --OF TASK :-"+tasks_details[key]["workname"]));
+							create_table.appendChild(spr_sc_row);				
+
+							}
+			}			
+			div_to_write.appendChild(create_table);	
+		
+			
+		
+		
+	}
+}
+
  </SCRIPT>
 </HEAD>
-<body onload="access()" onclick="alert(JSON.stringify(tasks_details))">
+<body onload="arrangeJson()">
 <%try
 {
 %>
@@ -420,6 +522,29 @@ function loadJSON(str){
    </div>
 
 <%}catch(Exception e){e.printStackTrace();}%>
+<center><div id="todo">TO-DO</div></center>
+<br>
+<br>
+<br>
+<center><div id="pending">PENDING</div></center>
+<br>
+<br>
+<br>
+
+<center><div id="inprogress">IN-PROGRESS</div></center>
+<br>
+<br>
+<br>
+
+<center><div id="testing">TESTING</div></center>
+<br>
+<br>
+<br>
+
+<center><div id="completed">COMPLETED</div></center>
+<br>
+<br>
+<br>
 
 </body>
 

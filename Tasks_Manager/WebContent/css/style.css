@@ -1,0 +1,85 @@
+
+#todo{
+	
+}
+	
+.task {
+  font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.task tr {
+  border: 1px solid ;
+  padding: 8px;
+  font-weight: bold;
+  background-color: #8d9093;
+  
+  ;
+}
+
+.task tr .scrum {
+  border: 1px solid ;
+  padding: 8px;
+  font-weight: bold;
+  background-color: #8d9093;
+  
+  ;
+}
+
+.task tr:hover {
+	background-color: #d8d8cd;
+	font-size:15px;
+	font-weight:bolder;
+	height:30px;
+}
+
+.task td {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #8d9093;
+ 
+}
+.Scr {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+ .Scr tr: {
+	background-color: blue;
+	font-size:15px;
+	font-weight:bolder;
+	height:30px;
+}
+
+ .Scr td {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: blue;
+}
+.Spr {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.Spr tr {
+  border: 1px solid  #ddd;
+  padding: 8px;
+  background-color: red;
+}
+.Spr tr:hover {
+	background-color: default;
+	font-size:15px;
+	font-weight:bolder;
+	height:30px;
+}
+.Spr td {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: red;
+}

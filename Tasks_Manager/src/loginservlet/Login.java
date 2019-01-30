@@ -61,7 +61,7 @@ public class Login extends HttpServlet
 										if(ud.getRole().equalsIgnoreCase("P.P.E")||ud.getRole().equalsIgnoreCase("GM")||ud.getGrant().equalsIgnoreCase("yes"))
 										{	
 											
-											//request.setAttribute("UserDet",ud);
+											request.setAttribute("UserDet",ud);
 											RequestDispatcher rd=request.getRequestDispatcher("admin.jsp");
 											rd.forward(request, response);
 										    								

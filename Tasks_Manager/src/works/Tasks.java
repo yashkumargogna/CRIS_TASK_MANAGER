@@ -2,6 +2,8 @@ package works;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Tasks implements Serializable 
 {
@@ -16,81 +18,132 @@ public class Tasks implements Serializable
 	String type=" ";
 	String status=" ";
 	String dept=" ";//to be added to db
+	String st_date=" ";
+	String tg_date=" ";
+	String remarks=" ";
+	String sta_changed_by=" ";
+	String incharge=" ";
+	HashSet<String> assign_to=new HashSet<String>();
 	//HashMap<sprintid ,sprint obj having all details of scrum> task_spr;//key here is task id
 	HashMap<String,Sprint> task_spr=new HashMap<String,Sprint>();
 	//HashMap<scrum id,scrumobj> spr_scr;//key here is sprint id		
 	HashMap<String,Scrum> task_scr=new HashMap<String,Scrum>();
-	private String getWorkname() {
-		return workname;
+	public String getIncharge() {
+		return incharge;
 	}
-	private void setWorkname(String workname) {
-		this.workname = workname;
+	public void setIncharge(String incharge) {
+		this.incharge = incharge;
 	}
-	private String getWork_id() {
+	public HashSet<String> getAssign_to() {
+		return assign_to;
+	}
+	public void setAssign_to(HashSet<String> assign_to) {
+		this.assign_to = assign_to;
+	}
+	public String getSta_changed_by() {
+		return sta_changed_by;
+	}
+	public void setSta_changed_by(String sta_changed_by) {
+		this.sta_changed_by = sta_changed_by;
+	}
+	public String getSt_date() {
+		return st_date;
+	}
+	public void setSt_date(String st_date) {
+		this.st_date = st_date;
+	}
+	public String getTg_date() {
+		return tg_date;
+	}
+	public void setTg_date(String tg_date) {
+		this.tg_date = tg_date;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+	public String getWork_id() {
 		return work_id;
 	}
-	private void setWork_id(String work_id) {
+	public void setWork_id(String work_id) {
 		this.work_id = work_id;
 	}
-	private String getDesp() {
+	public String getWorkname() {
+		return workname;
+	}
+	public void setWorkname(String workname) {
+		this.workname = workname;
+	}
+	public String getDesp() {
 		return desp;
 	}
-	private void setDesp(String desp) {
+	public void setDesp(String desp) {
 		this.desp = desp;
 	}
-	private String getId_rel_to() {
+	public String getId_rel_to() {
 		return id_rel_to;
 	}
-	private void setId_rel_to(String id_rel_to) {
+	public void setId_rel_to(String id_rel_to) {
 		this.id_rel_to = id_rel_to;
 	}
-	private String getName_rel_to() {
+	public String getName_rel_to() {
 		return name_rel_to;
 	}
-	private void setName_rel_to(String name_rel_to) {
+	public void setName_rel_to(String name_rel_to) {
 		this.name_rel_to = name_rel_to;
 	}
-	private String getModule() {
+	public String getModule() {
 		return module;
 	}
-	private void setModule(String module) {
+	public void setModule(String module) {
 		this.module = module;
 	}
-	private String getProject() {
+	public String getProject() {
 		return project;
 	}
-	private void setProject(String project) {
+	public void setProject(String project) {
 		this.project = project;
 	}
-	private String getTask_of() {
+	public String getTask_of() {
 		return task_of;
 	}
-	private void setTask_of(String task_of) {
+	public void setTask_of(String task_of) {
 		this.task_of = task_of;
 	}
-	private String getType() {
+	public String getType() {
 		return type;
 	}
-	private void setType(String type) {
+	public void setType(String type) {
 		this.type = type;
 	}
-	private String getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	private void setStatus(String status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
-	private HashMap<String, Sprint> getTask_spr() {
+	public String getDept() {
+		return dept;
+	}
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+	public HashMap<String, Sprint> getTask_spr() {
 		return task_spr;
 	}
-	private void setTask_spr(HashMap<String, Sprint> task_spr) {
+	public void setTask_spr(HashMap<String, Sprint> task_spr) {
 		this.task_spr = task_spr;
 	}
-	private HashMap<String, Scrum> getTask_scr() {
+	public HashMap<String, Scrum> getTask_scr() {
 		return task_scr;
 	}
-	private void setTask_scr(HashMap<String, Scrum> task_scr) {
+	public void setTask_scr(HashMap<String, Scrum> task_scr) {
 		this.task_scr = task_scr;
 	}
 	
+	
+		
 }
