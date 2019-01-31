@@ -80,7 +80,7 @@ span.psw {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   padding-top: 60px;
 }
-/* Modal Content/Box              this is for modal*/
+/* Modal Content/Box              this is for modal file*/
 .modal-content {
   background-color: #fefefe;
   margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
