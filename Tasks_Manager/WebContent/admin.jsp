@@ -235,7 +235,7 @@ function arrangeJson()
 							
 							let scr_row=document.createElement("tr");
 							scr_row.className = "Scr";
-							scr_row.insertCell(0).appendChild(document.createTextNode(sid));
+							scr_row.insertCell(0).appendChild(document.createTextNode("  "+sid+"   "));
 							scr_row.insertCell(1).appendChild(document.createTextNode(scr[sid]["workname"]));
 							scr_row.insertCell(2).appendChild(document.createTextNode(scr[sid]["desp"]));
 							scr_row.insertCell(3).appendChild(document.createTextNode(scr[sid]["module"]));
@@ -254,7 +254,7 @@ function arrangeJson()
 			{
 					let spr_row=document.createElement("tr");
 					spr_row.className = "Spr";
-					spr_row.insertCell(0).appendChild(document.createTextNode(spr_id));
+					spr_row.insertCell(0).appendChild(document.createTextNode(" "+spr_id+"   "));
 					spr_row.insertCell(1).appendChild(document.createTextNode(spr[spr_id]["workname"]));
 							spr_row.insertCell(2).appendChild(document.createTextNode(spr[spr_id]["desp"]));
 							spr_row.insertCell(3).appendChild(document.createTextNode(spr[spr_id]["module"]));
@@ -270,7 +270,7 @@ function arrangeJson()
 							for(spr_sc_id in spr_sc)
 							{
 									let spr_sc_row=document.createElement("tr");
-							spr_sc_row.insertCell(0).appendChild(document.createTextNode(spr_sc_id));
+							spr_sc_row.insertCell(0).appendChild(document.createTextNode("		"+spr_sc_id+"   "));
 							spr_sc_row.insertCell(1).appendChild(document.createTextNode(spr_sc[spr_sc_id]["workname"]));
 							spr_sc_row.insertCell(2).appendChild(document.createTextNode(spr_sc[spr_sc_id]["desp"]));
 							spr_sc_row.insertCell(3).appendChild(document.createTextNode(spr_sc[spr_sc_id]["module"]));
