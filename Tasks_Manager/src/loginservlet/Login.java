@@ -43,7 +43,7 @@ public class Login extends HttpServlet
 					{
 					
 								DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());	
-								con=DriverManager.getConnection("jdbc:oracle:thin:@192.168.15.3:1521:xe","system","yash");
+								con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","yash");
 							    st=con.createStatement();
 							    ServletContext context=request.getServletContext();
 							   // context.setAttribute("conn",con);
