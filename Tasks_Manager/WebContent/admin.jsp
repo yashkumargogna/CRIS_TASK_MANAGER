@@ -522,26 +522,43 @@ function arrangeJson()
    </div>
 
 <%}catch(Exception e){e.printStackTrace();}%>
-<center><div id="todo">TO-DO</div></center>
+<hr>
+<hr>
+<center><div id="todo">TO-DO
+<hr>
+</div></center>
 <br>
 <br>
 <br>
-<center><div id="pending">PENDING</div></center>
+<hr>
+<hr>
+<center><div id="pending">PENDING
+<hr>
+</div></center>
 <br>
 <br>
 <br>
-
-<center><div id="inprogress">IN-PROGRESS</div></center>
+<hr>
+<hr>
+<center><div id="inprogress">IN-PROGRESS
+<hr>
+</div></center>
 <br>
 <br>
 <br>
-
-<center><div id="testing">TESTING</div></center>
+<hr>
+<hr>
+<center><div id="testing">TESTING
+<hr>
+</div></center>
 <br>
 <br>
 <br>
-
-<center><div id="completed">COMPLETED</div></center>
+<hr>
+<hr>
+<center><div id="completed">COMPLETED
+<hr>
+</div></center>
 <br>
 <br>
 <br>
