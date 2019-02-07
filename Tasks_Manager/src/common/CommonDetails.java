@@ -14,8 +14,8 @@ public class CommonDetails
 	public static Connection con;
 	public static Statement st;
 	public static HashMap<String,HashMap<Integer,String>> dep_emp=new HashMap<String,HashMap<Integer,String>>();//here department (dept) is key. <dept->(emp_id,emp_name)>
-	public static HashMap<String,HashMap<Integer,String>> dep_proj=new HashMap<String,HashMap<Integer,String>>();//here department is key and <dept->(project id,project_name)> 
-	public static HashMap<Integer,HashMap<Integer,String>> proj_mod=new HashMap<Integer,HashMap<Integer,String>>();//here project id is key and <p_id->(module_id,module_name)>
+	public static HashMap<String,HashMap<String,String>> dep_proj=new HashMap<String,HashMap<String,String>>();//here department is key and <dept->(project id,project_name)> 
+	public static HashMap<String,HashMap<String,String>> proj_mod=new HashMap<String,HashMap<String,String>>();//here project id is key and <p_id->(module_id,module_name)>
 	public static HashMap<String,HashMap<String,Tasks>> dep_tasks=new HashMap<String,HashMap<String,Tasks>>();	//key is department name and hashmap (key is task id and value is tasks object)
 	
 	static
@@ -72,20 +72,20 @@ public class CommonDetails
 			{
 					if(dep_proj.containsKey(dep_to_proj.getString(3)))
 					{
-								HashMap<Integer,String> proj_det=dep_proj.get(dep_to_proj.getString(3));
-								if(proj_det.containsKey(dep_to_proj.getInt(1)))
+								HashMap<String,String> proj_det=dep_proj.get(dep_to_proj.getString(3));
+								if(proj_det.containsKey(dep_to_proj.getString(1)))
 								{}
 								else
 								{
-									proj_det.put(dep_to_proj.getInt(1),dep_to_proj.getString(2));
+									proj_det.put(dep_to_proj.getString(1),dep_to_proj.getString(2));
 									dep_proj.put(dep_to_proj.getString(3),proj_det);
 								}
 							
 					}
 					else
 					{
-						HashMap<Integer,String> hm=new HashMap<Integer,String>();
-						hm.put(dep_to_proj.getInt(1),dep_to_proj.getString(2));
+						HashMap<String,String> hm=new HashMap<String,String>();
+						hm.put(dep_to_proj.getString(1),dep_to_proj.getString(2));
 						dep_proj.put(dep_to_proj.getString(3),hm);
 						
 					}
@@ -101,23 +101,23 @@ public class CommonDetails
 			ResultSet proj_to_mod=st.executeQuery("select Module_id,Module_name,Project_id from cris_module");
 			while(proj_to_mod.next())
 			{
-					if(proj_mod.containsKey(proj_to_mod.getInt(3)))
+					if(proj_mod.containsKey(proj_to_mod.getString(3)))
 					{
-								HashMap<Integer,String> mod_det=proj_mod.get(proj_to_mod.getInt(3));
-								if(mod_det.containsKey(proj_to_mod.getInt(1)))
+								HashMap<String,String> mod_det=proj_mod.get(proj_to_mod.getString(3));
+								if(mod_det.containsKey(proj_to_mod.getString(1)))
 								{}
 								else
 								{
-									mod_det.put(proj_to_mod.getInt(1),proj_to_mod.getString(2));
-									proj_mod.put(proj_to_mod.getInt(3),mod_det);
+									mod_det.put(proj_to_mod.getString(1),proj_to_mod.getString(2));
+									proj_mod.put(proj_to_mod.getString(3),mod_det);
 								}
 							
 					}
 					else
 					{
-						HashMap<Integer,String> hm=new HashMap<Integer,String>();
-						hm.put(proj_to_mod.getInt(1),proj_to_mod.getString(2));
-						proj_mod.put(proj_to_mod.getInt(3),hm);
+						HashMap<String,String> hm=new HashMap<String,String>();
+						hm.put(proj_to_mod.getString(1),proj_to_mod.getString(2));
+						proj_mod.put(proj_to_mod.getString(3),hm);
 						
 					}
 					

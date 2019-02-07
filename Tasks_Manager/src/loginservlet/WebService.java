@@ -16,21 +16,28 @@ public class WebService extends HttpServlet {
 	
        	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException    	
     {
-       		response.setContentType("application/json");
-       		Integer projectid=Integer.parseInt(request.getParameter("p_id"));
-       		if(CommonDetails.proj_mod.containsKey(projectid))
+       		try
        		{
-       		String json=new Gson().toJson(CommonDetails.proj_mod.get(projectid),CommonDetails.proj_mod.get(projectid).getClass().getGenericSuperclass());
-       		response.getWriter().write(json);
-       		}
-       		else
-       		{
-          		String json=new Gson().toJson(" ");
+		       		response.setContentType("application/json");
+		       		String projectid=(request.getParameter("p_id"));
+		       		if(CommonDetails.proj_mod.containsKey(projectid))
+		       		{
+		       		String json=new Gson().toJson(CommonDetails.proj_mod.get(projectid),CommonDetails.proj_mod.get(projectid).getClass().getGenericSuperclass());
+		       		response.getWriter().write(json);
+		       		}
+		       		else
+		       		{
+		          		String json=new Gson().toJson(" ");
+		           		response.getWriter().write(json);
+		     	
+		       			
+		       		}	
+       		}catch (Exception e) {
+				// TODO: handle exception
+       			String json=new Gson().toJson(" ");
            		response.getWriter().write(json);
      	
-       			
-       		}	
-       		
+			}  		
 	}
 
 }

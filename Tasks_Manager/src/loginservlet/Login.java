@@ -75,9 +75,11 @@ public class Login extends HttpServlet
 									}
 									else
 									{
-										RequestDispatcher rd=request.getRequestDispatcher("index.html");
+										RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
 									    rd.include(request, response);
+									    out.println("<div class=\"modal\">");
 									    out.println("INVALID USER OR PASSWORD");
+									    out.println("</div>");
 										
 									}	
 									
@@ -86,12 +88,16 @@ public class Login extends HttpServlet
 								else
 									{
 										
-										RequestDispatcher rd=request.getRequestDispatcher("index.html");
+										RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
 									    rd.include(request, response);
 									    out.println("INVALID USER OR PASSWORD");
 									}
 								
-				    }catch(Exception e) {e.printStackTrace(out);}	
+				    }catch(Exception e) {
+						RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+					    rd.include(request, response);
+					    out.println("USER NOT FOUND");
+}	
 	}
 	private UserDet getUserObj(ResultSet rs) throws Exception
 	{
