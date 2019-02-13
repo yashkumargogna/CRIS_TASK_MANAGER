@@ -7,6 +7,48 @@ import java.util.Set;
 
 public class Sprint implements Serializable 
 {
+	String work_id=" ";
+	String workname=" ";	
+	String desp=" ";
+	String id_rel_to=" ";
+	String name_rel_to=" ";
+	String module=" ";
+	String project=" ";//to be added to db
+	String task_of=" ";//to be added to db
+	String type=" ";
+	String status=" ";
+	HashMap<String,Scrum> spr_scr=new HashMap<String,Scrum>();
+	HashSet<Integer> assign_to=new HashSet<Integer>();
+	String dept=" ";//to be added to db
+	String sta_changed_by=" ";
+	String st_date=" ";
+	String tg_date=" ";
+	String incharge=" ";
+	String remarks=" ";
+	String module_id=" ";
+	String project_id=" ";
+	String work_catg=" ";
+
+	
+	
+	public String getModule_id() {
+		return module_id;
+	}
+	public void setModule_id(String module_id) {
+		this.module_id = module_id;
+	}
+	public String getProject_id() {
+		return project_id;
+	}
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;
+	}
+	public String getWork_catg() {
+		return work_catg;
+	}
+	public void setWork_catg(String work_catg) {
+		this.work_catg = work_catg;
+	}
 	public String getWork_id() {
 		return work_id;
 	}
@@ -73,31 +115,13 @@ public class Sprint implements Serializable
 	public void setSpr_scr(HashMap<String, Scrum> spr_scr) {
 		this.spr_scr = spr_scr;
 	}
-	public HashSet<String> getAssign_to() {
+	public HashSet<Integer> getAssign_to() {
 		return assign_to;
 	}
-	public void setAssign_to(HashSet<String> assign_to) {
+	public void setAssign_to(HashSet<Integer> assign_to) {
 		this.assign_to = assign_to;
 	}
-	String work_id=" ";
-	String workname=" ";	
-	String desp=" ";
-	String id_rel_to=" ";
-	String name_rel_to=" ";
-	String module=" ";
-	String project=" ";//to be added to db
-	String task_of=" ";//to be added to db
-	String type=" ";
-	String status=" ";
-	HashMap<String,Scrum> spr_scr=new HashMap<String,Scrum>();
-	HashSet<String> assign_to=new HashSet<String>();
-	String dept=" ";//to be added to db
-	String sta_changed_by=" ";
-	String st_date=" ";
-	String tg_date=" ";
-	String incharge=" ";
-	String remarks=" ";
-
+		
 	public String getRemarks() {
 		return remarks;
 	}

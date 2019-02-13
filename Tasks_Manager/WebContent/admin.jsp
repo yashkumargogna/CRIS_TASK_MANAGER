@@ -142,17 +142,50 @@ function addProjectToSelect(resp)
 	sel_mod_proj.add(opt_proj);
 	
 	}
+	
+function addTask(resp)
+{
+	
+	}
+	
 function showProjectAddResp(resp) {
 	if(resp.success) {
 		if(resp["inserted"]==="project")
 			{	
 				addProjectToSelect(resp);
-				alert("successfully added 	:-	"+resp["project"]["p_id"]+"		"+resp["project"]["p_name"]);			
+				alert("successfully added:-"+resp["project"]["p_id"]+"&"+resp["project"]["p_name"]);	
+				loadJSON(document.getElementById('task_project').value);
 			}
 		else if(resp["inserted"]==="module")
 			{
-				alert("successfully added 	:-	"+resp["module"]["mod_id"]+"		"+resp["module"]["mod_name"]);
+				alert("successfully added:-"+resp["module"]["mod_id"]+"&"+resp["module"]["mod_name"]);
 			}
+		else if(resp["inserted"]==="task")
+		{
+			var div_to_write=document.getElementById(resp["task"]["status"]);
+			//creating a table
+			var create_table=document.createElement("table");
+					create_table.id=resp["task"]["work_id"];
+					
+					console.log(create_table.id);
+			var tbl_row=document.createElement("tr");
+			tbl_row.className = "task";
+					tbl_row.insertCell(0).appendChild(document.createTextNode(resp["task"]["work_id"]));
+					tbl_row.insertCell(1).appendChild(document.createTextNode(resp["task"]["workname"]));
+					tbl_row.insertCell(2).appendChild(document.createTextNode(resp["task"]["desp"]));
+					tbl_row.insertCell(3).appendChild(document.createTextNode(resp["task"]["module"]));
+					tbl_row.insertCell(4).appendChild(document.createTextNode(resp["task"]["project"]));
+					tbl_row.insertCell(5).appendChild(document.createTextNode(resp["task"]["dept"]));
+					tbl_row.insertCell(6).appendChild(document.createTextNode(resp["task"]["st_date"]));
+					tbl_row.insertCell(7).appendChild(document.createTextNode(resp["task"]["tg_date"]));
+					tbl_row.insertCell(8).appendChild(document.createTextNode(resp["task"]["remarks"]));
+					tbl_row.insertCell(9).appendChild(document.createTextNode(resp["task"]["incharge"]));
+					tbl_row.insertCell(10).appendChild(document.createTextNode(resp["task"]["assign_to"]));
+					tbl_row.insertCell(11).appendChild(document.createTextNode(resp["task"]["type"]));
+			create_table.appendChild(tbl_row);		
+			div_to_write.appendChild(create_table);
+			alert("successfully added:-"+resp["task"]["work_id"]+"&"+resp["task"]["workname"]);
+		}
 	}	
 	else {
 		alert(resp.err);
@@ -339,50 +372,37 @@ function arrangeJson()
 
    <div id="id01" class="modal" style="display:none;">
   
- <form class="modal-content animate" id="createform" method="post" action="registerTask" >
-			<table id="createtable">
+ <form class="modal-content animate" id="createform" method="get" action="insertData" target="insert_frame">
+
 			<div class="imgcontainer">
       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
     
     </div>
-			
+					
 			 <div class="container">
+			<input type="hidden" value="TASK" name="action"/>	
+			Task  Name<font color="red" size=2>*</font> : <input id="taskname" name="taskname" size=30 required autofocus />
 				
-				<tr>
-					<td>Task  Name<font color="red" size=2>*</font> :</td>
-					<td><input id="taskname" name="taskname" size=30 required autofocus /></td>
-				</tr>
-                <tr>
-                 <td><input type="file" name="pic" accept="image/*"></td>
-                </tr>
-              <tr>
-                <td><input type="hidden" id="EmpId" name="EmpId" size=30 required autofocus /></td>
-                </tr>
-				<tr>
-					<td>Task Description<font color="red" size=2>*</font></td>
-					<td><textarea id="taskDesc" name="taskDesc" cols="30" rows="4" size=30 required autofocus></textarea></td>
-				</tr>
+                
+               <!-- <input type="file" name="pic" accept="image/*" /> -->  
+              		
+              
+                <input type="hidden" id="EmpId" name="empID" value=<%=ud.getEid()%> size=30 required autofocus />
+                
 				
-				<tr>
-					<td>Start Date<font color="red" size=2>*</font> : </td>
-					<td><input type="date" name="startDate" />
-				</tr>
-				<tr>
-					<td>Target Date<font color="red" size=2>*</font> : </td> 
-					<td><input type="date" name="targetDate" /></td>
-				</tr>
+					Task Description : <font color="red" size=2>*</font>
+					<textarea id="taskDesc" name="taskDesc" cols="30" rows="4" size=30 required autofocus></textarea>
 			
-				<tr>
-					<td>Type Task </td>
-                    <td><font color="red" size=2><input id="taskname" name="taskname" size=30 required autofocus /></font></td>
-                    
-                    <td>
-						<input type="hidden" name="task_type" value="task"/>
-					</td>
-				</tr>
 				
-				<tr><td>
-					<select id="task_project" name=project onchange="loadJSON(this.value)" >
+			
+					Start Date<font color="red" size=2>*</font> : <input type="date" name="startDate" />
+					
+					Target Date<font color="red" size=2>*</font> : <input type="date" name="targetDate" />
+				
+					<input type="hidden" name="work_type" value="TASK"/>
+					
+				
+				   <select id="task_project" name="project" onchange="loadJSON(this.value)" >
 					<%		
 						if(CommonDetails.dep_proj.containsKey(ud.getDept()))
 						{	
@@ -404,16 +424,8 @@ function arrangeJson()
 					<select id="module" name="module">
 							<option value="">-- Select --</option>
 					</select>
-				
-				
-				</td>
-				</tr>
-				<tr>
-				
-					<td>Assign Work<font color="red" size=2>*</font> :</td>
-					<td>
-					<select name="assignwork" multiple>
 					
+				INCHARGE : <font color="red" size=2>*</font> :<select name="incharge" multiple>
 					<%		
 						if(CommonDetails.dep_emp.containsKey(ud.getDept()))
 						{	
@@ -422,7 +434,6 @@ function arrangeJson()
 								for(Integer i:emp_id_set) 
 								{	
 							%>
-							
 									<option value=<%=i%>> <%=(String)emp_det.get(i)%> </option>
 							<%
 								}
@@ -430,15 +441,41 @@ function arrangeJson()
 							%>	
 
 						</select>
-					</td>
-				</tr>
+									
 				
-			</table>
-			<br>
-			<TABLE><tr><TD align="center" width=500><input type="button" value="Submit" /></TD></TR></TABLE>
+				
+				Assign Work<font color="red" size=2>*</font> :<select name="assign_to" multiple>
+					<%		
+						if(CommonDetails.dep_emp.containsKey(ud.getDept()))
+						{	
+								HashMap<Integer,String> emp_det=CommonDetails.dep_emp.get(ud.getDept());
+								Set<Integer> emp_id_set=emp_det.keySet();
+								for(Integer i:emp_id_set) 
+								{	
+							%>
+									<option value=<%=i%>> <%=(String)emp_det.get(i)%> </option>
+							<%
+								}
+						}		
+							%>	
+
+						</select>
+					<select name="work_catg">
+						<option value="DB WORK">DB WORK</option>
+						<option value="DEVELOPMENT">DEVELOPMENT</option>
+						<option value="DOCUMENTATION">DOCUMENTATION</option>
+					</select>		
+				Status:<input type="text" name="status" value="todo" />
+				REMARKS:<input type="text" name="remarks" value="remarks" />
+						
+				<input type="hidden" value=<%=ud.getDept() %>  name="dept" />
+					
+					
+				
+			<input type="submit" value="CREATE TASK" />
 		</form>
 </div>
-
+</div>
 <div id="id02" class="modal">
   
   <form class="modal-content animate" action="insertData" method="get"  target="insert_frame">
@@ -462,7 +499,8 @@ function arrangeJson()
 
     </form>
     </div>
-    <div id="id03" class="modal">
+ 
+ <div id="id03" class="modal">
   
   <form class="modal-content animate" action="insertData" method="get"  target="insert_frame">
     <div class="imgcontainer">
@@ -495,20 +533,12 @@ function arrangeJson()
 						%>	
 	
 					</select>
-                    
-				<!--  <script>setTimeout(function(){loadJSON(document.getElementById('task_project').value);} ,1);</script>-->
-				
-					
-				
-        
-      <input type="submit">SUBMIT</button>
+      <input type="submit" value="add module"/>
     
-    <div class="container" style="background-color:#f1f1f1">
-      <button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtn">Cancel</button>
-      <span class="psw">Forgot <a href="#">password?</a></span>
-    </div>
     </form>
-    </div>
+    
+   </div> 
+ </div>  
     <div id="id04" class="modal">
   
   <form class="modal-content animate" action="/action_page.php">

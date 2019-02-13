@@ -145,6 +145,7 @@ public class CommonDetails
 								HashMap<String,Tasks> task_details=dep_tasks.get(dept);
 								Tasks tasks=new Tasks();
 								tasks.setWorkname(dep_to_tasks.getString(1));
+								tasks.setWork_id(dep_to_tasks.getString(2));
 								tasks.setDesp(dep_to_tasks.getString(3));
 								tasks.setId_rel_to(dep_to_tasks.getString(4));
 								tasks.setName_rel_to(dep_to_tasks.getString(5));
@@ -160,6 +161,9 @@ public class CommonDetails
 								tasks.setDept(dep_to_tasks.getString(15));
 								tasks.setAssign_to(str_to_set(dep_to_tasks.getString(16)));
 								tasks.setIncharge(dep_to_tasks.getString(17));
+								tasks.setModule_id(dep_to_tasks.getString(18));
+								tasks.setProject_id(dep_to_tasks.getString(19));
+								tasks.setWork_catg(dep_to_tasks.getString(20));
 								task_details.put(dep_to_tasks.getString(2), tasks);
 								
 							}
@@ -167,6 +171,7 @@ public class CommonDetails
 							{
 								Tasks tasks=new Tasks();
 								tasks.setWorkname(dep_to_tasks.getString(1));
+								tasks.setWork_id(dep_to_tasks.getString(2));
 								tasks.setDesp(dep_to_tasks.getString(3));
 								tasks.setId_rel_to(dep_to_tasks.getString(4));
 								tasks.setName_rel_to(dep_to_tasks.getString(5));
@@ -182,6 +187,10 @@ public class CommonDetails
 								tasks.setDept(dep_to_tasks.getString(15));
 								tasks.setAssign_to(str_to_set(dep_to_tasks.getString(16)));
 								tasks.setIncharge(dep_to_tasks.getString(17));
+								tasks.setModule_id(dep_to_tasks.getString(18));
+								tasks.setProject_id(dep_to_tasks.getString(19));
+								tasks.setWork_catg(dep_to_tasks.getString(20));
+								
 								HashMap<String,Tasks> task_details=new HashMap<String,Tasks>();
 								task_details.put(dep_to_tasks.getString(2), tasks);
 								dep_tasks.put(dept,task_details);
@@ -197,6 +206,7 @@ public class CommonDetails
 							HashMap<String,Tasks> task_details=dep_tasks.get(dept);
 							Sprint sprint=new Sprint();
 							sprint.setWorkname(dep_to_sprints.getString(1));
+							sprint.setWork_id(dep_to_sprints.getString(2));
 							sprint.setDesp(dep_to_sprints.getString(3));
 							sprint.setId_rel_to(dep_to_sprints.getString(4));
 							sprint.setName_rel_to(dep_to_sprints.getString(5));
@@ -212,6 +222,9 @@ public class CommonDetails
 							sprint.setDept(dep_to_sprints.getString(15));
 							sprint.setAssign_to(str_to_set(dep_to_sprints.getString(16)));
 							sprint.setIncharge(dep_to_sprints.getString(17));
+							sprint.setModule_id(dep_to_sprints.getString(18));
+							sprint.setProject_id(dep_to_sprints.getString(19));
+							sprint.setWork_catg(dep_to_sprints.getString(20));
 							Tasks t=task_details.get(dep_to_sprints.getString(4));
 							HashMap<String,Sprint> hm=t.getTask_spr();
 							hm.put(dep_to_sprints.getString(2),sprint);
@@ -227,6 +240,7 @@ public class CommonDetails
 						{
 							Scrum scrum=new Scrum();
 							scrum.setWorkname(dep_to_scrums.getString(1));
+							scrum.setWork_id(dep_to_scrums.getString(2));
 							scrum.setDesp(dep_to_scrums.getString(3));
 							scrum.setId_rel_to(dep_to_scrums.getString(4));
 							scrum.setName_rel_to(dep_to_scrums.getString(5));
@@ -241,7 +255,9 @@ public class CommonDetails
 							scrum.setTask_of(dep_to_scrums.getString(14));
 							scrum.setDept(dep_to_scrums.getString(15));
 							scrum.setAssign_to(str_to_set(dep_to_scrums.getString(16)));
-							
+							scrum.setModule_id(dep_to_scrums.getString(18));
+							scrum.setProject_id(dep_to_scrums.getString(19));
+							scrum.setWork_catg(dep_to_scrums.getString(20));
 							if(dep_to_scrums.getString(4).equals(dep_to_scrums.getString(14)))
 							{
 								HashMap<String,Tasks> task_details=dep_tasks.get(dept);
@@ -300,20 +316,20 @@ public class CommonDetails
 
 		}
 
-		private static HashSet<String> str_to_set(String ids) 
+		private static HashSet<Integer> str_to_set(String ids) 
 		{
-			HashSet<String> hs=new HashSet<String>();
+			HashSet<Integer> hs=new HashSet<Integer>();
 			if(ids.contains(","))
 			{	
 				String e_id[]=ids.split(",");
 				for(int i=0;i<e_id.length;i++)
 				{
-					hs.add(e_id[i]); 
+					hs.add(Integer.parseInt(e_id[i])); 
 				}
 			}
 			else
 			{
-				hs.add(ids);
+				hs.add(Integer.parseInt(ids));
 			}
 			return hs;
 		}	

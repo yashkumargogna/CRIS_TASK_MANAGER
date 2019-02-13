@@ -23,21 +23,43 @@ public class Tasks implements Serializable
 	String remarks=" ";
 	String sta_changed_by=" ";
 	String incharge=" ";
-	HashSet<String> assign_to=new HashSet<String>();
+	String module_id=" ";
+	String project_id=" ";
+	String work_catg=" ";
+	HashSet<Integer> assign_to=new HashSet<Integer>();
 	//HashMap<sprintid ,sprint obj having all details of scrum> task_spr;//key here is task id
 	HashMap<String,Sprint> task_spr=new HashMap<String,Sprint>();
 	//HashMap<scrum id,scrumobj> spr_scr;//key here is sprint id		
 	HashMap<String,Scrum> task_scr=new HashMap<String,Scrum>();
+	public String getModule_id() {
+		return module_id;
+	}
+	public void setModule_id(String module_id) {
+		this.module_id = module_id;
+	}
+	public String getProject_id() {
+		return project_id;
+	}
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;
+	}
+	public String getWork_catg() {
+		return work_catg;
+	}
+	public void setWork_catg(String work_catg) {
+		this.work_catg = work_catg;
+	}
+	
 	public String getIncharge() {
 		return incharge;
 	}
 	public void setIncharge(String incharge) {
 		this.incharge = incharge;
 	}
-	public HashSet<String> getAssign_to() {
+	public HashSet<Integer> getAssign_to() {
 		return assign_to;
 	}
-	public void setAssign_to(HashSet<String> assign_to) {
+	public void setAssign_to(HashSet<Integer> assign_to) {
 		this.assign_to = assign_to;
 	}
 	public String getSta_changed_by() {

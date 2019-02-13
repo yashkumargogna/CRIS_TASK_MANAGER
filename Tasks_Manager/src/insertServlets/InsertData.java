@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,8 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import common.CommonDetails;
+import common.DateTime;
 import works.Module;
 import works.Project;
+import works.TaskDB;
+import works.Tasks;
 
 /**
  * Servlet implementation class InsertData
@@ -46,17 +50,170 @@ public class InsertData extends HttpServlet
 			createProject(request,response);
 			
 		}	
-		if(action.equalsIgnoreCase("MODULE"))
+		else if(action.equalsIgnoreCase("MODULE"))
 		{
 			System.out.println(action+" inside if"+"\n");
 			createModule(request,response);
 			
 		}
+		else if(action.equalsIgnoreCase("TASK"))
+		{
+			System.out.println(action+" inside if"+"\n");
+			createTask(request,response);
+			
+		}
+		
 		}catch (Exception e) {
 			// TODO: handle exception
 		System.out.println(e);	
 		}
 		
+		
+		
+	}
+
+	private void createTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		// TODO Auto-generated method stub
+		
+		response.setContentType("text/html");
+		Writer wr = response.getWriter();
+		wr.write("<html><body><script>");
+		wr.write("var resp={");
+		try
+		{
+			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());	
+			con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","yash");
+
+			System.out.println("ct start 0 fro check NEW");
+			System.out.println("ct start 1 for check");
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery("select CRIS_WORK_ID.nextval from dual");
+			int seq_val=0;
+			System.out.println("ct start"+seq_val);
+			while(rs.next())
+			{
+				seq_val=(rs.getInt(1));
+				System.out.println(seq_val);
+			}
+			String task_id="T="+seq_val+"-"+request.getParameter("module");
+			System.out.println(task_id);
+			Tasks taskDB=new Tasks();
+			taskDB.setWork_id(task_id);
+			taskDB.setWorkname(request.getParameter("taskname"));
+			taskDB.setDesp(request.getParameter("taskDesc"));
+			taskDB.setId_rel_to(request.getParameter("module"));
+			taskDB.setName_rel_to(CommonDetails.proj_mod.get(request.getParameter("project")).get(request.getParameter("module")));
+			
+			taskDB.setModule(CommonDetails.proj_mod.get(request.getParameter("project")).get(request.getParameter("module")));
+			taskDB.setType(request.getParameter("work_type"));
+			taskDB.setWork_catg(request.getParameter("work_catg"));
+			taskDB.setSt_date(request.getParameter("startDate"));
+			taskDB.setTg_date(request.getParameter("targetDate"));
+			taskDB.setStatus(request.getParameter("status"));
+			taskDB.setRemarks(request.getParameter("remarks"));
+			taskDB.setSta_changed_by(request.getParameter("empID"));
+			taskDB.setProject(CommonDetails.dep_proj.get(request.getParameter("dept")).get(request.getParameter("project")));
+			taskDB.setTask_of(task_id);
+			taskDB.setDept(request.getParameter("dept"));
+			String incharge[]=request.getParameterValues("incharge");
+			String assign_to[]=request.getParameterValues("assign_to");
+			HashSet<Integer> hs=new HashSet<Integer>(); 
+			String incharge_str=" ";
+			String assign_to_str=" ";
+			for(int i=0;i<incharge.length;i++)
+			{	
+				if(i==0)
+				{	
+					incharge_str=incharge[i];
+				}
+				else
+				{
+					incharge_str=incharge_str+","+incharge[i];
+					
+				}	
+				hs.add(Integer.parseInt(incharge[i]));
+						
+			}
+			
+			for(int i=0;i<assign_to.length;i++)
+			{	
+				if(i==0)
+				{	
+					assign_to_str=assign_to[i];
+				}
+				else
+				{
+					assign_to_str=assign_to_str+","+assign_to[i];
+					
+				}	
+				hs.add(Integer.parseInt(assign_to[i]));
+						
+			}
+			
+			taskDB.setIncharge(incharge_str);
+			taskDB.setAssign_to(hs);
+			
+			taskDB.setModule_id(request.getParameter("module"));
+			taskDB.setProject_id(request.getParameter("project"));
+			
+			PreparedStatement ps_insert_task=con.prepareStatement("INSERT INTO CRIS_WORKS (WORKNAME,WORK_ID,DESP,ID_RELATED_TO,NAME_RELATED_TO,MODULE,WORK_TYPE,ST_DATE,TG_DATE,STATUS,REMARKS,STA_CHANGED_BY,PROJECT,TASK_OF,DEPT,ASSIGN_TO,INCHARGE,MODULE_ID,PROJECT_ID,WORK_CATG) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			ps_insert_task.setString(1,taskDB.getWorkname());
+			ps_insert_task.setString(2,taskDB.getWork_id());
+			ps_insert_task.setString(3,taskDB.getDesp());
+			ps_insert_task.setString(4,taskDB.getId_rel_to());
+			ps_insert_task.setString(5,taskDB.getName_rel_to());
+			ps_insert_task.setString(6,taskDB.getModule());
+			ps_insert_task.setString(7,taskDB.getType());
+			ps_insert_task.setTimestamp(8,new DateTime(taskDB.getSt_date(),"yyyy-MM-dd").getTimeStamp());
+			ps_insert_task.setTimestamp(9,new DateTime(taskDB.getTg_date(),"yyyy-MM-dd").getTimeStamp());
+			ps_insert_task.setString(10,taskDB.getStatus());
+			ps_insert_task.setString(11,taskDB.getRemarks());
+			ps_insert_task.setInt(12,Integer.parseInt(taskDB.getSta_changed_by()));
+			ps_insert_task.setString(13,taskDB.getProject());
+			ps_insert_task.setString(14,taskDB.getTask_of());
+			ps_insert_task.setString(15,taskDB.getDept());
+			ps_insert_task.setString(16,assign_to_str);//STRING IN DB
+			ps_insert_task.setString(17,taskDB.getIncharge());
+			ps_insert_task.setString(18,taskDB.getModule_id());
+			ps_insert_task.setString(19,taskDB.getProject_id());
+			ps_insert_task.setString(20,taskDB.getWork_catg());
+			
+			
+			int i=ps_insert_task.executeUpdate();
+			System.out.println(i);
+			boolean ins_res=false;
+			if(i>0)
+			{ins_res=true;}	
+			System.out.println(ins_res);
+			if(ins_res==true)
+			{
+				if(CommonDetails.dep_tasks.containsKey(taskDB.getDept()))
+				{
+					CommonDetails.dep_tasks.get(taskDB.getDept()).put(taskDB.getWork_id(),taskDB);
+				}
+				else
+				{					
+				 	HashMap<String, Tasks> tasks_hm=new HashMap<String,Tasks>();
+				 	tasks_hm.put(taskDB.getWork_id(),taskDB);
+				 	CommonDetails.dep_tasks.put(taskDB.getDept(),tasks_hm);
+				}	
+			}
+			wr.write("\"success\":true,\"inserted\":\"task\",\"task\":"+new Gson().toJson(taskDB));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			wr.write("\"success\":false,\"err\":\"Some DB Error. Please try agin in few minutes!\"");
+		}	
+		wr.write("}; var win = opener || parent; win.showProjectAddResp(resp);");
+		wr.write("</script></body></html>");
+		wr.close();
+
+		
+
+		
+				
+			
 		
 		
 	}
@@ -194,3 +351,8 @@ public class InsertData extends HttpServlet
 	}
 
 }
+//
+
+
+
+
