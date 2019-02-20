@@ -143,10 +143,6 @@ function addProjectToSelect(resp)
 	
 	}
 	
-function addTask(resp)
-{
-	
-	}
 	
 function showProjectAddResp(resp) {
 	if(resp.success) {
@@ -184,12 +180,15 @@ function showProjectAddResp(resp) {
 					tbl_row.insertCell(11).appendChild(document.createTextNode(resp["task"]["type"]));
 			create_table.appendChild(tbl_row);		
 			div_to_write.appendChild(create_table);
+			tasks_details[resp["task"]["work_id"]]=resp["task"];
+			//alert(JSON.stringify(tasks_details[resp["task"]["work_id"]]));
 			alert("successfully added:-"+resp["task"]["work_id"]+"&"+resp["task"]["workname"]);
 		}
 	}	
 	else {
 		alert(resp.err);
 	}
+	
 }
 function access(){ 
 	
@@ -379,29 +378,30 @@ function arrangeJson()
     
     </div>
 					
+				<br>	
 			 <div class="container">
 			<input type="hidden" value="TASK" name="action"/>	
 			Task  Name<font color="red" size=2>*</font> : <input id="taskname" name="taskname" size=30 required autofocus />
-				
+				<br>
                 
                <!-- <input type="file" name="pic" accept="image/*" /> -->  
               		
               
                 <input type="hidden" id="EmpId" name="empID" value=<%=ud.getEid()%> size=30 required autofocus />
-                
+                <br>
 				
 					Task Description : <font color="red" size=2>*</font>
 					<textarea id="taskDesc" name="taskDesc" cols="30" rows="4" size=30 required autofocus></textarea>
 			
-				
+				<br>
 			
 					Start Date<font color="red" size=2>*</font> : <input type="date" name="startDate" />
-					
+					<br>
 					Target Date<font color="red" size=2>*</font> : <input type="date" name="targetDate" />
-				
+				<br>
 					<input type="hidden" name="work_type" value="TASK"/>
 					
-				
+				<br>
 				   <select id="task_project" name="project" onchange="loadJSON(this.value)" >
 					<%		
 						if(CommonDetails.dep_proj.containsKey(ud.getDept()))
@@ -420,11 +420,14 @@ function arrangeJson()
 					</select>
                     
 				<script>setTimeout(function(){loadJSON(document.getElementById('task_project').value);} ,1);</script>
-				
+				<br>
 					<select id="module" name="module">
 							<option value="">-- Select --</option>
 					</select>
+					<br>
+					<br>
 					
+					<br>
 				INCHARGE : <font color="red" size=2>*</font> :<select name="incharge" multiple>
 					<%		
 						if(CommonDetails.dep_emp.containsKey(ud.getDept()))
@@ -441,9 +444,9 @@ function arrangeJson()
 							%>	
 
 						</select>
-									
-				
-				
+						<br>			
+				<br>
+				<br>
 				Assign Work<font color="red" size=2>*</font> :<select name="assign_to" multiple>
 					<%		
 						if(CommonDetails.dep_emp.containsKey(ud.getDept()))
@@ -460,16 +463,22 @@ function arrangeJson()
 							%>	
 
 						</select>
+				<br>
+				<br>
+				<br>
 					<select name="work_catg">
 						<option value="DB WORK">DB WORK</option>
 						<option value="DEVELOPMENT">DEVELOPMENT</option>
 						<option value="DOCUMENTATION">DOCUMENTATION</option>
+						<option value="OTHERS">OTHERS</option>
 					</select>		
+				<br>
 				Status:<input type="text" name="status" value="todo" />
-				REMARKS:<input type="text" name="remarks" value="remarks" />
-						
+				<br>
+				REMARKS:<input type="text" name="remarks" placeholder="remarks" />
+				<br>		
 				<input type="hidden" value=<%=ud.getDept() %>  name="dept" />
-					
+				<br>	
 					
 				
 			<input type="submit" value="CREATE TASK" />

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -118,7 +119,8 @@ public class InsertData extends HttpServlet
 			taskDB.setDept(request.getParameter("dept"));
 			String incharge[]=request.getParameterValues("incharge");
 			String assign_to[]=request.getParameterValues("assign_to");
-			HashSet<Integer> hs=new HashSet<Integer>(); 
+			HashSet<Integer> hs=new HashSet<Integer>();
+			HashSet<Integer> hs_incharge=new HashSet<Integer>();
 			String incharge_str=" ";
 			String assign_to_str=" ";
 			for(int i=0;i<incharge.length;i++)
@@ -133,6 +135,7 @@ public class InsertData extends HttpServlet
 					
 				}	
 				hs.add(Integer.parseInt(incharge[i]));
+				hs_incharge.add(Integer.parseInt(incharge[i]));
 						
 			}
 			
@@ -151,7 +154,7 @@ public class InsertData extends HttpServlet
 						
 			}
 			
-			taskDB.setIncharge(incharge_str);
+			taskDB.setIncharge(hs_incharge);
 			taskDB.setAssign_to(hs);
 			
 			taskDB.setModule_id(request.getParameter("module"));
@@ -173,14 +176,17 @@ public class InsertData extends HttpServlet
 			ps_insert_task.setString(13,taskDB.getProject());
 			ps_insert_task.setString(14,taskDB.getTask_of());
 			ps_insert_task.setString(15,taskDB.getDept());
-			ps_insert_task.setString(16,assign_to_str);//STRING IN DB
-			ps_insert_task.setString(17,taskDB.getIncharge());
+			ps_insert_task.setString(16,assign_to_str);//STRING IN DB BUT HASH SET IN CACHE
+			ps_insert_task.setString(17,incharge_str);
 			ps_insert_task.setString(18,taskDB.getModule_id());
 			ps_insert_task.setString(19,taskDB.getProject_id());
 			ps_insert_task.setString(20,taskDB.getWork_catg());
 			
 			
 			int i=ps_insert_task.executeUpdate();
+	
+			
+			
 			System.out.println(i);
 			boolean ins_res=false;
 			if(i>0)
@@ -199,6 +205,19 @@ public class InsertData extends HttpServlet
 				 	CommonDetails.dep_tasks.put(taskDB.getDept(),tasks_hm);
 				}	
 			}
+			
+			PreparedStatement ps_insert_batch=con.prepareStatement("INSERT INTO CRIS_WORK_TO (WORK_ID,EMP_ID,ASSG_DATE) VALUES (?,?,?)");
+			HashSet<Integer> batch_data=taskDB.getAssign_to();
+			Iterator<Integer> bt=batch_data.iterator();
+			while(bt.hasNext())
+			{
+				ps_insert_batch.setString(1,taskDB.getWork_id());
+				ps_insert_batch.setInt(2,bt.next());
+				ps_insert_batch.setTimestamp(3,new DateTime(taskDB.getSt_date(),"yyyy-MM-dd").getTimeStamp());
+				ps_insert_batch.addBatch();
+			}	
+			int array_batch[]=ps_insert_batch.executeBatch();
+			//System.out.println(array_batch[0]+"   "+array_batch[1]);
 			wr.write("\"success\":true,\"inserted\":\"task\",\"task\":"+new Gson().toJson(taskDB));
 		}
 		catch(Exception e) {

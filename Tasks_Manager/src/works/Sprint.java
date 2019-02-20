@@ -23,7 +23,7 @@ public class Sprint implements Serializable
 	String sta_changed_by=" ";
 	String st_date=" ";
 	String tg_date=" ";
-	String incharge=" ";
+	HashSet<Integer> incharge=new HashSet<Integer>();
 	String remarks=" ";
 	String module_id=" ";
 	String project_id=" ";
@@ -152,12 +152,13 @@ public class Sprint implements Serializable
 	public void setSta_changed_by(String sta_changed_by) {
 		this.sta_changed_by = sta_changed_by;
 	}
-	public String getIncharge() {
+	public HashSet<Integer> getIncharge() {
 		return incharge;
 	}
-	public void setIncharge(String incharge) {
+	public void setIncharge(HashSet<Integer> incharge) {
 		this.incharge = incharge;
 	}
+	
 	
 	
 }

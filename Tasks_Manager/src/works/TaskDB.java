@@ -1,11 +1,10 @@
 package works;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Tasks implements Serializable 
+public class TaskDB implements Serializable
 {
 	String work_id=" ";
 	String workname=" ";	
@@ -22,70 +21,20 @@ public class Tasks implements Serializable
 	String tg_date=" ";
 	String remarks=" ";
 	String sta_changed_by=" ";
-	HashSet<Integer> incharge=new HashSet<Integer>();
+	HashSet<Integer> incharge=new HashSet<Integer>(); 
 	String module_id=" ";
 	String project_id=" ";
 	String work_catg=" ";
-	HashSet<Integer> assign_to=new HashSet<Integer>();
-	//HashMap<sprintid ,sprint obj having all details of scrum> task_spr;//key here is task id
-	HashMap<String,Sprint> task_spr=new HashMap<String,Sprint>();
-	//HashMap<scrum id,scrumobj> spr_scr;//key here is sprint id		
-	HashMap<String,Scrum> task_scr=new HashMap<String,Scrum>();
-	public String getModule_id() {
-		return module_id;
-	}
-	public void setModule_id(String module_id) {
-		this.module_id = module_id;
-	}
-	public String getProject_id() {
-		return project_id;
-	}
-	public void setProject_id(String project_id) {
-		this.project_id = project_id;
-	}
-	public String getWork_catg() {
-		return work_catg;
-	}
-	public void setWork_catg(String work_catg) {
-		this.work_catg = work_catg;
-	}
+	HashSet<Integer> assign_to=new HashSet<Integer>(); 
 	
-	public HashSet<Integer> getIncharge() {
-		return incharge;
-	}
-	public void setIncharge(HashSet<Integer> incharge) {
-		this.incharge = incharge;
-	}
 	public HashSet<Integer> getAssign_to() {
 		return assign_to;
 	}
 	public void setAssign_to(HashSet<Integer> assign_to) {
 		this.assign_to = assign_to;
 	}
-	public String getSta_changed_by() {
-		return sta_changed_by;
-	}
-	public void setSta_changed_by(String sta_changed_by) {
-		this.sta_changed_by = sta_changed_by;
-	}
-	public String getSt_date() {
-		return st_date;
-	}
-	public void setSt_date(String st_date) {
-		this.st_date = st_date;
-	}
-	public String getTg_date() {
-		return tg_date;
-	}
-	public void setTg_date(String tg_date) {
-		this.tg_date = tg_date;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public void setIncharge(HashSet<Integer> incharge) {
+		this.incharge = incharge;
 	}
 	public String getWork_id() {
 		return work_id;
@@ -153,19 +102,47 @@ public class Tasks implements Serializable
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	public HashMap<String, Sprint> getTask_spr() {
-		return task_spr;
+	public String getSt_date() {
+		return st_date;
 	}
-	public void setTask_spr(HashMap<String, Sprint> task_spr) {
-		this.task_spr = task_spr;
+	public void setSt_date(String st_date) {
+		this.st_date = st_date;
 	}
-	public HashMap<String, Scrum> getTask_scr() {
-		return task_scr;
+	public String getTg_date() {
+		return tg_date;
 	}
-	public void setTask_scr(HashMap<String, Scrum> task_scr) {
-		this.task_scr = task_scr;
+	public void setTg_date(String tg_date) {
+		this.tg_date = tg_date;
 	}
-	
-	
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+	public String getSta_changed_by() {
+		return sta_changed_by;
+	}
+	public void setSta_changed_by(String sta_changed_by) {
+		this.sta_changed_by = sta_changed_by;
+	}
+	public String getModule_id() {
+		return module_id;
+	}
+	public void setModule_id(String module_id) {
+		this.module_id = module_id;
+	}
+	public String getProject_id() {
+		return project_id;
+	}
+	public void setProject_id(String project_id) {
+		this.project_id = project_id;
+	}
+	public String getWork_catg() {
+		return work_catg;
+	}
+	public void setWork_catg(String work_catg) {
+		this.work_catg = work_catg;
+	}
 		
 }

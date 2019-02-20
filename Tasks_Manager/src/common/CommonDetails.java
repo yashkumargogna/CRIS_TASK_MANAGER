@@ -160,7 +160,7 @@ public class CommonDetails
 								tasks.setTask_of(dep_to_tasks.getString(14));
 								tasks.setDept(dep_to_tasks.getString(15));
 								tasks.setAssign_to(str_to_set(dep_to_tasks.getString(16)));
-								tasks.setIncharge(dep_to_tasks.getString(17));
+								tasks.setIncharge(str_to_set(dep_to_tasks.getString(17)));
 								tasks.setModule_id(dep_to_tasks.getString(18));
 								tasks.setProject_id(dep_to_tasks.getString(19));
 								tasks.setWork_catg(dep_to_tasks.getString(20));
@@ -186,7 +186,7 @@ public class CommonDetails
 								tasks.setTask_of(dep_to_tasks.getString(14));
 								tasks.setDept(dep_to_tasks.getString(15));
 								tasks.setAssign_to(str_to_set(dep_to_tasks.getString(16)));
-								tasks.setIncharge(dep_to_tasks.getString(17));
+								tasks.setIncharge(str_to_set(dep_to_tasks.getString(17)));
 								tasks.setModule_id(dep_to_tasks.getString(18));
 								tasks.setProject_id(dep_to_tasks.getString(19));
 								tasks.setWork_catg(dep_to_tasks.getString(20));
@@ -221,7 +221,7 @@ public class CommonDetails
 							sprint.setTask_of(dep_to_sprints.getString(14));
 							sprint.setDept(dep_to_sprints.getString(15));
 							sprint.setAssign_to(str_to_set(dep_to_sprints.getString(16)));
-							sprint.setIncharge(dep_to_sprints.getString(17));
+							sprint.setIncharge(str_to_set(dep_to_sprints.getString(17)));
 							sprint.setModule_id(dep_to_sprints.getString(18));
 							sprint.setProject_id(dep_to_sprints.getString(19));
 							sprint.setWork_catg(dep_to_sprints.getString(20));
