@@ -16,7 +16,7 @@ public class CommonDetails
 	public static HashMap<String,HashMap<Integer,String>> dep_emp=new HashMap<String,HashMap<Integer,String>>();//here department (dept) is key. <dept->(emp_id,emp_name)>
 	public static HashMap<String,HashMap<String,String>> dep_proj=new HashMap<String,HashMap<String,String>>();//here department is key and <dept->(project id,project_name)> 
 	public static HashMap<String,HashMap<String,String>> proj_mod=new HashMap<String,HashMap<String,String>>();//here project id is key and <p_id->(module_id,module_name)>
-	public static HashMap<String,HashMap<String,Tasks>> dep_tasks=new HashMap<String,HashMap<String,Tasks>>();	//key is department name and hashmap (key is task id and value is tasks object)
+	public static LinkedHashMap<String,LinkedHashMap<String,Tasks>> dep_tasks=new LinkedHashMap<String,LinkedHashMap<String,Tasks>>();	//key is department name and hashmap (key is task id and value is tasks object)
 	
 	static
 			{
@@ -142,7 +142,7 @@ public class CommonDetails
 							//setting tasks according to departments
 							if(dep_tasks.containsKey(dept))
 							{
-								HashMap<String,Tasks> task_details=dep_tasks.get(dept);
+								LinkedHashMap<String,Tasks> task_details=dep_tasks.get(dept);
 								Tasks tasks=new Tasks();
 								tasks.setWorkname(dep_to_tasks.getString(1));
 								tasks.setWork_id(dep_to_tasks.getString(2));
@@ -191,7 +191,7 @@ public class CommonDetails
 								tasks.setProject_id(dep_to_tasks.getString(19));
 								tasks.setWork_catg(dep_to_tasks.getString(20));
 								
-								HashMap<String,Tasks> task_details=new HashMap<String,Tasks>();
+								LinkedHashMap<String, Tasks> task_details=new LinkedHashMap<String,Tasks>();
 								task_details.put(dep_to_tasks.getString(2), tasks);
 								dep_tasks.put(dept,task_details);
 							
@@ -203,7 +203,7 @@ public class CommonDetails
 						ResultSet dep_to_sprints=st.executeQuery("select * from cris_works where work_type=\'SPRINT\' and dept=\'"+dept+"\'");
 						while(dep_to_sprints.next())
 						{
-							HashMap<String,Tasks> task_details=dep_tasks.get(dept);
+							LinkedHashMap<String,Tasks> task_details=dep_tasks.get(dept);
 							Sprint sprint=new Sprint();
 							sprint.setWorkname(dep_to_sprints.getString(1));
 							sprint.setWork_id(dep_to_sprints.getString(2));
@@ -226,7 +226,7 @@ public class CommonDetails
 							sprint.setProject_id(dep_to_sprints.getString(19));
 							sprint.setWork_catg(dep_to_sprints.getString(20));
 							Tasks t=task_details.get(dep_to_sprints.getString(4));
-							HashMap<String,Sprint> hm=t.getTask_spr();
+							LinkedHashMap<String,Sprint> hm=t.getTask_spr();
 							hm.put(dep_to_sprints.getString(2),sprint);
 							
 							t.setTask_spr(hm);
@@ -260,9 +260,9 @@ public class CommonDetails
 							scrum.setWork_catg(dep_to_scrums.getString(20));
 							if(dep_to_scrums.getString(4).equals(dep_to_scrums.getString(14)))
 							{
-								HashMap<String,Tasks> task_details=dep_tasks.get(dept);
+								LinkedHashMap<String,Tasks> task_details=dep_tasks.get(dept);
 								Tasks t=task_details.get(dep_to_scrums.getString(4));
-								HashMap<String, Scrum> shm=t.getTask_scr();
+								LinkedHashMap<String, Scrum> shm=t.getTask_scr();
 								shm.put(dep_to_scrums.getString(2),scrum);
 								t.setTask_scr(shm);
 								task_details.put(dep_to_scrums.getString(4),t);
@@ -271,14 +271,14 @@ public class CommonDetails
 							}
 							else	
 							{
-								HashMap<String,Tasks> task_details=dep_tasks.get(dept);
+								LinkedHashMap<String,Tasks> task_details=dep_tasks.get(dept);
 								
 								Tasks t=task_details.get(dep_to_scrums.getString(14));
 								
-								HashMap<String,Sprint> sphm=t.getTask_spr();
+								LinkedHashMap<String,Sprint> sphm=t.getTask_spr();
 								
 								Sprint sprint=sphm.get(dep_to_scrums.getString(4));
-								HashMap<String, Scrum> scrums_of_sprints=sprint.getSpr_scr();
+								LinkedHashMap<String, Scrum> scrums_of_sprints=sprint.getSpr_scr();
 								scrums_of_sprints.put(dep_to_scrums.getString(2),scrum);
 								sprint.setSpr_scr(scrums_of_sprints);
 								
@@ -312,7 +312,7 @@ public class CommonDetails
 		
 
 		
-		
+		System.out.println(dep_tasks.get("ICMS"));
 
 		}
 

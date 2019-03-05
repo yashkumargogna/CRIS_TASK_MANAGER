@@ -3,6 +3,7 @@ package works;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 public class Sprint implements Serializable 
@@ -17,7 +18,7 @@ public class Sprint implements Serializable
 	String task_of=" ";//to be added to db
 	String type=" ";
 	String status=" ";
-	HashMap<String,Scrum> spr_scr=new HashMap<String,Scrum>();
+	LinkedHashMap<String,Scrum> spr_scr=new LinkedHashMap<String,Scrum>();
 	HashSet<Integer> assign_to=new HashSet<Integer>();
 	String dept=" ";//to be added to db
 	String sta_changed_by=" ";
@@ -109,10 +110,10 @@ public class Sprint implements Serializable
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public HashMap<String, Scrum> getSpr_scr() {
+	public LinkedHashMap<String, Scrum> getSpr_scr() {
 		return spr_scr;
 	}
-	public void setSpr_scr(HashMap<String, Scrum> spr_scr) {
+	public void setSpr_scr(LinkedHashMap<String, Scrum> spr_scr) {
 		this.spr_scr = spr_scr;
 	}
 	public HashSet<Integer> getAssign_to() {

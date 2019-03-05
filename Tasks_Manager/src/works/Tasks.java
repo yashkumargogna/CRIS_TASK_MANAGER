@@ -3,6 +3,7 @@ package works;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 public class Tasks implements Serializable 
@@ -28,9 +29,9 @@ public class Tasks implements Serializable
 	String work_catg=" ";
 	HashSet<Integer> assign_to=new HashSet<Integer>();
 	//HashMap<sprintid ,sprint obj having all details of scrum> task_spr;//key here is task id
-	HashMap<String,Sprint> task_spr=new HashMap<String,Sprint>();
+	LinkedHashMap<String,Sprint> task_spr=new LinkedHashMap<String,Sprint>();
 	//HashMap<scrum id,scrumobj> spr_scr;//key here is sprint id		
-	HashMap<String,Scrum> task_scr=new HashMap<String,Scrum>();
+	LinkedHashMap<String,Scrum> task_scr=new LinkedHashMap<String,Scrum>();
 	public String getModule_id() {
 		return module_id;
 	}
@@ -153,16 +154,16 @@ public class Tasks implements Serializable
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	public HashMap<String, Sprint> getTask_spr() {
+	public LinkedHashMap<String, Sprint> getTask_spr() {
 		return task_spr;
 	}
-	public void setTask_spr(HashMap<String, Sprint> task_spr) {
+	public void setTask_spr(LinkedHashMap<String, Sprint> task_spr) {
 		this.task_spr = task_spr;
 	}
-	public HashMap<String, Scrum> getTask_scr() {
+	public LinkedHashMap<String, Scrum> getTask_scr() {
 		return task_scr;
 	}
-	public void setTask_scr(HashMap<String, Scrum> task_scr) {
+	public void setTask_scr(LinkedHashMap<String, Scrum> task_scr) {
 		this.task_scr = task_scr;
 	}
 	

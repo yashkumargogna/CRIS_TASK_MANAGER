@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,9 +43,9 @@ public class EmpTasks extends HttpServlet {
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		HashMap<String,Tasks> tasks_incharge=new HashMap<String,Tasks>();
-		HashMap<String,Sprint> sprints_incharge=new HashMap<String,Sprint>();
-		HashMap<String,TaskDB> all_tasks=new HashMap<String,TaskDB>();
+		LinkedHashMap<String,Tasks> tasks_incharge=new LinkedHashMap<String,Tasks>();
+		LinkedHashMap<String,Sprint> sprints_incharge=new LinkedHashMap<String,Sprint>();
+		LinkedHashMap<String,TaskDB> all_tasks=new LinkedHashMap<String,TaskDB>();
 		
 		// TODO Auto-generated method stub
 		try

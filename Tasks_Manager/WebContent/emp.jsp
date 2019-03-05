@@ -1,3 +1,4 @@
+<%@page import="model.UserDet"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="works.TaskDB"%>
 <%@page import="works.Sprint"%>
@@ -5,6 +6,7 @@
 <%@page import="java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%UserDet ud=(UserDet)session.getAttribute("UserDet");%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -131,6 +133,50 @@ HashMap<String,TaskDB> all_tasks=(HashMap<String,TaskDB>)request.getAttribute("a
 
 %>
 <SCRIPT>
+var page_type="employee";
+var socketURI="ws://localhost:8686/Tasks_Manager/Notify?eid=<%=ud.getEid()%>&dept=<%=ud.getDept()%>&page_type=employee";
+var socket = new WebSocket(socketURI);
+socket.onmessage=received;
+
+function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
+{
+	var rec_event=event.data;
+	var resp=JSON.parse(rec_event);
+	console.log(JSON.stringify(resp));
+	var div_to_write=document.getElementById(resp["task"]["status"]);
+	//creating a table
+	var create_table=document.createElement("table");
+			create_table.id=resp["task"]["work_id"];
+	                                                   		
+			console.log(create_table.id);
+	var tbl_row=document.createElement("tr");
+	tbl_row.className = "task";
+			tbl_row.insertCell(0).appendChild(document.createTextNode(resp["task"]["work_id"]));
+			tbl_row.insertCell(1).appendChild(document.createTextNode(resp["task"]["workname"]));
+			tbl_row.insertCell(2).appendChild(document.createTextNode(resp["task"]["desp"]));
+			tbl_row.insertCell(3).appendChild(document.createTextNode(resp["task"]["module"]));
+			tbl_row.insertCell(4).appendChild(document.createTextNode(resp["task"]["project"]));
+			tbl_row.insertCell(5).appendChild(document.createTextNode(resp["task"]["dept"]));
+			tbl_row.insertCell(6).appendChild(document.createTextNode(resp["task"]["st_date"]));
+			tbl_row.insertCell(7).appendChild(document.createTextNode(resp["task"]["tg_date"]));
+			tbl_row.insertCell(8).appendChild(document.createTextNode(resp["task"]["remarks"]));
+			tbl_row.insertCell(9).appendChild(document.createTextNode(resp["task"]["incharge"]));
+			tbl_row.insertCell(10).appendChild(document.createTextNode(resp["task"]["assign_to"]));
+			tbl_row.insertCell(11).appendChild(document.createTextNode(resp["task"]["type"]));
+	create_table.appendChild(tbl_row);
+	var firstNode = div_to_write.getElementsByTagName('table')[0];
+	div_to_write.insertBefore(create_table,firstNode);
+	//tasks_details[resp["task"]["work_id"]]=resp["task"];
+	var incharge_array=resp["task"]["incharge"];
+	 if(incharge_array.includes(<%=ud.getEid()%>))
+	{
+		 tasks_incharge[resp["task"]["work_id"]]=resp["task"];
+	}	
+	 all_tasks[resp["task"]["work_id"]]=resp["task"];
+	
+}
+
+
 function emptyDivs()
 {
 	var tables = document.getElementsByTagName("TABLE");

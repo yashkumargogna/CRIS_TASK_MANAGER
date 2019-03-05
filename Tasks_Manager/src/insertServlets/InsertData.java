@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +25,7 @@ import common.CommonDetails;
 import common.DateTime;
 import works.Module;
 import works.Project;
+import works.Scrum;
 import works.TaskDB;
 import works.Tasks;
 
@@ -63,11 +65,158 @@ public class InsertData extends HttpServlet
 			createTask(request,response);
 			
 		}
-		
+		else if(action.equalsIgnoreCase("SCRUMOFTASK"))
+		{
+			System.out.println(action+" inside if"+"\n");
+			createScrumOfTask(request,response);
+			
+		}
 		}catch (Exception e) {
 			// TODO: handle exception
 		System.out.println(e);	
 		}
+		
+		
+		
+	}
+
+	private void createScrumOfTask(HttpServletRequest request, HttpServletResponse response) throws IOException 
+	{
+		// TODO Auto-generated method stub
+		response.setContentType("text/html");
+		Writer wr = response.getWriter();
+		wr.write("<html><body><script>");
+		wr.write("var resp={");
+		try
+		{
+			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());	
+			con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","yash");
+
+			System.out.println("ct start 0 fro check NEW");
+			System.out.println("ct start 1 for check");
+			Statement st=con.createStatement();
+			ResultSet rs=st.executeQuery("select CRIS_WORK_ID.nextval from dual");
+			int seq_val=0;
+			
+			System.out.println("ct start"+seq_val);
+			while(rs.next())
+			{
+				seq_val=(rs.getInt(1));
+				System.out.println(seq_val);
+			}
+			
+			String task_id="SC="+seq_val+"-"+request.getParameter("id_rel_to");//scrum of task id start with SC=
+			System.out.println(task_id);
+			Scrum taskDB=new Scrum();
+			taskDB.setWork_id(task_id);
+			taskDB.setWorkname(request.getParameter("taskname"));
+			taskDB.setDesp(request.getParameter("taskDesc"));
+			taskDB.setId_rel_to(request.getParameter("id_rel_to"));
+			taskDB.setName_rel_to(CommonDetails.dep_tasks.get(request.getParameter("dept")).get(request.getParameter("id_rel_to")).getWorkname());
+			
+			taskDB.setModule(CommonDetails.proj_mod.get(request.getParameter("project")).get(request.getParameter("module")));
+			taskDB.setType(request.getParameter("work_type"));
+			taskDB.setWork_catg(request.getParameter("work_catg"));
+			taskDB.setSt_date(request.getParameter("startDate"));
+			taskDB.setTg_date(request.getParameter("targetDate"));
+			taskDB.setStatus(request.getParameter("status"));
+			taskDB.setRemarks(request.getParameter("remarks"));
+			taskDB.setSta_changed_by(request.getParameter("empID"));
+			taskDB.setProject(CommonDetails.dep_proj.get(request.getParameter("dept")).get(request.getParameter("project")));
+			taskDB.setTask_of(request.getParameter("id_rel_to"));
+			taskDB.setDept(request.getParameter("dept"));
+			String assign_to[]=request.getParameterValues("assign_to");
+			HashSet<Integer> hs=new HashSet<Integer>();
+			String assign_to_str=" ";
+			
+			
+			for(int i=0;i<assign_to.length;i++)
+			{	
+				if(i==0)
+				{	
+					assign_to_str=assign_to[i];
+				}
+				else
+				{
+					assign_to_str=assign_to_str+","+assign_to[i];
+					
+				}	
+				hs.add(Integer.parseInt(assign_to[i]));
+						
+			}
+			taskDB.setAssign_to(hs);
+			
+			taskDB.setModule_id(request.getParameter("module"));
+			taskDB.setProject_id(request.getParameter("project"));
+			
+			PreparedStatement ps_insert_task=con.prepareStatement("INSERT INTO CRIS_WORKS (WORKNAME,WORK_ID,DESP,ID_RELATED_TO,NAME_RELATED_TO,MODULE,WORK_TYPE,ST_DATE,TG_DATE,STATUS,REMARKS,STA_CHANGED_BY,PROJECT,TASK_OF,DEPT,ASSIGN_TO,INCHARGE,MODULE_ID,PROJECT_ID,WORK_CATG) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			ps_insert_task.setString(1,taskDB.getWorkname());
+			ps_insert_task.setString(2,taskDB.getWork_id());
+			ps_insert_task.setString(3,taskDB.getDesp());
+			ps_insert_task.setString(4,taskDB.getId_rel_to());
+			ps_insert_task.setString(5,taskDB.getName_rel_to());
+			ps_insert_task.setString(6,taskDB.getModule());
+			ps_insert_task.setString(7,taskDB.getType());
+			ps_insert_task.setTimestamp(8,new DateTime(taskDB.getSt_date(),"yyyy-MM-dd").getTimeStamp());
+			ps_insert_task.setTimestamp(9,new DateTime(taskDB.getTg_date(),"yyyy-MM-dd").getTimeStamp());
+			ps_insert_task.setString(10,taskDB.getStatus());
+			ps_insert_task.setString(11,taskDB.getRemarks());
+			ps_insert_task.setInt(12,Integer.parseInt(taskDB.getSta_changed_by()));
+			ps_insert_task.setString(13,taskDB.getProject());
+			ps_insert_task.setString(14,taskDB.getTask_of());
+			ps_insert_task.setString(15,taskDB.getDept());
+			ps_insert_task.setString(16,assign_to_str);//STRING IN DB BUT HASH SET IN CACHE
+			ps_insert_task.setString(17," ");
+			ps_insert_task.setString(18,taskDB.getModule_id());
+			ps_insert_task.setString(19,taskDB.getProject_id());
+			ps_insert_task.setString(20,taskDB.getWork_catg());
+			
+			
+			int i=ps_insert_task.executeUpdate();
+	
+			
+			
+			System.out.println(i);
+			boolean ins_res=false;
+			if(i>0)
+			{ins_res=true;}	
+			System.out.println(ins_res);
+			if(ins_res==true)
+			{
+				if(CommonDetails.dep_tasks.containsKey(taskDB.getDept()))
+				{
+					if(CommonDetails.dep_tasks.get(taskDB.getDept()).containsKey(taskDB.getTask_of()))
+					{
+						CommonDetails.dep_tasks.get(taskDB.getDept()).get(taskDB.getTask_of()).getTask_scr().put(taskDB.getWork_id(),taskDB);
+					}
+				}
+					
+			}
+			
+			PreparedStatement ps_insert_batch=con.prepareStatement("INSERT INTO CRIS_WORK_TO (WORK_ID,EMP_ID,ASSG_DATE) VALUES (?,?,?)");
+			HashSet<Integer> batch_data=taskDB.getAssign_to();
+			Iterator<Integer> bt=batch_data.iterator();
+			while(bt.hasNext())
+			{
+				ps_insert_batch.setString(1,taskDB.getWork_id());
+				ps_insert_batch.setInt(2,bt.next());
+				ps_insert_batch.setTimestamp(3,new DateTime(taskDB.getSt_date(),"yyyy-MM-dd").getTimeStamp());
+				ps_insert_batch.addBatch();
+			}	
+			int array_batch[]=ps_insert_batch.executeBatch();
+			//System.out.println(array_batch[0]+"   "+array_batch[1]);
+			wr.write("\"success\":true,\"inserted\":\"SCRUMOFTASK\",\"scrum\":"+new Gson().toJson(taskDB));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			wr.write("\"success\":false,\"err\":\"Some DB Error. Please try agin in few minutes!\"");
+		}	
+		wr.write("}; var win = opener || parent; win.showProjectAddResp(resp);");
+		wr.write("</script></body></html>");
+		wr.close();
+
+		
+
 		
 		
 		
@@ -91,6 +240,7 @@ public class InsertData extends HttpServlet
 			Statement st=con.createStatement();
 			ResultSet rs=st.executeQuery("select CRIS_WORK_ID.nextval from dual");
 			int seq_val=0;
+			
 			System.out.println("ct start"+seq_val);
 			while(rs.next())
 			{
@@ -200,7 +350,7 @@ public class InsertData extends HttpServlet
 				}
 				else
 				{					
-				 	HashMap<String, Tasks> tasks_hm=new HashMap<String,Tasks>();
+				 	LinkedHashMap<String, Tasks> tasks_hm=new LinkedHashMap<String,Tasks>();
 				 	tasks_hm.put(taskDB.getWork_id(),taskDB);
 				 	CommonDetails.dep_tasks.put(taskDB.getDept(),tasks_hm);
 				}	
