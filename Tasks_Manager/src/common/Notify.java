@@ -19,6 +19,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import works.Scrum;
+import works.Sprint;
 import works.Tasks;
 
 /**
@@ -139,11 +141,14 @@ public class Notify {
 	JsonObject jo=je.getAsJsonObject();
 	String action=jo.get("action").getAsString();
 	System.out.println("ACTION :::::::- AFTER PARSING :-----"+action);
-	Tasks t=new Tasks();
-	HashSet<Integer> persons_to_notify=new HashSet<Integer>();
+	
+	
+	
 	
 	if(action.equalsIgnoreCase("CREATE TASK"))
 	{
+		HashSet<Integer> persons_to_notify=new HashSet<Integer>();
+		Tasks t=new Tasks();
 		t=gson.fromJson(jo.get("task").getAsJsonObject(),Tasks.class);
 		persons_to_notify.addAll(t.getIncharge());
 		persons_to_notify.addAll(t.getAssign_to());
@@ -152,8 +157,6 @@ public class Notify {
 		while(itr_emp_no.hasNext())
 		{
 			Integer emp_no=itr_emp_no.next();
-			//if(emp_no!=sender_eid)
-			//{	
 					if(SessionHandler.dep_emp_sessions.get(dept).containsKey(emp_no))
 					{
 						ArrayList<Session> al_ss=SessionHandler.dep_emp_sessions.get(dept).get(emp_no);
@@ -170,9 +173,110 @@ public class Notify {
 							}		
 						}
 					}
-			//}		
+					
 		}
 	}
+	else if(action.equalsIgnoreCase("CREATE SCRUMOFSPRINT"))
+	{
+		
+		HashSet<Integer> persons_to_notify=new HashSet<Integer>();
+		Scrum s=new Scrum();
+		s=gson.fromJson(jo.get("scrum").getAsJsonObject(),Scrum.class);
+		persons_to_notify.addAll(CommonDetails.dep_tasks.get(dept).get(s.getTask_of()).getIncharge());
+		persons_to_notify.addAll(CommonDetails.dep_tasks.get(dept).get(s.getTask_of()).getTask_spr().get(s.getId_rel_to()).getIncharge());
+		persons_to_notify.addAll(s.getAssign_to());
+		persons_to_notify.addAll(SessionHandler.dep_admins.get(dept));
+		Iterator<Integer> itr_emp_no=persons_to_notify.iterator();
+		while(itr_emp_no.hasNext())
+		{
+			Integer emp_no=itr_emp_no.next();
+					if(SessionHandler.dep_emp_sessions.get(dept).containsKey(emp_no))
+					{
+						ArrayList<Session> al_ss=SessionHandler.dep_emp_sessions.get(dept).get(emp_no);
+						Iterator<Session> iterator_session=al_ss.iterator();
+						while(iterator_session.hasNext())
+						{
+							Session s_send=iterator_session.next();
+							if(s_send.isOpen())
+							{
+									try
+									{
+										s_send.getBasicRemote().sendText(message);
+									}catch(Exception e) {System.out.println(e);}	
+							}		
+						}
+					}
+
+		}	
 	
+	}
+	else if(action.equalsIgnoreCase("CREATE SCRUMOFTASK"))
+	{
+		Scrum s=new Scrum();
+		HashSet<Integer> persons_to_notify=new HashSet<Integer>();
+		s=gson.fromJson(jo.get("scrum").getAsJsonObject(),Scrum.class);
+		persons_to_notify.addAll(CommonDetails.dep_tasks.get(dept).get(s.getTask_of()).getIncharge());
+		
+		persons_to_notify.addAll(s.getAssign_to());
+		persons_to_notify.addAll(SessionHandler.dep_admins.get(dept));
+		Iterator<Integer> itr_emp_no=persons_to_notify.iterator();
+		while(itr_emp_no.hasNext())
+		{
+			Integer emp_no=itr_emp_no.next();
+					if(SessionHandler.dep_emp_sessions.get(dept).containsKey(emp_no))
+					{
+						ArrayList<Session> al_ss=SessionHandler.dep_emp_sessions.get(dept).get(emp_no);
+						Iterator<Session> iterator_session=al_ss.iterator();
+						while(iterator_session.hasNext())
+						{
+							Session s_send=iterator_session.next();
+							if(s_send.isOpen())
+							{
+									try
+									{
+										s_send.getBasicRemote().sendText(message);
+									}catch(Exception e) {System.out.println(e);}	
+							}		
+						}
+					}
+
+		}	
+	
+	}
+	else if(action.equalsIgnoreCase("CREATE SPRINT"))
+	{
+		Sprint s=new Sprint();
+		HashSet<Integer> persons_to_notify=new HashSet<Integer>();
+		s=gson.fromJson(jo.get("sprint").getAsJsonObject(),Sprint.class);
+		persons_to_notify.addAll(CommonDetails.dep_tasks.get(dept).get(s.getTask_of()).getIncharge());
+		persons_to_notify.addAll(s.getIncharge());
+		persons_to_notify.addAll(s.getAssign_to());
+		persons_to_notify.addAll(SessionHandler.dep_admins.get(dept));
+		Iterator<Integer> itr_emp_no=persons_to_notify.iterator();
+		while(itr_emp_no.hasNext())
+		{
+			Integer emp_no=itr_emp_no.next();
+					if(SessionHandler.dep_emp_sessions.get(dept).containsKey(emp_no))
+					{
+						ArrayList<Session> al_ss=SessionHandler.dep_emp_sessions.get(dept).get(emp_no);
+						Iterator<Session> iterator_session=al_ss.iterator();
+						while(iterator_session.hasNext())
+						{
+							Session s_send=iterator_session.next();
+							if(s_send.isOpen())
+							{
+									try
+									{
+										s_send.getBasicRemote().sendText(message);
+									}catch(Exception e) {System.out.println(e);}	
+							}		
+						}
+					}
+
+		}	
+	
+	}
+
+
 }
 }

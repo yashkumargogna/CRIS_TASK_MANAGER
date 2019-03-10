@@ -206,9 +206,9 @@ public class CommonDetails
 							LinkedHashMap<String,Tasks> task_details=dep_tasks.get(dept);
 							Sprint sprint=new Sprint();
 							sprint.setWorkname(dep_to_sprints.getString(1));
-							sprint.setWork_id(dep_to_sprints.getString(2));
+							sprint.setWork_id(dep_to_sprints.getString(2).trim());
 							sprint.setDesp(dep_to_sprints.getString(3));
-							sprint.setId_rel_to(dep_to_sprints.getString(4));
+							sprint.setId_rel_to(dep_to_sprints.getString(4).trim());
 							sprint.setName_rel_to(dep_to_sprints.getString(5));
 							sprint.setModule(dep_to_sprints.getString(6));
 							sprint.setType(dep_to_sprints.getString(7));
@@ -218,14 +218,14 @@ public class CommonDetails
 							sprint.setRemarks(dep_to_sprints.getString(11));
 							sprint.setSta_changed_by(dep_to_sprints.getString(12));
 							sprint.setProject(dep_to_sprints.getString(13));
-							sprint.setTask_of(dep_to_sprints.getString(14));
+							sprint.setTask_of(dep_to_sprints.getString(14).trim());
 							sprint.setDept(dep_to_sprints.getString(15));
 							sprint.setAssign_to(str_to_set(dep_to_sprints.getString(16)));
 							sprint.setIncharge(str_to_set(dep_to_sprints.getString(17)));
 							sprint.setModule_id(dep_to_sprints.getString(18));
 							sprint.setProject_id(dep_to_sprints.getString(19));
 							sprint.setWork_catg(dep_to_sprints.getString(20));
-							Tasks t=task_details.get(dep_to_sprints.getString(4));
+							Tasks t=task_details.get(dep_to_sprints.getString(4).trim());
 							LinkedHashMap<String,Sprint> hm=t.getTask_spr();
 							hm.put(dep_to_sprints.getString(2),sprint);
 							
@@ -273,11 +273,11 @@ public class CommonDetails
 							{
 								LinkedHashMap<String,Tasks> task_details=dep_tasks.get(dept);
 								
-								Tasks t=task_details.get(dep_to_scrums.getString(14));
+								Tasks t=task_details.get(dep_to_scrums.getString(14).trim());
 								
 								LinkedHashMap<String,Sprint> sphm=t.getTask_spr();
 								
-								Sprint sprint=sphm.get(dep_to_scrums.getString(4));
+								Sprint sprint=sphm.get(dep_to_scrums.getString(4).trim());
 								LinkedHashMap<String, Scrum> scrums_of_sprints=sprint.getSpr_scr();
 								scrums_of_sprints.put(dep_to_scrums.getString(2),scrum);
 								sprint.setSpr_scr(scrums_of_sprints);

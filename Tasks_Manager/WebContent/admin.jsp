@@ -127,6 +127,17 @@ span.psw {
 }
 </style>
 <SCRIPT>
+function scrumOfSprintForm()
+{
+	var scofspformaction=document.getElementById("insertDataAction");
+	scofspformaction.value="SCRUMOFSPRINT";
+	var scofspformsubmitscrum=document.getElementById("submitscrum");
+	scofspformsubmitscrum.value="CREATE SCRUM FOR SPRINT"
+		var scofspformid_rel_to=document.getElementById("id_rel_to");
+	scofspformid_rel_to.placeholder="SPRINT - ID";
+	console.log(scofspformaction.value);
+}
+
 var page_type="admin";
 var socketURI="ws://localhost:8686/Tasks_Manager/Notify?eid=<%=ud.getEid()%>&dept=<%=ud.getDept()%>&page_type=admin";
 var socket = new WebSocket(socketURI);
@@ -163,8 +174,26 @@ function showProjectAddResp(resp) {
 		else if(resp["inserted"]==="task")
 		{
 						//alert(JSON.stringify(tasks_details[resp["task"]["work_id"]]));
-			notify(resp["task"]);
+			notify(resp["inserted"],resp["task"]);
 			alert("successfully added:-"+resp["task"]["work_id"]+"&"+resp["task"]["workname"]);
+		}
+		else if(resp["inserted"]==="scrumofsprint")
+		{
+						//alert(JSON.stringify(tasks_details[resp["task"]["work_id"]]));
+			notify(resp["inserted"],resp["scrum"]);
+			alert("successfully added:-"+resp["scrum"]["work_id"]+"&"+resp["scrum"]["workname"]);
+		}
+		else if(resp["inserted"]==="scrumoftask")
+		{
+						//alert(JSON.stringify(tasks_details[resp["task"]["work_id"]]));
+			notify(resp["inserted"],resp["scrum"]);
+			alert("successfully added:-"+resp["scrum"]["work_id"]+"&"+resp["scrum"]["workname"]);
+		}
+		else if(resp["inserted"]==="sprint")
+		{
+						//alert(JSON.stringify(tasks_details[resp["task"]["work_id"]]));
+			notify(resp["inserted"],resp["sprint"]);
+			alert("successfully added:-"+resp["sprint"]["work_id"]+"&"+resp["sprint"]["workname"]);
 		}
 	}	
 	else {
@@ -172,11 +201,34 @@ function showProjectAddResp(resp) {
 	}
 	
 }
-function notify(resp_task)
+function notify(resp_inserted,resp_task)
 {
-	var task_to_notify={"action":"CREATE TASK","task":resp_task};
-	socket.send(JSON.stringify(task_to_notify));	
+	if(resp_inserted==="task")
+	{	
+		var task_to_notify={"action":"CREATE TASK","task":resp_task};
+		socket.send(JSON.stringify(task_to_notify));	
 	}
+	else if(resp_inserted==="scrumofsprint")
+	{
+
+		var scofsp_to_notify={"action":"CREATE SCRUMOFSPRINT","scrum":resp_task};
+		socket.send(JSON.stringify(scofsp_to_notify));	
+	}
+	else if(resp_inserted==="scrumoftask")
+	{
+
+		var scoft_to_notify={"action":"CREATE SCRUMOFTASK","scrum":resp_task};
+		socket.send(JSON.stringify(scoft_to_notify));	
+	}
+	else if(resp_inserted==="sprint")
+	{
+
+		var sprint_to_notify={"action":"CREATE SPRINT","sprint":resp_task};
+		socket.send(JSON.stringify(sprint_to_notify));	
+	}	
+
+
+}	
 function access(){ 
 	
 	<%
@@ -205,30 +257,107 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 	var rec_event=event.data;
 	var resp=JSON.parse(rec_event);
 	console.log(JSON.stringify(resp));
-	var div_to_write=document.getElementById(resp["task"]["status"]);
-	//creating a table
-	var create_table=document.createElement("table");
-			create_table.id=resp["task"]["work_id"];
-	                                                   		
-			console.log(create_table.id);
-	var tbl_row=document.createElement("tr");
-	tbl_row.className = "task";
-			tbl_row.insertCell(0).appendChild(document.createTextNode(resp["task"]["work_id"]));
-			tbl_row.insertCell(1).appendChild(document.createTextNode(resp["task"]["workname"]));
-			tbl_row.insertCell(2).appendChild(document.createTextNode(resp["task"]["desp"]));
-			tbl_row.insertCell(3).appendChild(document.createTextNode(resp["task"]["module"]));
-			tbl_row.insertCell(4).appendChild(document.createTextNode(resp["task"]["project"]));
-			tbl_row.insertCell(5).appendChild(document.createTextNode(resp["task"]["dept"]));
-			tbl_row.insertCell(6).appendChild(document.createTextNode(resp["task"]["st_date"]));
-			tbl_row.insertCell(7).appendChild(document.createTextNode(resp["task"]["tg_date"]));
-			tbl_row.insertCell(8).appendChild(document.createTextNode(resp["task"]["remarks"]));
-			tbl_row.insertCell(9).appendChild(document.createTextNode(resp["task"]["incharge"]));
-			tbl_row.insertCell(10).appendChild(document.createTextNode(resp["task"]["assign_to"]));
-			tbl_row.insertCell(11).appendChild(document.createTextNode(resp["task"]["type"]));
-	create_table.appendChild(tbl_row);		
-	div_to_write.appendChild(create_table);
-	tasks_details[resp["task"]["work_id"]]=resp["task"];
+	if(resp["action"]==="CREATE TASK")
+	{	
+			var div_to_write=document.getElementById(resp["task"]["status"]);
+			//creating a table
+			var create_table=document.createElement("table");
+					create_table.id=resp["task"]["work_id"];
+			                                                   		
+					console.log(create_table.id);
+			var tbl_row=document.createElement("tr");
+			tbl_row.className = "task";
+					tbl_row.insertCell(0).appendChild(document.createTextNode(resp["task"]["work_id"]));
+					tbl_row.insertCell(1).appendChild(document.createTextNode(resp["task"]["workname"]));
+					tbl_row.insertCell(2).appendChild(document.createTextNode(resp["task"]["desp"]));
+					tbl_row.insertCell(3).appendChild(document.createTextNode(resp["task"]["module"]));
+					tbl_row.insertCell(4).appendChild(document.createTextNode(resp["task"]["project"]));
+					tbl_row.insertCell(5).appendChild(document.createTextNode(resp["task"]["dept"]));
+					tbl_row.insertCell(6).appendChild(document.createTextNode(resp["task"]["st_date"]));
+					tbl_row.insertCell(7).appendChild(document.createTextNode(resp["task"]["tg_date"]));
+					tbl_row.insertCell(8).appendChild(document.createTextNode(resp["task"]["remarks"]));
+					tbl_row.insertCell(9).appendChild(document.createTextNode(resp["task"]["incharge"]));
+					tbl_row.insertCell(10).appendChild(document.createTextNode(resp["task"]["assign_to"]));
+					tbl_row.insertCell(11).appendChild(document.createTextNode(resp["task"]["type"]));
+					create_table.appendChild(tbl_row);
+					var fst_tab=div_to_write.getElementsByTagName('table')[0];
+					div_to_write.insertBefore(create_table,fst_tab);
+			
+			tasks_details[resp["task"]["work_id"]]=resp["task"];
+	}
+	else if(resp["action"]==="CREATE SCRUMOFTASK")
+	{
+		var task_table=document.getElementById(resp["scrum"]["task_of"]);
+		var task_row=task_table.getElementsByTagName('tr')[0];
+		
+		var sc_of_t=resp["scrum"];
+		var tbl_row=task_table.insertRow(task_row.rowIndex+1);
+		tbl_row.id=resp["scrum"]["work_id"];
+				tbl_row.insertCell(0).appendChild(document.createTextNode(resp["scrum"]["work_id"]));
+				tbl_row.insertCell(1).appendChild(document.createTextNode(resp["scrum"]["workname"]));
+				tbl_row.insertCell(2).appendChild(document.createTextNode(resp["scrum"]["desp"]));
+				tbl_row.insertCell(3).appendChild(document.createTextNode(resp["scrum"]["module"]));
+				tbl_row.insertCell(4).appendChild(document.createTextNode(resp["scrum"]["project"]));
+				tbl_row.insertCell(5).appendChild(document.createTextNode(resp["scrum"]["dept"]));
+				tbl_row.insertCell(6).appendChild(document.createTextNode(resp["scrum"]["st_date"]));
+				tbl_row.insertCell(7).appendChild(document.createTextNode(resp["scrum"]["tg_date"]));
+				tbl_row.insertCell(8).appendChild(document.createTextNode(resp["scrum"]["remarks"]));
+				tbl_row.insertCell(9).appendChild(document.createTextNode(" "));
+				tbl_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
+				tbl_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+		tasks_details[resp["scrum"]["task_of"]]["task_scr"][resp["scrum"]["work_id"]]=resp["scrum"]; 
+		
+	
+	}
+	else if(resp["action"]==="CREATE SCRUMOFSPRINT")
+	{
+		var sc_of_sp=resp["scrum"];
+		var task_table=document.getElementById(resp["scrum"]["task_of"]);
+		var sprint_row=document.getElementById(resp["scrum"]["id_rel_to"]);
+		var sprint_rowindex=sprint_row.rowIndex;
+		var tbl_row=task_table.insertRow(sprint_rowindex+1);
+		tbl_row.id=resp["scrum"]["work_id"];
+	
+				tbl_row.insertCell(0).appendChild(document.createTextNode(resp["scrum"]["work_id"]));
+				tbl_row.insertCell(1).appendChild(document.createTextNode(resp["scrum"]["workname"]));
+				tbl_row.insertCell(2).appendChild(document.createTextNode(resp["scrum"]["desp"]));
+				tbl_row.insertCell(3).appendChild(document.createTextNode(resp["scrum"]["module"]));
+				tbl_row.insertCell(4).appendChild(document.createTextNode(resp["scrum"]["project"]));
+				tbl_row.insertCell(5).appendChild(document.createTextNode(resp["scrum"]["dept"]));
+				tbl_row.insertCell(6).appendChild(document.createTextNode(resp["scrum"]["st_date"]));
+				tbl_row.insertCell(7).appendChild(document.createTextNode(resp["scrum"]["tg_date"]));
+				tbl_row.insertCell(8).appendChild(document.createTextNode(resp["scrum"]["remarks"]));
+				tbl_row.insertCell(9).appendChild(document.createTextNode(" "));
+				tbl_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
+				tbl_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+		tasks_details[resp["scrum"]["task_of"]]["task_spr"][resp["scrum"]["id_rel_to"]]["spr_scr"][resp["scrum"]["work_id"]]=resp["scrum"]; 
+		
 
+	}
+	else if(resp["action"]==="CREATE SPRINT")
+	{
+		var sp_of_t=resp["sprint"];
+		//get table using task id (task_of)
+		//and append sprint row to last
+		var task_table=document.getElementById(resp["sprint"]["task_of"]);
+		var tbl_row=document.createElement('tr');
+		tbl_row.className = "Spr";
+		tbl_row.id=resp["sprint"]["work_id"];
+		tbl_row.insertCell(0).appendChild(document.createTextNode(resp["sprint"]["work_id"]));
+		tbl_row.insertCell(1).appendChild(document.createTextNode(resp["sprint"]["workname"]));
+		tbl_row.insertCell(2).appendChild(document.createTextNode(resp["sprint"]["desp"]));
+		tbl_row.insertCell(3).appendChild(document.createTextNode(resp["sprint"]["module"]));
+		tbl_row.insertCell(4).appendChild(document.createTextNode(resp["sprint"]["project"]));
+		tbl_row.insertCell(5).appendChild(document.createTextNode(resp["sprint"]["dept"]));
+		tbl_row.insertCell(6).appendChild(document.createTextNode(resp["sprint"]["st_date"]));
+		tbl_row.insertCell(7).appendChild(document.createTextNode(resp["sprint"]["tg_date"]));
+		tbl_row.insertCell(8).appendChild(document.createTextNode(resp["sprint"]["remarks"]));
+		tbl_row.insertCell(9).appendChild(document.createTextNode(resp["sprint"]["incharge"]));
+		tbl_row.insertCell(10).appendChild(document.createTextNode(resp["sprint"]["assign_to"]));
+		tbl_row.insertCell(11).appendChild(document.createTextNode(resp["sprint"]["type"]));
+		task_table.appendChild(tbl_row);
+		tasks_details[resp["sprint"]["task_of"]]["task_spr"][resp["sprint"]["work_id"]]=resp["sprint"];
+	}
 	
 	}
 
@@ -271,7 +400,8 @@ function loadJSON(str){
 			          // be accessed as jsonObj.Module 
 			          document.getElementById("module").options.length = 1;
 			          document.getElementById("module_for_scrum").options.length = 1;
-			         for(key in jsonObj)
+			          document.getElementById("module_for_sprint").options.length=1;	
+			          for(key in jsonObj)
 			        	 {
 			        	 console.log(key,jsonObj[key]);
 			        	 if(key==="0")		
@@ -282,6 +412,8 @@ function loadJSON(str){
 			        	{	 
 			        	 document.getElementById("module").options.add(new Option(jsonObj[key],key,true));
 			        	 document.getElementById("module_for_scrum").options.add(new Option(jsonObj[key],key,true));
+			        	 document.getElementById("module_for_sprint").options.add(new Option(jsonObj[key],key,true));
+			        	 
 			        	} 
 			        	 
 			        	 }
@@ -324,6 +456,7 @@ function arrangeJson()
 						{
 									
 									let scr_row=create_table.insertRow(tbl_row_index+1);
+									scr_row.id=sid;
 									scr_row.className = "Scr";
 									scr_row.insertCell(0).appendChild(document.createTextNode(sid));
 									scr_row.insertCell(1).appendChild(document.createTextNode(scr[sid]["workname"]));
@@ -334,8 +467,9 @@ function arrangeJson()
 									scr_row.insertCell(6).appendChild(document.createTextNode(scr[sid]["st_date"]));
 									scr_row.insertCell(7).appendChild(document.createTextNode(scr[sid]["tg_date"]));
 									scr_row.insertCell(8).appendChild(document.createTextNode(scr[sid]["remarks"]));
-									scr_row.insertCell(9).appendChild(document.createTextNode(scr[sid]["assign_to"]));
-									scr_row.insertCell(10).appendChild(document.createTextNode(scr[sid]["type"]+" of TASK :- "+tasks_details[key]["workname"]));
+									scr_row.insertCell(9).appendChild(document.createTextNode(" "));
+									scr_row.insertCell(10).appendChild(document.createTextNode(scr[sid]["assign_to"]));
+									scr_row.insertCell(11).appendChild(document.createTextNode(scr[sid]["type"]+" of TASK :- "+tasks_details[key]["workname"]));
 											
 						}
 						
@@ -343,6 +477,7 @@ function arrangeJson()
 					for(spr_id in spr)
 					{
 							var spr_row=document.createElement("tr");
+							spr_row.id=spr_id;
 							spr_row.className = "Spr";
 							spr_row.insertCell(0).appendChild(document.createTextNode(spr_id));
 							spr_row.insertCell(1).appendChild(document.createTextNode(spr[spr_id]["workname"]));
@@ -353,14 +488,16 @@ function arrangeJson()
 									spr_row.insertCell(6).appendChild(document.createTextNode(spr[spr_id]["st_date"]));
 									spr_row.insertCell(7).appendChild(document.createTextNode(spr[spr_id]["tg_date"]));
 									spr_row.insertCell(8).appendChild(document.createTextNode(spr[spr_id]["remarks"]));
-									spr_row.insertCell(9).appendChild(document.createTextNode(spr[spr_id]["assign_to"]));
-									spr_row.insertCell(10).appendChild(document.createTextNode(spr[spr_id]["type"]+"  of TASK :- "+tasks_details[key]["workname"]));
+									spr_row.insertCell(9).appendChild(document.createTextNode(spr[spr_id]["incharge"]));
+									spr_row.insertCell(10).appendChild(document.createTextNode(spr[spr_id]["assign_to"]));
+									spr_row.insertCell(11).appendChild(document.createTextNode(spr[spr_id]["type"]+"  of TASK :- "+tasks_details[key]["workname"]));
 									create_table.appendChild(spr_row);
 									var spr_row_rowIndex=spr_row.rowIndex;
 							var spr_sc=spr[spr_id]["spr_scr"];
 									for(spr_sc_id in spr_sc)
 									{
 											var spr_sc_row=create_table.insertRow(spr_row_rowIndex+1);
+											spr_sc_row.id=spr_sc_id;
 									spr_sc_row.insertCell(0).appendChild(document.createTextNode(spr_sc_id));
 									spr_sc_row.insertCell(1).appendChild(document.createTextNode(spr_sc[spr_sc_id]["workname"]));
 									spr_sc_row.insertCell(2).appendChild(document.createTextNode(spr_sc[spr_sc_id]["desp"]));
@@ -370,8 +507,9 @@ function arrangeJson()
 									spr_sc_row.insertCell(6).appendChild(document.createTextNode(spr_sc[spr_sc_id]["st_date"]));
 									spr_sc_row.insertCell(7).appendChild(document.createTextNode(spr_sc[spr_sc_id]["tg_date"]));
 									spr_sc_row.insertCell(8).appendChild(document.createTextNode(spr_sc[spr_sc_id]["remarks"]));
-									spr_sc_row.insertCell(9).appendChild(document.createTextNode(spr_sc[spr_sc_id]["assign_to"]));
-									spr_sc_row.insertCell(10).appendChild(document.createTextNode(spr_sc[spr_sc_id]["type"]+" of Sprint:- "+spr[spr_id]["workname"]+" --OF TASK :-"+tasks_details[key]["workname"]));
+									spr_sc_row.insertCell(9).appendChild(document.createTextNode(" "));
+									spr_sc_row.insertCell(10).appendChild(document.createTextNode(spr_sc[spr_sc_id]["assign_to"]));
+									spr_sc_row.insertCell(11).appendChild(document.createTextNode(spr_sc[spr_sc_id]["type"]+" of Sprint:- "+spr[spr_id]["workname"]+" --OF TASK :-"+tasks_details[key]["workname"]));
 													
 		
 									}
@@ -397,7 +535,7 @@ function arrangeJson()
 
    <div id="id01" class="modal" style="display:none;">
   
- <form class="modal-content animate" id="createform" method="get" action="insertData" target="insert_frame">
+ <form class="modal-content animate" id="createtaskform" method="get" action="insertData" target="insert_frame">
 
 			<div class="imgcontainer">
       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
@@ -406,7 +544,7 @@ function arrangeJson()
 					
 				<br>	
 			 <div class="container">
-			<input type="hidden" value="TASK" name="action"/>	
+			<input type="hidden" value="TASK" name="doaction"/>	
 			Task  Name<font color="red" size=2>*</font> : <input id="taskname" name="taskname" size=30 required autofocus />
 				<br>
                 
@@ -513,7 +651,7 @@ function arrangeJson()
 </div>
 <div id="id02" class="modal">
   
-  <form class="modal-content animate" action="insertData" method="get"  target="insert_frame">
+  <form class="modal-content animate" id="createprojectform"action="insertData" method="get"  target="insert_frame">
     <div class="imgcontainer">
       <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
     
@@ -537,7 +675,7 @@ function arrangeJson()
  
  <div id="id03" class="modal">
   
-  <form class="modal-content animate" action="insertData" method="get"  target="insert_frame">
+  <form class="modal-content animate" id="createmoduleform"action="insertData" method="get"  target="insert_frame">
     <div class="imgcontainer">
       <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
     
@@ -575,38 +713,123 @@ function arrangeJson()
    </div> 
  </div>  
     <div id="id04" class="modal">
-  
-  <form class="modal-content animate" action="/action_page.php">
-    <div class="imgcontainer">
+    	
+    	<form class="modal-content animate" id="createsprintform" method="get" action="insertData" target="insert_frame">
+
+			<div class="imgcontainer">
       <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close Modal">&times;</span>
-    </div>
-
-    <div class="container">
-     
-        <label for="uname"><b>Sprint Name</b></label>
-      <input type="text" placeholder="Enter Project Name" name="uname" size=30  required autofocus/>
-      
-        <label for="uname"><b>Sprint Description</b></label>
-      <input type="text" placeholder="Enter Project Discription" name="uname" size=30  required autofocus/>
-      
-
     
-        
-      <button type="submit">SUBMIT</button>
-      <label>
-        <input type="checkbox" checked="checked" name="remember"> Remember me
-      </label>
     </div>
+					
+				<br>	
+			 <div class="container">
+			<input type="hidden" value="SPRINT" name="doaction"/>	
+			SPRINT Name<font color="red" size=2>*</font> : <input id="taskname" name="taskname" size=30 required autofocus />
+				<br>
+                
+               <!-- <input type="file" name="pic" accept="image/*" /> -->  
+              		
+              
+                <input type="hidden" name="empID" value=<%=ud.getEid()%> size=30 required autofocus />
+                <br>
+					
+					SPRINT Description : <font color="red" size=2>*</font>
+					<textarea id="taskDesc" name="taskDesc" cols="30" rows="4" size=30 required autofocus></textarea>
+						<br>
+					TASK ID RELATED TO :-<input type="text" name="id_rel_to" placeholder="TASK-ID"/>	
+				<br>
+			
+					Start Date<font color="red" size=2>*</font> : <input type="date" name="startDate" />
+					<br>
+					Target Date<font color="red" size=2>*</font> : <input type="date" name="targetDate" />
+				<br>
+					<input type="hidden" name="work_type" value="SPRINT"/>
+					
+				<br>
+				   <select id="task_project_sprint" name="project" onchange="loadJSON(this.value)" >
+					<%		
+						if(CommonDetails.dep_proj.containsKey(ud.getDept()))
+						{	
+							HashMap<String,String> proj_det=CommonDetails.dep_proj.get(ud.getDept());
+							Set<String> proj_id_set=proj_det.keySet();
+							for(String i:proj_id_set)
+							{	
+						%>							
+								<option value=<%=i%>> <%=(String)proj_det.get(i)%> </option>
+						<%
+							}
+						}	
+						%>	
+	
+					</select>
+                    
+			
+				<br>
+					<select id="module_for_sprint" name="module">
+							<option value="">-- Select --</option>
+					</select>
+					<br>
+					<br>
+					INCHARGE : <font color="red" size=2>*</font> :<select name="incharge" multiple>
+					<%		
+						if(CommonDetails.dep_emp.containsKey(ud.getDept()))
+						{	
+								HashMap<Integer,String> emp_det=CommonDetails.dep_emp.get(ud.getDept());
+								Set<Integer> emp_id_set=emp_det.keySet();
+								for(Integer i:emp_id_set) 
+								{	
+							%>
+									<option value=<%=i%>> <%=(String)emp_det.get(i)%> </option>
+							<%
+								}
+						}		
+							%>	
 
-    <div class="container" style="background-color:#f1f1f1">
-      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-      <span class="psw">Forgot <a href="#">password?</a></span>
-    </div>
-    </form>
+						</select>
+
+				<br>
+				<br>
+				Assign Work<font color="red" size=2>*</font> :<select name="assign_to" multiple>
+					<%		
+						if(CommonDetails.dep_emp.containsKey(ud.getDept()))
+						{	
+								HashMap<Integer,String> emp_det=CommonDetails.dep_emp.get(ud.getDept());
+								Set<Integer> emp_id_set=emp_det.keySet();
+								for(Integer i:emp_id_set) 
+								{	
+							%>
+									<option value=<%=i%>> <%=(String)emp_det.get(i)%> </option>
+							<%
+								}
+						}		
+							%>	
+
+						</select>
+				<br>
+				<br>
+				<br>
+					<select name="work_catg">
+						<option value="DB WORK">DB WORK</option>
+						<option value="DEVELOPMENT">DEVELOPMENT</option>
+						<option value="DOCUMENTATION">DOCUMENTATION</option>
+						<option value="OTHERS">OTHERS</option>
+					</select>		
+				<br>
+				Status:<input type="text" name="status" value="todo" />
+				<br>
+				REMARKS:<input type="text" name="remarks" placeholder="remarks" />
+				<br>		
+				<input type="hidden" value=<%=ud.getDept() %>  name="dept" />
+				<br>	
+					
+				
+			<input type="submit" value="CREATE SPRINT FOR TASK" />
+		</form>
+    	</div>
     </div>
     <div id="id05" class="modal">
     <!-- DAILY SCRUMS FORM -->	
-  	<form class="modal-content animate" id="createform" method="get" action="insertData" target="insert_frame">
+  	<form class="modal-content animate" id="createscrumform" method="get" action="insertData" target="insert_frame">
 
 			<div class="imgcontainer">
       <span onclick="document.getElementById('id05').style.display='none'" class="close" title="Close Modal">&times;</span>
@@ -615,7 +838,8 @@ function arrangeJson()
 					
 				<br>	
 			 <div class="container">
-			<input id="insertDataAction" type="hidden" value="SCRUMOFTASK" name="action"/>	
+			 <input type="button" onclick=scrumOfSprintForm() value="CHANGE FORM TO SCRUM OF SPRINT" />
+			<input id="insertDataAction" type="hidden" value="SCRUMOFTASK" name="doaction"/>	
 			SCRUM Name<font color="red" size=2>*</font> : <input id="taskname" name="taskname" size=30 required autofocus />
 				<br>
                 
@@ -628,7 +852,7 @@ function arrangeJson()
 					Scrum Description : <font color="red" size=2>*</font>
 					<textarea id="taskDesc" name="taskDesc" cols="30" rows="4" size=30 required autofocus></textarea>
 					<br>
-					TASK ID RELATED TO :-<input type="text" name="id_rel_to" />	
+					TASK ID RELATED TO :-<input type="text" name="id_rel_to" id="id_rel_to" />	
 				<br>
 			
 					Start Date<font color="red" size=2>*</font> : <input type="date" name="startDate" />
@@ -655,7 +879,7 @@ function arrangeJson()
 	
 					</select>
                     
-				<script>setTimeout(function(){loadJSON(document.getElementById('task_project_scrum').value);} ,1);</script>
+			
 				<br>
 					<select id="module_for_scrum" name="module">
 							<option value="">-- Select --</option>
@@ -699,7 +923,7 @@ function arrangeJson()
 				<br>	
 					
 				
-			<input type="submit" value="CREATE SCRUM FOR TASK" />
+			<input id="submitscrum" type="submit" value="CREATE SCRUM FOR TASK" />
 		</form>
   				
      </div>

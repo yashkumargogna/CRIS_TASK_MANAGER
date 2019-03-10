@@ -133,6 +133,7 @@ HashMap<String,TaskDB> all_tasks=(HashMap<String,TaskDB>)request.getAttribute("a
 
 %>
 <SCRIPT>
+var selected_view="all";
 var page_type="employee";
 var socketURI="ws://localhost:8686/Tasks_Manager/Notify?eid=<%=ud.getEid()%>&dept=<%=ud.getDept()%>&page_type=employee";
 var socket = new WebSocket(socketURI);
@@ -143,38 +144,365 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 	var rec_event=event.data;
 	var resp=JSON.parse(rec_event);
 	console.log(JSON.stringify(resp));
-	var div_to_write=document.getElementById(resp["task"]["status"]);
-	//creating a table
-	var create_table=document.createElement("table");
-			create_table.id=resp["task"]["work_id"];
-	                                                   		
-			console.log(create_table.id);
-	var tbl_row=document.createElement("tr");
-	tbl_row.className = "task";
-			tbl_row.insertCell(0).appendChild(document.createTextNode(resp["task"]["work_id"]));
-			tbl_row.insertCell(1).appendChild(document.createTextNode(resp["task"]["workname"]));
-			tbl_row.insertCell(2).appendChild(document.createTextNode(resp["task"]["desp"]));
-			tbl_row.insertCell(3).appendChild(document.createTextNode(resp["task"]["module"]));
-			tbl_row.insertCell(4).appendChild(document.createTextNode(resp["task"]["project"]));
-			tbl_row.insertCell(5).appendChild(document.createTextNode(resp["task"]["dept"]));
-			tbl_row.insertCell(6).appendChild(document.createTextNode(resp["task"]["st_date"]));
-			tbl_row.insertCell(7).appendChild(document.createTextNode(resp["task"]["tg_date"]));
-			tbl_row.insertCell(8).appendChild(document.createTextNode(resp["task"]["remarks"]));
-			tbl_row.insertCell(9).appendChild(document.createTextNode(resp["task"]["incharge"]));
-			tbl_row.insertCell(10).appendChild(document.createTextNode(resp["task"]["assign_to"]));
-			tbl_row.insertCell(11).appendChild(document.createTextNode(resp["task"]["type"]));
-	create_table.appendChild(tbl_row);
-	var firstNode = div_to_write.getElementsByTagName('table')[0];
-	div_to_write.insertBefore(create_table,firstNode);
-	//tasks_details[resp["task"]["work_id"]]=resp["task"];
-	var incharge_array=resp["task"]["incharge"];
-	 if(incharge_array.includes(<%=ud.getEid()%>))
-	{
-		 tasks_incharge[resp["task"]["work_id"]]=resp["task"];
-	}	
-	 all_tasks[resp["task"]["work_id"]]=resp["task"];
+		if(resp["action"]==="CREATE TASK")
+		{	
+			var incharge_array=resp["task"]["incharge"];
+			if(incharge_array.includes(<%=ud.getEid()%>))
+			{
+				tasks_incharge[resp["task"]["work_id"]]=resp["task"];
+				all_tasks[resp["task"]["work_id"]]=resp["task"];
+			}
+			var assign_to_array=resp["task"]["assign_to"];
+			if(assign_to_array.includes(<%=ud.getEid()%>))
+			{
+				all_tasks[resp["task"]["work_id"]]=resp["task"];
+			}
+				if(selected_view==="incharge")
+				{
+					
+					var nxt_incharge_array=resp["task"]["incharge"];
+					if(nxt_incharge_array.includes(<%=ud.getEid()%>))
+					{
+						
+						var div_to_write=document.getElementById(resp["task"]["status"]);
+						//creating a table
+						var create_table=document.createElement("table");
+								create_table.id=resp["task"]["work_id"];		                                                   		
+								console.log(create_table.id);
+						var tbl_row=document.createElement("tr");
+						tbl_row.className = "task";
+								tbl_row.insertCell(0).appendChild(document.createTextNode(resp["task"]["work_id"]));
+								tbl_row.insertCell(1).appendChild(document.createTextNode(resp["task"]["workname"]));
+								tbl_row.insertCell(2).appendChild(document.createTextNode(resp["task"]["desp"]));
+								tbl_row.insertCell(3).appendChild(document.createTextNode(resp["task"]["module"]));
+								tbl_row.insertCell(4).appendChild(document.createTextNode(resp["task"]["project"]));
+								tbl_row.insertCell(5).appendChild(document.createTextNode(resp["task"]["dept"]));
+								tbl_row.insertCell(6).appendChild(document.createTextNode(resp["task"]["st_date"]));
+								tbl_row.insertCell(7).appendChild(document.createTextNode(resp["task"]["tg_date"]));
+								tbl_row.insertCell(8).appendChild(document.createTextNode(resp["task"]["remarks"]));
+								if("incharge" in resp["task"])
+								{	
+									tbl_row.insertCell(9).appendChild(document.createTextNode(resp["task"]["incharge"]));
+								}
+								else
+								{
+									tbl_row.insertCell(9).appendChild(document.createTextNode(" "));
+								}	
+								tbl_row.insertCell(10).appendChild(document.createTextNode(resp["task"]["assign_to"]));
+								tbl_row.insertCell(11).appendChild(document.createTextNode(resp["task"]["type"]));
+						create_table.appendChild(tbl_row);
+						var firstNode = div_to_write.getElementsByTagName('table')[0];
+						div_to_write.insertBefore(create_table,firstNode);
+
+						 
+					}	
+					 
+				}
+				else if(selected_view==="all")
+				{
+					if(resp["task"]["work_id"] in all_tasks)
+					{
+						var div_to_write=document.getElementById(resp["task"]["status"]);
+						//creating a table
+						var create_table=document.createElement("table");
+								create_table.id=resp["task"]["work_id"];		                                                   		
+								console.log(create_table.id);
+						var tbl_row=document.createElement("tr");
+						tbl_row.className = "task";
+								tbl_row.insertCell(0).appendChild(document.createTextNode(resp["task"]["work_id"]));
+								tbl_row.insertCell(1).appendChild(document.createTextNode(resp["task"]["workname"]));
+								tbl_row.insertCell(2).appendChild(document.createTextNode(resp["task"]["desp"]));
+								tbl_row.insertCell(3).appendChild(document.createTextNode(resp["task"]["module"]));
+								tbl_row.insertCell(4).appendChild(document.createTextNode(resp["task"]["project"]));
+								tbl_row.insertCell(5).appendChild(document.createTextNode(resp["task"]["dept"]));
+								tbl_row.insertCell(6).appendChild(document.createTextNode(resp["task"]["st_date"]));
+								tbl_row.insertCell(7).appendChild(document.createTextNode(resp["task"]["tg_date"]));
+								tbl_row.insertCell(8).appendChild(document.createTextNode(resp["task"]["remarks"]));
+								if("incharge" in resp["task"])
+								{	
+									tbl_row.insertCell(9).appendChild(document.createTextNode(resp["task"]["incharge"]));
+								}
+								else
+								{
+									tbl_row.insertCell(9).appendChild(document.createTextNode(" "));
+								}	
+								tbl_row.insertCell(10).appendChild(document.createTextNode(resp["task"]["assign_to"]));
+								tbl_row.insertCell(11).appendChild(document.createTextNode(resp["task"]["type"]));
+						create_table.appendChild(tbl_row);
+						var firstNode = div_to_write.getElementsByTagName('table')[0];
+						div_to_write.insertBefore(create_table,firstNode);
+						//tasks_details[resp["task"]["work_id"]]=resp["task"];
+				  }
+				}	
+		}
+		else if(resp["action"]==="CREATE SCRUMOFTASK")
+		{
+			var scot_id=resp["scrum"]["work_id"];
+			var scot_tid=resp["scrum"]["task_of"];
+			if(scot_tid in tasks_incharge)	
+			{
+				tasks_incharge[scot_tid]["task_scr"][scot_id]=resp["scrum"];
+				
+			}	
+			var assign_to_arr=resp["scrum"]["assign_to"];
+			if(assign_to_arr.includes(<%=ud.getEid()%>))
+			{	
+				all_tasks[scot_id]=resp["scrum"];
+			}
+			if(selected_view==="incharge")
+			{
+				if(scot_tid in tasks_incharge)
+				{
+					var scot_tab=document.getElementById(scot_tid);
+					var fst_row=scot_tab.getElementsByTagName('tr')[0];
+					var fst_row_index=fst_row.rowIndex;
+					var scot_row=scot_tab.insertRow(fst_row_index+1);
+					scot_row.id=resp["scrum"]["work_id"];
+					scot_row.insertCell(0).appendChild(document.createTextNode(resp["scrum"]["work_id"]));
+					scot_row.insertCell(1).appendChild(document.createTextNode(resp["scrum"]["workname"]));
+					scot_row.insertCell(2).appendChild(document.createTextNode(resp["scrum"]["desp"]));
+					scot_row.insertCell(3).appendChild(document.createTextNode(resp["scrum"]["module"]));
+					scot_row.insertCell(4).appendChild(document.createTextNode(resp["scrum"]["project"]));
+					scot_row.insertCell(5).appendChild(document.createTextNode(resp["scrum"]["dept"]));
+					scot_row.insertCell(6).appendChild(document.createTextNode(resp["scrum"]["st_date"]));
+					scot_row.insertCell(7).appendChild(document.createTextNode(resp["scrum"]["tg_date"]));
+					scot_row.insertCell(8).appendChild(document.createTextNode(resp["scrum"]["remarks"]));
+					if("incharge" in resp["scrum"])
+					{	
+						scot_row.insertCell(9).appendChild(document.createTextNode(resp["scrum"]["incharge"]));
+					}
+					else
+					{
+						scot_row.insertCell(9).appendChild(document.createTextNode(" "));
+					}	
+					scot_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
+					scot_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+
+				}	
+			}
+			else if(selected_view==="all")
+			{
+				
+				if(resp["scrum"]["work_id"] in all_tasks)
+				{	
+					var div_to_write=document.getElementById(resp["scrum"]["status"]);
+					//creating a table
+					var create_table=document.createElement("table");
+							create_table.id=resp["scrum"]["work_id"];		                                                   		
+							console.log(create_table.id);
+					var tbl_row=document.createElement("tr");
+					tbl_row.className = "task";
+							tbl_row.insertCell(0).appendChild(document.createTextNode(resp["scrum"]["work_id"]));
+							tbl_row.insertCell(1).appendChild(document.createTextNode(resp["scrum"]["workname"]));
+							tbl_row.insertCell(2).appendChild(document.createTextNode(resp["scrum"]["desp"]));
+							tbl_row.insertCell(3).appendChild(document.createTextNode(resp["scrum"]["module"]));
+							tbl_row.insertCell(4).appendChild(document.createTextNode(resp["scrum"]["project"]));
+							tbl_row.insertCell(5).appendChild(document.createTextNode(resp["scrum"]["dept"]));
+							tbl_row.insertCell(6).appendChild(document.createTextNode(resp["scrum"]["st_date"]));
+							tbl_row.insertCell(7).appendChild(document.createTextNode(resp["scrum"]["tg_date"]));
+							tbl_row.insertCell(8).appendChild(document.createTextNode(resp["scrum"]["remarks"]));
+							if("incharge" in resp["scrum"])
+							{	
+								tbl_row.insertCell(9).appendChild(document.createTextNode(resp["scrum"]["incharge"]));
+							}
+							else
+							{
+								tbl_row.insertCell(9).appendChild(document.createTextNode(" "));
+							}	
+							tbl_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
+							tbl_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+					create_table.appendChild(tbl_row);
+					var firstNode = div_to_write.getElementsByTagName('table')[0];
+					div_to_write.insertBefore(create_table,firstNode);
+				}	
+			}
+		}
+		else if(resp["action"]==="CREATE SCRUMOFSPRINT")
+		{
+			var scosp_id=resp["scrum"]["work_id"];
+			var scosp_tid=resp["scrum"]["task_of"];
+			var scosp_sp_id=resp["scrum"]["id_rel_to"];
+			if(scosp_tid in tasks_incharge)
+			{
+				tasks_incharge[scosp_tid]["task_spr"][scosp_sp_id]["spr_scr"][scosp_id]=resp["scrum"];
+				
+			}
+			else if(scosp_sp_id in sprints_incharge)
+			{
+				sprints_incharge[scosp_sp_id]["spr_scr"][scosp_id]=resp["scrum"];
+			}
+			var assign_to_arr=resp["scrum"]["assign_to"];
+			if(assign_to_arr.includes(<%=ud.getEid()%>))
+			{	
+				all_tasks[scosp_id]=resp["scrum"];
+				
+			}
+			
+			if(selected_view==="incharge")
+			{
+				if(scosp_tid in tasks_incharge)
+				{
+					var scosp_sp_table=document.getElementById(scosp_tid);
+					var scosp_sp_tr=document.getElementById(scosp_sp_id);
+					var scosp_fst_row_index=scosp_sp_tr.rowIndex;
+					var scosp_row=scosp_sp_table.insertRow(scosp_fst_row_index+1);
+					scosp_row.id=resp["scrum"]["work_id"];
+					scosp_row.insertCell(0).appendChild(document.createTextNode(resp["scrum"]["work_id"]));
+					scosp_row.insertCell(1).appendChild(document.createTextNode(resp["scrum"]["workname"]));
+					scosp_row.insertCell(2).appendChild(document.createTextNode(resp["scrum"]["desp"]));
+					scosp_row.insertCell(3).appendChild(document.createTextNode(resp["scrum"]["module"]));
+					scosp_row.insertCell(4).appendChild(document.createTextNode(resp["scrum"]["project"]));
+					scosp_row.insertCell(5).appendChild(document.createTextNode(resp["scrum"]["dept"]));
+					scosp_row.insertCell(6).appendChild(document.createTextNode(resp["scrum"]["st_date"]));
+					scosp_row.insertCell(7).appendChild(document.createTextNode(resp["scrum"]["tg_date"]));
+					scosp_row.insertCell(8).appendChild(document.createTextNode(resp["scrum"]["remarks"]));
+					if("incharge" in resp["scrum"])
+					{	
+						scosp_row.insertCell(9).appendChild(document.createTextNode(resp["scrum"]["incharge"]));
+					}
+					else
+					{
+						scosp_row.insertCell(9).appendChild(document.createTextNode(" "));
+					}	
+					scosp_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
+					scosp_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+
+
+				}			
+				else if(scosp_sp_id in sprints_incharge)
+				{
+					var scosp_tab=document.getElementById(scosp_sp_id);
+					var scosp_fst_row=scosp_tab.getElementsByTagName('tr')[0];
+					var scosp_fst_row_index=scosp_fst_row.rowIndex;
+					var scosp_row=scosp_tab.insertRow(scosp_fst_row_index+1);
+					scosp_row.insertCell(0).appendChild(document.createTextNode(resp["scrum"]["work_id"]));
+					scosp_row.insertCell(1).appendChild(document.createTextNode(resp["scrum"]["workname"]));
+					scosp_row.insertCell(2).appendChild(document.createTextNode(resp["scrum"]["desp"]));
+					scosp_row.insertCell(3).appendChild(document.createTextNode(resp["scrum"]["module"]));
+					scosp_row.insertCell(4).appendChild(document.createTextNode(resp["scrum"]["project"]));
+					scosp_row.insertCell(5).appendChild(document.createTextNode(resp["scrum"]["dept"]));
+					scosp_row.insertCell(6).appendChild(document.createTextNode(resp["scrum"]["st_date"]));
+					scosp_row.insertCell(7).appendChild(document.createTextNode(resp["scrum"]["tg_date"]));
+					scosp_row.insertCell(8).appendChild(document.createTextNode(resp["scrum"]["remarks"]));
+					if("incharge" in resp["scrum"])
+					{	
+						scosp_row.insertCell(9).appendChild(document.createTextNode(resp["scrum"]["incharge"]));
+					}
+					else
+					{
+						scosp_row.insertCell(9).appendChild(document.createTextNode(" "));
+					}	
+					scosp_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
+					scosp_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+
+				}	
+			}
+			else if(selected_view==="all")
+			{
+			if(resp["scrum"]["work_id"] in all_tasks)
+			{	
+				
+				var div_to_write=document.getElementById(resp["scrum"]["status"]);
+				//creating a table
+				var create_table=document.createElement("table");
+						create_table.id=resp["scrum"]["work_id"];		                                                   		
+						console.log(create_table.id);
+				var tbl_row=document.createElement("tr");
+				tbl_row.className = "task";
+						tbl_row.insertCell(0).appendChild(document.createTextNode(resp["scrum"]["work_id"]));
+						tbl_row.insertCell(1).appendChild(document.createTextNode(resp["scrum"]["workname"]));
+						tbl_row.insertCell(2).appendChild(document.createTextNode(resp["scrum"]["desp"]));
+						tbl_row.insertCell(3).appendChild(document.createTextNode(resp["scrum"]["module"]));
+						tbl_row.insertCell(4).appendChild(document.createTextNode(resp["scrum"]["project"]));
+						tbl_row.insertCell(5).appendChild(document.createTextNode(resp["scrum"]["dept"]));
+						tbl_row.insertCell(6).appendChild(document.createTextNode(resp["scrum"]["st_date"]));
+						tbl_row.insertCell(7).appendChild(document.createTextNode(resp["scrum"]["tg_date"]));
+						tbl_row.insertCell(8).appendChild(document.createTextNode(resp["scrum"]["remarks"]));
+						if("incharge" in resp["scrum"])
+						{	
+							tbl_row.insertCell(9).appendChild(document.createTextNode(resp["scrum"]["incharge"]));
+						}
+						else
+						{
+							tbl_row.insertCell(9).appendChild(document.createTextNode(" "));
+						}	
+						tbl_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
+						tbl_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+				create_table.appendChild(tbl_row);
+				var firstNode = div_to_write.getElementsByTagName('table')[0];
+				div_to_write.insertBefore(create_table,firstNode);
+			}	
+			}
+		}
+		else if(resp["action"]==="CREATE SPRINT")
+		{
+			
+			var sp_id=resp["sprint"]["work_id"];
+			var sp_tid=resp["sprint"]["task_of"];
+			if(sp_tid in tasks_incharge)
+			{
+				tasks_incharge[sp_tid]["task_spr"][sp_id]=resp["sprint"];
+				
+			}
+			else
+			{
+				var spr_inch_arr=resp["sprint"]["incharge"];
+				if(spr_inch_arr.includes(<%=ud.getEid()%>))
+				{
+					sprints_incharge[sp_id]=resp["sprint"];
+					all_tasks[sp_id]=resp["sprint"];
+				}
+				
+			}
+			var spr_assign_arr=resp["sprint"]["assign_to"];
+			if(spr_assign_arr.includes(<%=ud.getEid()%>))
+			{
+				all_tasks[sp_id]=resp["sprint"];
+			}
+			if(selected_view==="incharge")
+			{
+				sprint_incharge("cl");
+			}
+		
+			else if(selected_view==="all")
+			{
+				if(sp_id in all_tasks)
+				{	
+					var div_to_write=document.getElementById(resp["sprint"]["status"]);
+					//creating a table
+					var create_table=document.createElement("table");
+							create_table.id=resp["sprint"]["work_id"];		                                                   		
+							console.log(create_table.id);
+					var tbl_row=document.createElement("tr");
+					tbl_row.className = "task";
+							tbl_row.insertCell(0).appendChild(document.createTextNode(resp["sprint"]["work_id"]));
+							tbl_row.insertCell(1).appendChild(document.createTextNode(resp["sprint"]["workname"]));
+							tbl_row.insertCell(2).appendChild(document.createTextNode(resp["sprint"]["desp"]));
+							tbl_row.insertCell(3).appendChild(document.createTextNode(resp["sprint"]["module"]));
+							tbl_row.insertCell(4).appendChild(document.createTextNode(resp["sprint"]["project"]));
+							tbl_row.insertCell(5).appendChild(document.createTextNode(resp["sprint"]["dept"]));
+							tbl_row.insertCell(6).appendChild(document.createTextNode(resp["sprint"]["st_date"]));
+							tbl_row.insertCell(7).appendChild(document.createTextNode(resp["sprint"]["tg_date"]));
+							tbl_row.insertCell(8).appendChild(document.createTextNode(resp["sprint"]["remarks"]));
+							if("incharge" in resp["sprint"])
+							{	
+								tbl_row.insertCell(9).appendChild(document.createTextNode(resp["sprint"]["incharge"]));
+							}
+							else
+							{
+								tbl_row.insertCell(9).appendChild(document.createTextNode(" "));
+							}	
+							tbl_row.insertCell(10).appendChild(document.createTextNode(resp["sprint"]["assign_to"]));
+							tbl_row.insertCell(11).appendChild(document.createTextNode(resp["sprint"]["type"]));
+					create_table.appendChild(tbl_row);
+					var firstNode = div_to_write.getElementsByTagName('table')[0];
+					div_to_write.insertBefore(create_table,firstNode);
+				}
 	
+			}		
+			
 }
+}		
 
 
 function emptyDivs()
@@ -200,7 +528,10 @@ var all_tasks=all();
 
 function incharge()
 {
+	selected_view="incharge";
+	console.log(selected_view);
 	emptyDivs();
+	
 	for(key in tasks_incharge)
 	{
 		if(key!=0)
@@ -230,7 +561,8 @@ function incharge()
 						for(sid in scr)
 						{
 									
-									let scr_row=document.createElement("tr");
+							var scr_row=document.createElement("tr");
+									scr_row.id=sid
 									scr_row.className = "Scr";
 									scr_row.insertCell(0).appendChild(document.createTextNode(sid));
 									scr_row.insertCell(1).appendChild(document.createTextNode(scr[sid]["workname"]));
@@ -249,7 +581,8 @@ function incharge()
 					var spr=tasks_incharge[key]["task_spr"];
 					for(spr_id in spr)
 					{
-							let spr_row=document.createElement("tr");
+							var spr_row=document.createElement("tr");
+							spr_row.id=spr_id;
 							spr_row.className = "Spr";
 							spr_row.insertCell(0).appendChild(document.createTextNode(spr_id));
 							spr_row.insertCell(1).appendChild(document.createTextNode(spr[spr_id]["workname"]));
@@ -263,10 +596,11 @@ function incharge()
 									spr_row.insertCell(9).appendChild(document.createTextNode(spr[spr_id]["assign_to"]));
 									spr_row.insertCell(10).appendChild(document.createTextNode(spr[spr_id]["type"]+"  of TASK :- "+tasks_incharge[key]["workname"]));
 									create_table.appendChild(spr_row);	
-							let spr_sc=spr[spr_id]["spr_scr"];
+									var spr_sc=spr[spr_id]["spr_scr"];
 									for(spr_sc_id in spr_sc)
 									{
-											let spr_sc_row=document.createElement("tr");
+										var spr_sc_row=document.createElement("tr");
+											spr_sc_row.id=spr_sc_id;
 									spr_sc_row.insertCell(0).appendChild(document.createTextNode(spr_sc_id));
 									spr_sc_row.insertCell(1).appendChild(document.createTextNode(spr_sc[spr_sc_id]["workname"]));
 									spr_sc_row.insertCell(2).appendChild(document.createTextNode(spr_sc[spr_sc_id]["desp"]));
@@ -290,13 +624,13 @@ function incharge()
 	}
 	
 		
-	sprint_incharge();
+	sprint_incharge("cl");
 	
 	
 }
-function sprint_incharge()
+function sprint_incharge(clname)
 {
-	
+				
 					for(spr_id in sprints_incharge)
 					{
 						if(spr_id!=0)
@@ -305,10 +639,10 @@ function sprint_incharge()
 							//creating a table
 							var create_table=document.createElement("table");
 									create_table.id=spr_id;
-									
+									//create_table.className=cl_name;
 									console.log(create_table.id);
 													
-							let spr_row=document.createElement("tr");
+							var spr_row=document.createElement("tr");
 							spr_row.className = "Spr";
 							spr_row.insertCell(0).appendChild(document.createTextNode(spr_id));
 							spr_row.insertCell(1).appendChild(document.createTextNode(sprints_incharge[spr_id]["workname"]));
@@ -322,10 +656,11 @@ function sprint_incharge()
 									spr_row.insertCell(9).appendChild(document.createTextNode(sprints_incharge[spr_id]["assign_to"]));
 									spr_row.insertCell(10).appendChild(document.createTextNode(sprints_incharge[spr_id]["type"]));
 									create_table.appendChild(spr_row);	
-							let spr_sc=sprints_incharge[spr_id]["spr_scr"];
+									var spr_sc=sprints_incharge[spr_id]["spr_scr"];
 									for(spr_sc_id in spr_sc)
 									{
-											let spr_sc_row=document.createElement("tr");
+										var spr_sc_row=document.createElement("tr");
+											spr_sc_row.id=spr_sc_id;
 									spr_sc_row.insertCell(0).appendChild(document.createTextNode(spr_sc_id));
 									spr_sc_row.insertCell(1).appendChild(document.createTextNode(spr_sc[spr_sc_id]["workname"]));
 									spr_sc_row.insertCell(2).appendChild(document.createTextNode(spr_sc[spr_sc_id]["desp"]));
@@ -348,6 +683,8 @@ function sprint_incharge()
 }
 function all_tasks_create()
 {
+	selected_view="all";
+	console.log(selected_view);
 	emptyDivs();
 	for(key in all_tasks)
 	{
@@ -360,7 +697,7 @@ function all_tasks_create()
 					
 					console.log(create_table.id);
 									
-			let spr_row=document.createElement("tr");
+					var spr_row=document.createElement("tr");
 			spr_row.className = "Spr";
 			spr_row.insertCell(0).appendChild(document.createTextNode(key));
 			spr_row.insertCell(1).appendChild(document.createTextNode(all_tasks[key]["workname"]));
