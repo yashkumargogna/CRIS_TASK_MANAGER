@@ -10,7 +10,7 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">TASK BOARD</a></li>
+        <li class="active"><a href="#iid01" onclick="emptyDivs();arrangeJson();">TASK BOARD</a></li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Create NEW<span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -21,7 +21,7 @@
             <li><a href="#iid05" onclick="showDivWithID('id05')" >DAILY SCRUMS</a></li>
           </ul>
         </li>
-        <li><a href="#">MY BOARD</a></li>
+        <li><a href="empTasks">MY BOARD</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp&nbsp&nbsp  WELCOME, <%=ud.getEname()%></a></li>

@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 
 import common.CommonDetails;
 import common.DateTime;
+import model.UserDet;
 import works.Module;
 import works.Project;
 import works.Scrum;
@@ -40,7 +41,6 @@ public class InsertData extends HttpServlet
        
     
 	Connection con;
-		
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		try
@@ -84,6 +84,12 @@ public class InsertData extends HttpServlet
 			createSprint(request,response);
 			
 		}
+		else if(action.equalsIgnoreCase("CHANGESTATUS"))
+		{
+			System.out.println(action+" inside if"+"\n");
+			changeStatus(request,response);
+			
+		}
 		}catch (Exception e) {
 			// TODO: handle exception
 		System.out.println(e);	
@@ -91,6 +97,68 @@ public class InsertData extends HttpServlet
 		
 		
 		
+	}
+
+	private void changeStatus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  
+	{
+		// TODO Auto-generated method stub
+		String action=request.getParameter("doaction");
+		String w_id=request.getParameter("work_id").trim();
+		String status=request.getParameter("status");
+		String remarks= request.getParameter("remarks");
+		
+		response.setContentType("application/json");
+		Writer wr = response.getWriter();
+		
+		UserDet ud=(UserDet)request.getSession().getAttribute("UserDet");
+		try
+		{
+			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());	
+			con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","yash");
+			PreparedStatement ps_update_task=con.prepareStatement("UPDATE CRIS_WORKS SET STATUS=? WHERE WORK_ID=?");
+			ps_update_task.setString(1,status);
+			ps_update_task.setString(2,w_id);
+			int i=0;
+			i=ps_update_task.executeUpdate();
+		if(i>0)
+		{
+			if(w_id.startsWith("T="))
+				{
+					CommonDetails.dep_tasks.get(ud.getDept()).get(w_id).setStatus(status);	
+				}
+				else if(w_id.startsWith("S="))
+				{
+						String split[]=w_id.split("T=");
+						String t_id="T="+split[1];
+						String sprint_id=w_id;
+						CommonDetails.dep_tasks.get(ud.getDept()).get(t_id).getTask_spr().get(sprint_id).setStatus(status);
+				}
+				else if(w_id.startsWith("SC="))
+				{
+					String split[]=w_id.split("T=");
+					String t_id="T="+split[1];
+					String scrum_id=w_id;
+					CommonDetails.dep_tasks.get(ud.getDept()).get(t_id).getTask_scr().get(scrum_id).setStatus(status);
+				}
+				else if(w_id.startsWith("SR="))
+				{				
+					String split_for_task[]=w_id.split("T=");
+					String t_id="T="+split_for_task[1];
+					String scrum_of_sprint_id=w_id;
+					String split_for_sprint[]=w_id.split("S=");
+					String spr_id="S="+split_for_sprint[1];
+					
+					CommonDetails.dep_tasks.get(ud.getDept()).get(t_id).getTask_spr().get(spr_id).setStatus(status);
+				}
+		}	
+		wr.write("\"success\":true");
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println(e);
+			wr.write("\"success\":false,\"err\":\"Some DB Error. Please try agin in few minutes!\"");
+
+		}
+
 	}
 
 	private void createScrumOfSprint(HttpServletRequest request, HttpServletResponse response) throws IOException

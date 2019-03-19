@@ -127,6 +127,34 @@ span.psw {
 }
 </style>
 <SCRIPT>
+var i=0;
+function emptyDivs()
+{
+	var tables = document.getElementsByTagName("TABLE");
+	for (var i=tables.length-1; i>=0;i-=1)
+	{  if (tables[i]) tables[i].parentNode.removeChild(tables[i]);}
+	var arr=document.getElementsByTagName("BR");
+	for (var i=arr.length-1; i>=0;i-=1)
+	{ if (arr[i]) arr[i].parentNode.removeChild(arr[i]);}
+
+		}
+
+function showTaskById(id_to_show)
+{
+	emptyDivs();
+	arrangeJson();
+	var a=id_to_show.trim();
+	var tables = document.getElementsByTagName("TABLE");
+	for (var i=tables.length-1; i>=0;i-=1)
+	{ if (tables[i].id===a) 
+		{}
+	   else  
+		 {tables[i].style.display="none";}  
+	}
+	var arr=document.getElementsByTagName("BR");
+	for (var i=arr.length-1; i>=0;i-=1)
+	{ if (arr[i]) arr[i].parentNode.removeChild(arr[i]);}
+}	
 function scrumOfSprintForm()
 {
 	var scofspformaction=document.getElementById("insertDataAction");
@@ -425,15 +453,19 @@ function loadJSON(str){
 }
 function arrangeJson()
 {
+	
+	document.getElementById("search_by_id").options.length = 1;
 	for(key in tasks_details)
 	{
 		if(key!=0)
 		{	
+			var tab_br=document.createElement("br");
+			document.getElementById("search_by_id").options.add(new Option(key+"   "+tasks_details[key]["workname"]+","+tasks_details[key]["module"]+","+tasks_details[key]["project"],key,true));
 				var div_to_write=document.getElementById(tasks_details[key]["status"]);
 				//creating a table
 				var create_table=document.createElement("table");
 						create_table.id=key;
-						
+						var st_ch_btn;
 						console.log(create_table.id);
 				var tbl_row=document.createElement("tr");
 				tbl_row.className = "task";
@@ -449,6 +481,13 @@ function arrangeJson()
 						tbl_row.insertCell(9).appendChild(document.createTextNode(tasks_details[key]["incharge"]));
 						tbl_row.insertCell(10).appendChild(document.createTextNode(tasks_details[key]["assign_to"]));
 						tbl_row.insertCell(11).appendChild(document.createTextNode(tasks_details[key]["type"]));
+						st_ch_btn=document.createElement('button');
+						st_ch_btn.innerHTML="CHANGE STATUS";
+						
+						st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+						
+						tbl_row.insertCell(12).appendChild(st_ch_btn);
 				create_table.appendChild(tbl_row);	
 				var tbl_row_index=tbl_row.rowIndex;
 			var scr=tasks_details[key]["task_scr"];
@@ -516,6 +555,8 @@ function arrangeJson()
 					}		
 					var firstNode = div_to_write.getElementsByTagName('table')[0];
 					div_to_write.insertBefore(create_table,firstNode);
+					
+					div_to_write.insertBefore(tab_br,create_table.nextSibling);			
 						
 		}	
 			
@@ -930,6 +971,9 @@ function arrangeJson()
    </div>  
 
 <%}catch(Exception e){e.printStackTrace();}%>
+<select id="search_by_id" onChange=showTaskById(this.value)>
+	<option value="">--SELECT--</option>
+</select>
 <center><div id="todo"><hr>TO-DO
 <hr>
 </div></center>
@@ -965,7 +1009,109 @@ function arrangeJson()
 <br>
 <br>
 <br>
+<script>
+function changeStatus()
+{
+	var formch=document.forms.namedItem("changeStatus"); 
+	var statusFormData=new FormData(formch);
+	var statusData=new URLSearchParams(statusFormData);
+		var http_request_new; 
+	http_request_new= new XMLHttpRequest();
+	    try{
+	       // Opera 8.0+, Firefox, Chrome, Safari
+	       http_request_new = new XMLHttpRequest();
+	    }catch (e){
+	       // Internet Explorer Browsers
+	       try{ 
+	          http_request_new = new ActiveXObject("Msxml2.XMLHTTP");
+				
+	       }catch (e) {
+			
+	          try{
+	             http_request_new = new ActiveXObject("Microsoft.XMLHTTP");
+	          }catch (e){
+	             // Something went wrong
+	             alert("Your browser broke!");
+	             return false;
+	          }
+				
+	       }
+	    }
+	    
+		
+	    http_request_new.onreadystatechange = function()
+	    {
+		
+	       if (http_request_new.readyState == 4){
+	          // Javascript function JSON.parse to parse JSON data
+	          console.log(http_request_new.responseText);
+	         // var jsonObj = JSON.parse(http_request_new.responseText);
+	          // jsonObj variable now contains the data structure and can
+	          // be accessed as jsonObj.Module 
+	           
+	        	 }
+	     }
+	 	
+http_request_new.open('POST',"insertData",true);
+http_request_new.send(statusData);
 
+	
+	}
+function showStChForm(work_id)
+{
+	var w_id;
+	if(work_id.parentNode.parentNode.id==="")
+	{
+		if(work_id.parentNode.parentNode.parentNode.tagName==="TABLE")
+		{
+			w_id=work_id.parentNode.parentNode.parentNode.id;
+		}
+		else
+		{	
+			if(work_id.parentNode.parentNode.parentNode.parentNode.tagName==="TABLE")
+			{	w_id=work_id.parentNode.parentNode.parentNode.parentNode.id;}
+		}	
+	}
+	else
+	{
+		w_id=work_id.parentNode.parentNode.id;
+	}	
+	
+	var id_to_be_ch_st=document.getElementById('st_ch_id');
+	id_to_be_ch_st.value=w_id.trim();
+	var st_ch_fm=document.getElementById('status_change_form').style.display='block';
+	
+	/*button*/	console.log("  "+work_id.tagName+" "+work_id.id);
+	/*td*/	console.log(work_id.parentNode.tagName+" "+work_id.parentNode.id);
+	/*tr*/	console.log(work_id.parentNode.parentNode.tagName+" "+work_id.parentNode.parentNode.id);
+	/*table or tbody*/	console.log(work_id.parentNode.parentNode.parentNode.tagName+"  "+work_id.parentNode.parentNode.parentNode.id);
+	/*div*/	console.log(work_id.parentNode.parentNode.parentNode.parentNode.tagName+"   "+work_id.parentNode.parentNode.parentNode.parentNode.id);
+	
+}
+	
+</script>
+<div id="status_change_form" class="modal"  style="display:none">
+<form id="changeStatus" class="modal-content animate">
+<div class="imgcontainer">
+      <span onclick="document.getElementById('status_change_form').style.display='none'" class="close" title="Close Modal">&times;</span>
+    
+    </div>
+
+WORK-ID(Whose status is to be changed) : <input type="text" id="st_ch_id" name="work_id" value=""/>&nbsp&nbsp
+<input type="hidden" name="doaction" value="changeStatus"/>
+CHANGED STATUS	:<select name="status">
+	<option value="todo">TO-DO</option>
+	<option value="pending">PENDING</option>
+	<option value="inprogress">IN-PROGRESS</option>
+	<option value="testing">TESTING</option>
+	<option value="completed">COMPLETED</option>	
+
+</select>&nbsp&nbsp
+REMARKS	:- <textarea name=remarks></textarea>	
+&nbsp&nbsp&nbsp&nbsp<input type="button" value="CHANGE STATUS" onclick="changeStatus()" />
+
+</form> 
+</div>
 </body>
 
 

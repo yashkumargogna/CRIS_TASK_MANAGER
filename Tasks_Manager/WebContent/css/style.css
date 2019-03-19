@@ -1,46 +1,53 @@
 
-#todo{
-	
+#todo {
+		 
 }
-	
-.task {
-  font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
+
+ .task_table{
+	 font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	  border: 4px solid #1e1d1d;
+	  outline: 4px solid #1e1d1d;
+  font-weight: bold;
+  width: 98%;
+   padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+	color: basic;
+	font-size: 16px;
+	padding: 4px;
+
+	 
+ }
+ .task tr {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 100%;
-}
-
-.task tr {
-  border: 1px solid ;
+  width: 98%;	 
+  border: 3px solid ;
   padding: 8px;
   font-weight: bold;
-  background-color: #8d9093;
-  
-  ;
-}
+  background-color: #edcdaf;
+ }
 
-.task tr .scrum {
-  border: 1px solid ;
-  padding: 8px;
-  font-weight: bold;
-  background-color: #8d9093;
-  
-  ;
-}
 
-.task tr:hover {
+
+.task td {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  	color: #ffffff;
+	border: 4px solid #ddd;
+	font-size: 16px;
+	padding: 4px;
+   background-color:  #4298f4;
+
+ 
+}
+.task td:hover {
 	background-color: #d8d8cd;
 	font-size:15px;
 	font-weight:bolder;
 	height:30px;
 }
 
-.task td {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #8d9093;
- 
-}
 .Scr {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
@@ -48,38 +55,84 @@
 }
 
  .Scr tr: {
-	background-color: blue;
-	font-size:15px;
+	background-color: #cba4e8;
 	font-weight:bolder;
 	height:30px;
+	border: 1px solid #ddd;
+	text-align: left;
+	font-size: 16px;
+	padding: 4px;
 }
 
  .Scr td {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: blue;
+	color: basic;
+	border: 2px solid #ddd;
+	font-size: 16px;
+	padding: 4px;
+	background-color: #93c4f9;
 }
+ .Scr td:hover {
+	background-color: #d8d8cd;
+	font-size:15px;
+	font-weight:bolder;
+	height:30px;
+ }
+ 
 .Spr {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
 
+
 .Spr tr {
   border: 1px solid  #ddd;
   padding: 8px;
-  background-color: red;
-}
-.Spr tr:hover {
-	background-color: default;
-	font-size:15px;
-	font-weight:bolder;
-	height:30px;
+  background-color: #a4e3e8;
 }
 .Spr td {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: red;
+  	color: basic;
+	border: 2px solid #ddd;
+	font-size: 16px;
+	padding: 4px;
+   background-color:  #7a76a0;
+
 }
+
+ .Spr td:hover {
+	background-color: #d8d8cd;
+	font-size:15px;
+	font-weight:bolder;
+	height:30px;
+ }
+.Spr tr .scr {
+  border: 1px solid ;
+  padding: 8px;
+  font-weight: bold;
+  background-color: #8d9093; 
+}
+.spr_sc td{
+  border: 1px solid ;
+  padding: 8px;
+  font-weight: bold;
+  background-color: #9f9bcc;
+   
+}
+.spr_sc td:hover {
+	background-color: #d8d8cd;
+	font-size:15px;
+	font-weight:bolder;
+	height:30px;
+ }
+
+
+
+
+
+

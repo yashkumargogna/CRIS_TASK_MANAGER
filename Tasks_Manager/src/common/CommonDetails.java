@@ -16,7 +16,7 @@ public class CommonDetails
 	public static HashMap<String,HashMap<Integer,String>> dep_emp=new HashMap<String,HashMap<Integer,String>>();//here department (dept) is key. <dept->(emp_id,emp_name)>
 	public static HashMap<String,HashMap<String,String>> dep_proj=new HashMap<String,HashMap<String,String>>();//here department is key and <dept->(project id,project_name)> 
 	public static HashMap<String,HashMap<String,String>> proj_mod=new HashMap<String,HashMap<String,String>>();//here project id is key and <p_id->(module_id,module_name)>
-	public static LinkedHashMap<String,LinkedHashMap<String,Tasks>> dep_tasks=new LinkedHashMap<String,LinkedHashMap<String,Tasks>>();	//key is department name and hashmap (key is task id and value is tasks object)
+	public static LinkedHashMap<String,LinkedHashMap<String,Tasks>> dep_tasks=new LinkedHashMap<String,LinkedHashMap<String,Tasks>>(Collections.synchronizedMap(new LinkedHashMap<String,LinkedHashMap<String,Tasks>>()));	//key is department name and hashmap (key is task id and value is tasks object)
 	
 	static
 			{
@@ -34,7 +34,7 @@ public class CommonDetails
 			}	
 	
 		public static void loadData() throws Exception
-		{
+		{	
 			ResultSet dep_to_emp=st.executeQuery("select Emp_id,Ename,Dept from cris_emp");
 			while(dep_to_emp.next())//resultset name
 			{
@@ -165,7 +165,7 @@ public class CommonDetails
 								tasks.setProject_id(dep_to_tasks.getString(19));
 								tasks.setWork_catg(dep_to_tasks.getString(20));
 								task_details.put(dep_to_tasks.getString(2), tasks);
-								
+								dep_tasks.put(dept,task_details);
 							}
 							else
 							{

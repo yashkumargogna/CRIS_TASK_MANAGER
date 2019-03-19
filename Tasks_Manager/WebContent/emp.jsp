@@ -461,7 +461,15 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 			}
 			if(selected_view==="incharge")
 			{
-				sprint_incharge("cl");
+				if(sp_tid in tasks_incharge)
+				{
+					incharge();
+					
+				}
+				else if(sp_id in sprints_incharge)
+				{	
+				sprint_incharge("cl");/////////////////////////////////////////////////////  
+				}
 			}
 		
 			else if(selected_view==="all")
