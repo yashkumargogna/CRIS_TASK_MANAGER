@@ -389,7 +389,43 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 		tasks_details[resp["sprint"]["task_of"]]["task_spr"][resp["sprint"]["work_id"]]=resp["sprint"];
 	}
 	
-	}
+	if(resp["action"]==="STATUSCHANGE")
+	{
+		var w_id=resp["w_id"];
+		var r_ch_st=resp["status"];
+		if(w_id.startsWith("T="))
+		{
+			tasks_details[w_id]["status"]=r_ch_st;
+		}
+		else if(w_id.startsWith("S="))
+		{
+				var split=w_id.split("T=");
+				var t_id="T="+split[1];
+				var sprint_id=w_id;
+				tasks_details[t_id]["task_spr"][sprint_id]["status"]=r_ch_st;
+				
+		}
+		else if(w_id.startsWith("SC="))
+		{
+			var split=w_id.split("T=");
+			var t_id="T="+split[1];
+			var scrum_id=w_id;
+			tasks_details[t_id]["task_scr"][scrum_id]["status"]=r_ch_st; 
+		}
+		else if(w_id.startsWith("SR="))
+		{				
+			var split_for_task=w_id.split("T=");
+			var t_id="T="+split_for_task[1];
+			var scrum_of_sprint_id=w_id;
+			var split_for_sprint=w_id.split("S=");
+			var spr_id="S="+split_for_sprint[1];
+			tasks_details[t_id]["task_spr"][spr_id]["spr_scr"][scrum_of_sprint_id]["status"]=r_ch_st;
+		}
+		emptyDivs();
+		arrangeJson();
+	}	
+	
+}
 
 
 function loadJSON(str){
@@ -485,10 +521,7 @@ function arrangeJson()
 						tbl_row.insertCell(11).appendChild(document.createTextNode(tasks_details[key]["type"]));
 						st_ch_btn=document.createElement('button');
 						st_ch_btn.innerHTML="CHANGE STATUS";
-						
 						st_ch_btn.addEventListener('click',function(){showStChForm(this);});
-
-						
 						tbl_row.insertCell(12).appendChild(st_ch_btn);
 				create_table.appendChild(tbl_row);	
 				var tbl_row_index=tbl_row.rowIndex;
@@ -511,7 +544,14 @@ function arrangeJson()
 									scr_row.insertCell(9).appendChild(document.createTextNode(" "));
 									scr_row.insertCell(10).appendChild(document.createTextNode(scr[sid]["assign_to"]));
 									scr_row.insertCell(11).appendChild(document.createTextNode(scr[sid]["type"]+" of TASK :- "+tasks_details[key]["workname"]));
-											
+									st_ch_btn=document.createElement('button');
+									st_ch_btn.innerHTML="CHANGE STATUS";
+									
+									st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+									
+									scr_row.insertCell(12).appendChild(st_ch_btn);
+		
 						}
 						
 					var spr=tasks_details[key]["task_spr"];
@@ -532,6 +572,13 @@ function arrangeJson()
 									spr_row.insertCell(9).appendChild(document.createTextNode(spr[spr_id]["incharge"]));
 									spr_row.insertCell(10).appendChild(document.createTextNode(spr[spr_id]["assign_to"]));
 									spr_row.insertCell(11).appendChild(document.createTextNode(spr[spr_id]["type"]+"  of TASK :- "+tasks_details[key]["workname"]));
+									st_ch_btn=document.createElement('button');
+									st_ch_btn.innerHTML="CHANGE STATUS";
+									
+									st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+									
+									spr_row.insertCell(12).appendChild(st_ch_btn);
 									create_table.appendChild(spr_row);
 									var spr_row_rowIndex=spr_row.rowIndex;
 							var spr_sc=spr[spr_id]["spr_scr"];
@@ -551,7 +598,14 @@ function arrangeJson()
 									spr_sc_row.insertCell(9).appendChild(document.createTextNode(" "));
 									spr_sc_row.insertCell(10).appendChild(document.createTextNode(spr_sc[spr_sc_id]["assign_to"]));
 									spr_sc_row.insertCell(11).appendChild(document.createTextNode(spr_sc[spr_sc_id]["type"]+" of Sprint:- "+spr[spr_id]["workname"]+" --OF TASK :-"+tasks_details[key]["workname"]));
-													
+									st_ch_btn=document.createElement('button');
+									st_ch_btn.innerHTML="CHANGE STATUS";
+									
+									st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+									
+									spr_sc_row.insertCell(12).appendChild(st_ch_btn);
+	
 		
 									}
 					}		
