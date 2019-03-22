@@ -287,6 +287,8 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 	console.log(JSON.stringify(resp));
 	if(resp["action"]==="CREATE TASK")
 	{	
+		
+		
 			var div_to_write=document.getElementById(resp["task"]["status"]);
 			//creating a table
 			var create_table=document.createElement("table");
@@ -707,7 +709,7 @@ function arrangeJson()
         <label for="uname"><b>Project Description</b></label>
       <input type="text" placeholder="Enter Project Description" name="project_desc" size=30  required />
       <input type="hidden" name="dept"value=<%=ud.getDept()%> />
-      <input type="hidden" name="action" value="PROJECT"/>
+      <input type="hidden" name="doaction" value="PROJECT"/>
       <input type="submit" value="ADD PROJECT"/>
       </div>
 
@@ -730,7 +732,7 @@ function arrangeJson()
       
         <label for="uname"><b>Module Description</b></label>
       <input type="text" placeholder="Enter module Description" name="mod_desp" size=30  required autofocus/></br>
-      				<input type="hidden" name="action" value="MODULE"/>
+      				<input type="hidden" name="doaction" value="MODULE"/>
 					<select id="mod_proj" name="project">
 					<%		
 						if(CommonDetails.dep_proj.containsKey(ud.getDept()))
@@ -1042,14 +1044,19 @@ function changeStatus()
 	    http_request_new.onreadystatechange = function()
 	    {
 		
-	       if (http_request_new.readyState == 4){
+	       if (http_request_new.readyState == 4)
+	       {
 	          // Javascript function JSON.parse to parse JSON data
 	          console.log(http_request_new.responseText);
-	         // var jsonObj = JSON.parse(http_request_new.responseText);
+	          var st_ch_res=JSON.parse(http_request_new.responseText);
+	          if(st_ch_res.success)
+	         	{	  
+	          		socket.send(JSON.stringify(st_ch_res));  
+	        	}    
 	          // jsonObj variable now contains the data structure and can
 	          // be accessed as jsonObj.Module 
 	           
-	        	 }
+	        }
 	     }
 	 	
 http_request_new.open('POST',"insertData",true);

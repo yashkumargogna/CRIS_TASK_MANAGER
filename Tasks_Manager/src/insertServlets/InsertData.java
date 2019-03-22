@@ -148,14 +148,14 @@ public class InsertData extends HttpServlet
 					String split_for_sprint[]=w_id.split("S=");
 					String spr_id="S="+split_for_sprint[1];
 					
-					CommonDetails.dep_tasks.get(ud.getDept()).get(t_id).getTask_spr().get(spr_id).setStatus(status);
+					CommonDetails.dep_tasks.get(ud.getDept()).get(t_id).getTask_spr().get(spr_id).getSpr_scr().get(scrum_of_sprint_id).setStatus(status);
 				}
 		}	
-		wr.write("\"success\":true");
+		wr.write("{\"success\":true,\"action\":\"STATUSCHANGE\",\"w_id\":\""+w_id+"\""+",\"status\":\""+status+"\"}");
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.out.println(e);
-			wr.write("\"success\":false,\"err\":\"Some DB Error. Please try agin in few minutes!\"");
+			wr.write("{\"success\":false,\"err\":\"Some DB Error. Please try again in few minutes!\"}");
 
 		}
 
@@ -168,6 +168,7 @@ public class InsertData extends HttpServlet
 		Writer wr = response.getWriter();
 		wr.write("<html><body><script>");
 		wr.write("var resp={");
+		
 		try
 		{
 			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());	
