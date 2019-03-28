@@ -190,6 +190,14 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 								}	
 								tbl_row.insertCell(10).appendChild(document.createTextNode(resp["task"]["assign_to"]));
 								tbl_row.insertCell(11).appendChild(document.createTextNode(resp["task"]["type"]));
+								var st_ch_btn=document.createElement('button');
+								st_ch_btn.innerHTML="CHANGE STATUS";
+								
+								st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+								
+								tbl_row.insertCell(12).appendChild(st_ch_btn);
+								tbl_row.insertCell(13).appendChild(document.createTextNode(resp["task"]["status"]));
 						create_table.appendChild(tbl_row);
 						var firstNode = div_to_write.getElementsByTagName('table')[0];
 						div_to_write.insertBefore(create_table,firstNode);
@@ -228,6 +236,14 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 								}	
 								tbl_row.insertCell(10).appendChild(document.createTextNode(resp["task"]["assign_to"]));
 								tbl_row.insertCell(11).appendChild(document.createTextNode(resp["task"]["type"]));
+								var st_ch_btn=document.createElement('button');
+								st_ch_btn.innerHTML="CHANGE STATUS";
+								
+								st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+								
+								tbl_row.insertCell(12).appendChild(st_ch_btn);
+								tbl_row.insertCell(13).appendChild(document.createTextNode(resp["task"]["status"]));
 						create_table.appendChild(tbl_row);
 						var firstNode = div_to_write.getElementsByTagName('table')[0];
 						div_to_write.insertBefore(create_table,firstNode);
@@ -277,6 +293,15 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 					}	
 					scot_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
 					scot_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+					var st_ch_btn=document.createElement('button');
+					st_ch_btn.innerHTML="CHANGE STATUS";
+					
+					st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+					
+					scot_row.insertCell(12).appendChild(st_ch_btn);
+
+					scot_row.insertCell(13).appendChild(document.createTextNode(resp["scrum"]["status"]));	
 
 				}	
 			}
@@ -311,6 +336,15 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 							}	
 							tbl_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
 							tbl_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+							var st_ch_btn=document.createElement('button');
+							st_ch_btn.innerHTML="CHANGE STATUS";
+							
+							st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+							
+							tbl_row.insertCell(12).appendChild(st_ch_btn);
+							tbl_row.insertCell(13).appendChild(document.createTextNode(resp["scrum"]["status"]));
+
 					create_table.appendChild(tbl_row);
 					var firstNode = div_to_write.getElementsByTagName('table')[0];
 					div_to_write.insertBefore(create_table,firstNode);
@@ -366,6 +400,14 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 					}	
 					scosp_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
 					scosp_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+					var st_ch_btn=document.createElement('button');
+					st_ch_btn.innerHTML="CHANGE STATUS";
+					
+					st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+					
+					scosp_row.insertCell(12).appendChild(st_ch_btn);
+					scosp_row.insertCell(13).appendChild(document.createTextNode(resp["scrum"]["status"]));
 
 
 				}			
@@ -375,6 +417,7 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 					var scosp_fst_row=scosp_tab.getElementsByTagName('tr')[0];
 					var scosp_fst_row_index=scosp_fst_row.rowIndex;
 					var scosp_row=scosp_tab.insertRow(scosp_fst_row_index+1);
+					scosp_row.id=resp["scrum"]["work_id"];
 					scosp_row.insertCell(0).appendChild(document.createTextNode(resp["scrum"]["work_id"]));
 					scosp_row.insertCell(1).appendChild(document.createTextNode(resp["scrum"]["workname"]));
 					scosp_row.insertCell(2).appendChild(document.createTextNode(resp["scrum"]["desp"]));
@@ -394,44 +437,61 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 					}	
 					scosp_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
 					scosp_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+					var st_ch_btn=document.createElement('button');
+					st_ch_btn.innerHTML="CHANGE STATUS";
+					
+					st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+					
+					scosp_row.insertCell(12).appendChild(st_ch_btn);
+					scosp_row.insertCell(13).appendChild(document.createTextNode(resp["scrum"]["status"]));
 
 				}	
 			}
 			else if(selected_view==="all")
 			{
-			if(resp["scrum"]["work_id"] in all_tasks)
-			{	
-				
-				var div_to_write=document.getElementById(resp["scrum"]["status"]);
-				//creating a table
-				var create_table=document.createElement("table");
-						create_table.id=resp["scrum"]["work_id"];		                                                   		
-						console.log(create_table.id);
-				var tbl_row=document.createElement("tr");
-				tbl_row.className = "task";
-						tbl_row.insertCell(0).appendChild(document.createTextNode(resp["scrum"]["work_id"]));
-						tbl_row.insertCell(1).appendChild(document.createTextNode(resp["scrum"]["workname"]));
-						tbl_row.insertCell(2).appendChild(document.createTextNode(resp["scrum"]["desp"]));
-						tbl_row.insertCell(3).appendChild(document.createTextNode(resp["scrum"]["module"]));
-						tbl_row.insertCell(4).appendChild(document.createTextNode(resp["scrum"]["project"]));
-						tbl_row.insertCell(5).appendChild(document.createTextNode(resp["scrum"]["dept"]));
-						tbl_row.insertCell(6).appendChild(document.createTextNode(resp["scrum"]["st_date"]));
-						tbl_row.insertCell(7).appendChild(document.createTextNode(resp["scrum"]["tg_date"]));
-						tbl_row.insertCell(8).appendChild(document.createTextNode(resp["scrum"]["remarks"]));
-						if("incharge" in resp["scrum"])
-						{	
-							tbl_row.insertCell(9).appendChild(document.createTextNode(resp["scrum"]["incharge"]));
-						}
-						else
-						{
-							tbl_row.insertCell(9).appendChild(document.createTextNode(" "));
-						}	
-						tbl_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
-						tbl_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
-				create_table.appendChild(tbl_row);
-				var firstNode = div_to_write.getElementsByTagName('table')[0];
-				div_to_write.insertBefore(create_table,firstNode);
-			}	
+				if(resp["scrum"]["work_id"] in all_tasks)
+				{	
+					
+					var div_to_write=document.getElementById(resp["scrum"]["status"]);
+					//creating a table
+					var create_table=document.createElement("table");
+							create_table.id=resp["scrum"]["work_id"];		                                                   		
+							console.log(create_table.id);
+					var tbl_row=document.createElement("tr");
+					tbl_row.className = "task";
+							tbl_row.insertCell(0).appendChild(document.createTextNode(resp["scrum"]["work_id"]));
+							tbl_row.insertCell(1).appendChild(document.createTextNode(resp["scrum"]["workname"]));
+							tbl_row.insertCell(2).appendChild(document.createTextNode(resp["scrum"]["desp"]));
+							tbl_row.insertCell(3).appendChild(document.createTextNode(resp["scrum"]["module"]));
+							tbl_row.insertCell(4).appendChild(document.createTextNode(resp["scrum"]["project"]));
+							tbl_row.insertCell(5).appendChild(document.createTextNode(resp["scrum"]["dept"]));
+							tbl_row.insertCell(6).appendChild(document.createTextNode(resp["scrum"]["st_date"]));
+							tbl_row.insertCell(7).appendChild(document.createTextNode(resp["scrum"]["tg_date"]));
+							tbl_row.insertCell(8).appendChild(document.createTextNode(resp["scrum"]["remarks"]));
+							if("incharge" in resp["scrum"])
+							{	
+								tbl_row.insertCell(9).appendChild(document.createTextNode(resp["scrum"]["incharge"]));
+							}
+							else
+							{
+								tbl_row.insertCell(9).appendChild(document.createTextNode(" "));
+							}	
+							tbl_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
+							tbl_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+							var st_ch_btn=document.createElement('button');
+							st_ch_btn.innerHTML="CHANGE STATUS";
+							
+							st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+							
+							tbl_row.insertCell(12).appendChild(st_ch_btn);
+							tbl_row.insertCell(13).appendChild(document.createTextNode(resp["scrum"]["status"]));
+
+					create_table.appendChild(tbl_row);
+					var firstNode = div_to_write.getElementsByTagName('table')[0];
+					div_to_write.insertBefore(create_table,firstNode);
+				}	
 			}
 		}
 		else if(resp["action"]==="CREATE SPRINT")
@@ -502,6 +562,15 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 							}	
 							tbl_row.insertCell(10).appendChild(document.createTextNode(resp["sprint"]["assign_to"]));
 							tbl_row.insertCell(11).appendChild(document.createTextNode(resp["sprint"]["type"]));
+							var st_ch_btn=document.createElement('button');
+							st_ch_btn.innerHTML="CHANGE STATUS";
+							
+							st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+							
+							tbl_row.insertCell(12).appendChild(st_ch_btn);
+							tbl_row.insertCell(13).appendChild(document.createTextNode(resp["sprint"]["status"]));
+
 					create_table.appendChild(tbl_row);
 					var firstNode = div_to_write.getElementsByTagName('table')[0];
 					div_to_write.insertBefore(create_table,firstNode);
@@ -509,7 +578,72 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 	
 			}		
 			
-}
+		}
+		else if(resp["action"]==="STATUSCHANGE")
+		{
+			var w_id=resp["w_id"];
+			var r_ch_st=resp["status"];
+			if(w_id.startsWith("T="))
+			{
+				if(w_id in tasks_incharge)
+				{
+					tasks_incharge[w_id]["status"]=r_ch_st;
+				}
+			}
+			else if(w_id.startsWith("S="))
+			{
+					var split=w_id.split("T=");
+					var t_id="T="+split[1];
+					var sprint_id=w_id;
+					if(t_id in tasks_incharge)
+					{
+						tasks_incharge[t_id]["task_spr"][sprint_id]["status"]=r_ch_st;
+					}
+					else if(sprint_id in sprints_incharge)
+					{
+						sprints_incharge[sprint_id]["status"]=r_ch_st;
+					}
+					
+					
+			}
+			else if(w_id.startsWith("SC="))
+			{
+				var split=w_id.split("T=");
+				var t_id="T="+split[1];
+				var scrum_id=w_id;
+				if(t_id in tasks_incharge)
+				{
+					tasks_incharge[t_id]["task_scr"][scrum_id]["status"]=r_ch_st;
+				}
+			}
+			else if(w_id.startsWith("SR="))
+			{				
+				var split_for_task=w_id.split("T=");
+				var t_id="T="+split_for_task[1];
+				var scrum_of_sprint_id=w_id;
+				var split_for_sprint=w_id.split("S=");
+				var spr_id="S="+split_for_sprint[1];
+				if(t_id in tasks_incharge)
+				{
+					tasks_incharge[t_id]["task_scr"][scrum_id]["status"]=r_ch_st;
+				}
+				else if(spr_id in sprints_incharge)
+				{
+					sprints_incharge[spr_id]["spr_scr"][scrum_of_sprint_id]["status"]=r_ch_st;
+				}
+			}
+			all_tasks[w_id]["status"]=r_ch_st;
+			
+			if(selected_view==="all")
+			{
+				all_tasks_create();
+			}
+			else
+			{
+				incharge();
+			}
+		}	
+
 }		
 
 
@@ -517,7 +651,12 @@ function emptyDivs()
 {
 	var tables = document.getElementsByTagName("TABLE");
 	for (var i=tables.length-1; i>=0;i-=1)
-	   if (tables[i]) tables[i].parentNode.removeChild(tables[i]);}
+	   if (tables[i]) tables[i].parentNode.removeChild(tables[i]);
+	var arr=document.getElementsByTagName("BR");
+	for (var i=arr.length-1; i>=0;i-=1)
+	{ if (arr[i]) arr[i].parentNode.removeChild(arr[i]);}
+
+	}
 function task()
 {
 	return <%=new Gson().toJson(tasks_incharge)%>;	
@@ -548,8 +687,9 @@ function incharge()
 				//creating a table
 				var create_table=document.createElement("table");
 						create_table.id=key;
-						
+						var st_ch_btn;
 						console.log(create_table.id);
+				
 				var tbl_row=document.createElement("tr");
 				tbl_row.className = "task";
 						tbl_row.insertCell(0).appendChild(document.createTextNode(key));
@@ -564,12 +704,18 @@ function incharge()
 						tbl_row.insertCell(9).appendChild(document.createTextNode(tasks_incharge[key]["incharge"]));
 						tbl_row.insertCell(10).appendChild(document.createTextNode(tasks_incharge[key]["assign_to"]));
 						tbl_row.insertCell(11).appendChild(document.createTextNode(tasks_incharge[key]["type"]));
+						st_ch_btn=document.createElement('button');
+						st_ch_btn.innerHTML="CHANGE STATUS";
+						st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+						tbl_row.insertCell(12).appendChild(st_ch_btn);
+						tbl_row.insertCell(13).appendChild(document.createTextNode(tasks_incharge[key]["status"]));
+						
 				create_table.appendChild(tbl_row);		
+				var tbl_row_index=tbl_row.rowIndex;
 			var scr=tasks_incharge[key]["task_scr"];
 						for(sid in scr)
 						{
-									
-							var scr_row=document.createElement("tr");
+							let scr_row=create_table.insertRow(tbl_row_index+1);
 									scr_row.id=sid
 									scr_row.className = "Scr";
 									scr_row.insertCell(0).appendChild(document.createTextNode(sid));
@@ -581,9 +727,14 @@ function incharge()
 									scr_row.insertCell(6).appendChild(document.createTextNode(scr[sid]["st_date"]));
 									scr_row.insertCell(7).appendChild(document.createTextNode(scr[sid]["tg_date"]));
 									scr_row.insertCell(8).appendChild(document.createTextNode(scr[sid]["remarks"]));
-									scr_row.insertCell(9).appendChild(document.createTextNode(scr[sid]["assign_to"]));
-									scr_row.insertCell(10).appendChild(document.createTextNode(scr[sid]["type"]+" of TASK :- "+tasks_incharge[key]["workname"]));
-									create_table.appendChild(scr_row);				
+									scr_row.insertCell(9).appendChild(document.createTextNode(" "));
+									scr_row.insertCell(10).appendChild(document.createTextNode(scr[sid]["assign_to"]));
+									scr_row.insertCell(11).appendChild(document.createTextNode(scr[sid]["type"]+" of TASK :- "+tasks_incharge[key]["workname"]));
+									st_ch_btn=document.createElement('button');
+									st_ch_btn.innerHTML="CHANGE STATUS";
+									st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+									scr_row.insertCell(12).appendChild(st_ch_btn);
+									scr_row.insertCell(13).appendChild(document.createTextNode(scr[sid]["status"]));
 						}
 						
 					var spr=tasks_incharge[key]["task_spr"];
@@ -601,30 +752,49 @@ function incharge()
 									spr_row.insertCell(6).appendChild(document.createTextNode(spr[spr_id]["st_date"]));
 									spr_row.insertCell(7).appendChild(document.createTextNode(spr[spr_id]["tg_date"]));
 									spr_row.insertCell(8).appendChild(document.createTextNode(spr[spr_id]["remarks"]));
-									spr_row.insertCell(9).appendChild(document.createTextNode(spr[spr_id]["assign_to"]));
-									spr_row.insertCell(10).appendChild(document.createTextNode(spr[spr_id]["type"]+"  of TASK :- "+tasks_incharge[key]["workname"]));
+									spr_row.insertCell(9).appendChild(document.createTextNode(spr[spr_id]["incharge"]));
+									spr_row.insertCell(10).appendChild(document.createTextNode(spr[spr_id]["assign_to"]));
+									spr_row.insertCell(11).appendChild(document.createTextNode(spr[spr_id]["type"]+"  of TASK :- "+tasks_incharge[key]["workname"]));
+									st_ch_btn=document.createElement('button');
+									st_ch_btn.innerHTML="CHANGE STATUS";
+									st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+									spr_row.insertCell(12).appendChild(st_ch_btn);
+									spr_row.insertCell(13).appendChild(document.createTextNode(spr[spr_id]["status"]));
+
 									create_table.appendChild(spr_row);	
+									var spr_row_rowIndex=spr_row.rowIndex;
 									var spr_sc=spr[spr_id]["spr_scr"];
 									for(spr_sc_id in spr_sc)
 									{
-										var spr_sc_row=document.createElement("tr");
-											spr_sc_row.id=spr_sc_id;
-									spr_sc_row.insertCell(0).appendChild(document.createTextNode(spr_sc_id));
-									spr_sc_row.insertCell(1).appendChild(document.createTextNode(spr_sc[spr_sc_id]["workname"]));
-									spr_sc_row.insertCell(2).appendChild(document.createTextNode(spr_sc[spr_sc_id]["desp"]));
-									spr_sc_row.insertCell(3).appendChild(document.createTextNode(spr_sc[spr_sc_id]["module"]));
-									spr_sc_row.insertCell(4).appendChild(document.createTextNode(spr_sc[spr_sc_id]["project"]));
-									spr_sc_row.insertCell(5).appendChild(document.createTextNode(spr_sc[spr_sc_id]["dept"]));
-									spr_sc_row.insertCell(6).appendChild(document.createTextNode(spr_sc[spr_sc_id]["st_date"]));
-									spr_sc_row.insertCell(7).appendChild(document.createTextNode(spr_sc[spr_sc_id]["tg_date"]));
-									spr_sc_row.insertCell(8).appendChild(document.createTextNode(spr_sc[spr_sc_id]["remarks"]));
-									spr_sc_row.insertCell(9).appendChild(document.createTextNode(spr_sc[spr_sc_id]["assign_to"]));
-									spr_sc_row.insertCell(10).appendChild(document.createTextNode(spr_sc[spr_sc_id]["type"]+" of Sprint:- "+spr[spr_id]["workname"]+" --OF TASK :-"+tasks_incharge[key]["workname"]));
-									create_table.appendChild(spr_sc_row);				
+										var spr_sc_row=create_table.insertRow(spr_row_rowIndex+1);
+										spr_sc_row.id=spr_sc_id;
+
+										spr_sc_row.insertCell(0).appendChild(document.createTextNode(spr_sc_id));
+										spr_sc_row.insertCell(1).appendChild(document.createTextNode(spr_sc[spr_sc_id]["workname"]));
+										spr_sc_row.insertCell(2).appendChild(document.createTextNode(spr_sc[spr_sc_id]["desp"]));
+										spr_sc_row.insertCell(3).appendChild(document.createTextNode(spr_sc[spr_sc_id]["module"]));
+										spr_sc_row.insertCell(4).appendChild(document.createTextNode(spr_sc[spr_sc_id]["project"]));
+										spr_sc_row.insertCell(5).appendChild(document.createTextNode(spr_sc[spr_sc_id]["dept"]));
+										spr_sc_row.insertCell(6).appendChild(document.createTextNode(spr_sc[spr_sc_id]["st_date"]));
+										spr_sc_row.insertCell(7).appendChild(document.createTextNode(spr_sc[spr_sc_id]["tg_date"]));
+										spr_sc_row.insertCell(8).appendChild(document.createTextNode(spr_sc[spr_sc_id]["remarks"]));
+										spr_sc_row.insertCell(9).appendChild(document.createTextNode(" "));
+										spr_sc_row.insertCell(10).appendChild(document.createTextNode(spr_sc[spr_sc_id]["assign_to"]));
+										spr_sc_row.insertCell(11).appendChild(document.createTextNode(spr_sc[spr_sc_id]["type"]+" of Sprint:- "+spr[spr_id]["workname"]+" --OF TASK :-"+tasks_incharge[key]["workname"]));
+										st_ch_btn=document.createElement('button');
+										st_ch_btn.innerHTML="CHANGE STATUS";
+										st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+										spr_sc_row.insertCell(12).appendChild(st_ch_btn);
+										spr_sc_row.insertCell(13).appendChild(document.createTextNode(spr_sc[spr_sc_id]["status"]));
+										
 		
 									}
 					}			
-					div_to_write.appendChild(create_table);	
+					var firstNode = div_to_write.getElementsByTagName('table')[0];
+					div_to_write.insertBefore(create_table,firstNode);
+					var tab_br=document.createElement("br");
+					div_to_write.insertBefore(tab_br,create_table.nextSibling);			
+
 		}	
 			
 		
@@ -661,8 +831,15 @@ function sprint_incharge(clname)
 									spr_row.insertCell(6).appendChild(document.createTextNode(sprints_incharge[spr_id]["st_date"]));
 									spr_row.insertCell(7).appendChild(document.createTextNode(sprints_incharge[spr_id]["tg_date"]));
 									spr_row.insertCell(8).appendChild(document.createTextNode(sprints_incharge[spr_id]["remarks"]));
-									spr_row.insertCell(9).appendChild(document.createTextNode(sprints_incharge[spr_id]["assign_to"]));
-									spr_row.insertCell(10).appendChild(document.createTextNode(sprints_incharge[spr_id]["type"]));
+									spr_row.insertCell(9).appendChild(document.createTextNode(sprints_incharge[spr_id]["incharge"]));
+									spr_row.insertCell(10).appendChild(document.createTextNode(sprints_incharge[spr_id]["assign_to"]));
+									spr_row.insertCell(11).appendChild(document.createTextNode(sprints_incharge[spr_id]["type"]));
+									var st_ch_btn=document.createElement('button');
+									st_ch_btn.innerHTML="CHANGE STATUS";
+									st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+									spr_row.insertCell(12).appendChild(st_ch_btn);
+									spr_row.insertCell(13).appendChild(document.createTextNode(sprints_incharge[spr_id]["status"]));
+									
 									create_table.appendChild(spr_row);	
 									var spr_sc=sprints_incharge[spr_id]["spr_scr"];
 									for(spr_sc_id in spr_sc)
@@ -678,13 +855,22 @@ function sprint_incharge(clname)
 									spr_sc_row.insertCell(6).appendChild(document.createTextNode(spr_sc[spr_sc_id]["st_date"]));
 									spr_sc_row.insertCell(7).appendChild(document.createTextNode(spr_sc[spr_sc_id]["tg_date"]));
 									spr_sc_row.insertCell(8).appendChild(document.createTextNode(spr_sc[spr_sc_id]["remarks"]));
-									spr_sc_row.insertCell(9).appendChild(document.createTextNode(spr_sc[spr_sc_id]["assign_to"]));
-									spr_sc_row.insertCell(10).appendChild(document.createTextNode(spr_sc[spr_sc_id]["type"]));
+									spr_sc_row.insertCell(9).appendChild(document.createTextNode(" "));
+									spr_sc_row.insertCell(10).appendChild(document.createTextNode(spr_sc[spr_sc_id]["assign_to"]));
+									spr_sc_row.insertCell(11).appendChild(document.createTextNode(spr_sc[spr_sc_id]["type"]));
+									var st_ch_btn=document.createElement('button');
+									st_ch_btn.innerHTML="CHANGE STATUS";
+									st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+									spr_sc_row.insertCell(12).appendChild(st_ch_btn);
+									spr_sc_row.insertCell(13).appendChild(document.createTextNode(spr_sc[spr_sc_id]["status"]));
+									
 									create_table.appendChild(spr_sc_row);				
 				
 									}
 							
-					div_to_write.appendChild(create_table);	
+						div_to_write.appendChild(create_table);	
+						var tab_br=document.createElement("br");
+						div_to_write.appendChild(tab_br);
 					}
 				}
 				
@@ -716,10 +902,24 @@ function all_tasks_create()
 					spr_row.insertCell(6).appendChild(document.createTextNode(all_tasks[key]["st_date"]));
 					spr_row.insertCell(7).appendChild(document.createTextNode(all_tasks[key]["tg_date"]));
 					spr_row.insertCell(8).appendChild(document.createTextNode(all_tasks[key]["remarks"]));
-					spr_row.insertCell(9).appendChild(document.createTextNode(all_tasks[key]["assign_to"]));
-					spr_row.insertCell(10).appendChild(document.createTextNode(all_tasks[key]["type"]));
+					if("incharge" in all_tasks){spr_row.insertCell(9).appendChild(document.createTextNode(" "));}
+					else{spr_row.insertCell(9).appendChild(document.createTextNode(all_tasks[key]["incharge"]));}
+					spr_row.insertCell(10).appendChild(document.createTextNode(all_tasks[key]["assign_to"]));
+					spr_row.insertCell(11).appendChild(document.createTextNode(all_tasks[key]["type"]));
+					
+					var st_ch_btn=document.createElement('button');
+					st_ch_btn.innerHTML="CHANGE STATUS";
+					st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+					spr_row.insertCell(12).appendChild(st_ch_btn);
+					spr_row.insertCell(13).appendChild(document.createTextNode(all_tasks[key]["status"]));
+					
 					create_table.appendChild(spr_row);	
-					div_to_write.appendChild(create_table);
+					var firstNode = div_to_write.getElementsByTagName('table')[0];
+					div_to_write.insertBefore(create_table,firstNode);
+					var tab_br=document.createElement("br");
+					div_to_write.insertBefore(tab_br,create_table.nextSibling);			
+
+				
 		}
 		
 	}	
@@ -768,7 +968,114 @@ function all_tasks_create()
 <br>
 <br>
 <br>
- 
+<script>
+function changeStatus()
+{
+	var formch=document.getElementById("changeStatus"); 
+	var statusFormData=new FormData(formch);
+	var statusData=new URLSearchParams(statusFormData);
+		var http_request_new; 
+	http_request_new= new XMLHttpRequest();
+	    try{
+	       // Opera 8.0+, Firefox, Chrome, Safari
+	       http_request_new = new XMLHttpRequest();
+	    }catch (e){
+	       // Internet Explorer Browsers
+	       try{ 
+	          http_request_new = new ActiveXObject("Msxml2.XMLHTTP");
+				
+	       }catch (e) {
+			
+	          try{
+	             http_request_new = new ActiveXObject("Microsoft.XMLHTTP");
+	          }catch (e){
+	             // Something went wrong
+	             alert("Your browser broke!");
+	             return false;
+	          }
+				
+	       }
+	    }
+	    
+		
+	    http_request_new.onreadystatechange = function()
+	    {
+		
+	       if (http_request_new.readyState == 4)
+	       {
+	          // Javascript function JSON.parse to parse JSON data
+	          console.log(http_request_new.responseText);
+	          var st_ch_res=JSON.parse(http_request_new.responseText);
+	          if(st_ch_res.success)
+	         	{	  
+	          		socket.send(JSON.stringify(st_ch_res));  
+	        	}    
+	          // jsonObj variable now contains the data structure and can
+	          // be accessed as jsonObj.Module 
+	           
+	        }
+	     }
+	 	
+http_request_new.open('POST',"insertData",true);
+http_request_new.send(statusData);
+
+	
+	}
+function showStChForm(work_id)
+{
+	var w_id;
+	if(work_id.parentNode.parentNode.id==="")
+	{
+		if(work_id.parentNode.parentNode.parentNode.tagName==="TABLE")
+		{
+			w_id=work_id.parentNode.parentNode.parentNode.id;
+		}
+		else
+		{	
+			if(work_id.parentNode.parentNode.parentNode.parentNode.tagName==="TABLE")
+			{	w_id=work_id.parentNode.parentNode.parentNode.parentNode.id;}
+		}	
+	}
+	else
+	{
+		w_id=work_id.parentNode.parentNode.id;
+	}	
+	
+	var id_to_be_ch_st=document.getElementById('st_ch_id');
+	id_to_be_ch_st.value=w_id.trim();
+	var st_ch_fm=document.getElementById('status_change_form').style.display='block';
+	
+	/*button*/	console.log("  "+work_id.tagName+" "+work_id.id);
+	/*td*/	console.log(work_id.parentNode.tagName+" "+work_id.parentNode.id);
+	/*tr*/	console.log(work_id.parentNode.parentNode.tagName+" "+work_id.parentNode.parentNode.id);
+	/*table or tbody*/	console.log(work_id.parentNode.parentNode.parentNode.tagName+"  "+work_id.parentNode.parentNode.parentNode.id);
+	/*div*/	console.log(work_id.parentNode.parentNode.parentNode.parentNode.tagName+"   "+work_id.parentNode.parentNode.parentNode.parentNode.id);
+	
+}
+	
+</script>
+<div id="status_change_form" class="modal"  style="display:none">
+<form id="changeStatus" class="modal-content animate">
+<div class="imgcontainer">
+      <span onclick="document.getElementById('status_change_form').style.display='none'" class="close" title="Close Modal">&times;</span>
+    
+    </div>
+
+WORK-ID(Whose status is to be changed) : <input type="text" id="st_ch_id" name="work_id" value=""/>&nbsp&nbsp
+<input type="hidden" name="doaction" value="changeStatus"/>
+CHANGED STATUS	:<select name="status">
+	<option value="todo">TO-DO</option>
+	<option value="pending">PENDING</option>
+	<option value="inprogress">IN-PROGRESS</option>
+	<option value="testing">TESTING</option>
+	<option value="completed">COMPLETED</option>	
+
+</select>&nbsp&nbsp
+REMARKS	:- <textarea name=remarks></textarea>	
+&nbsp&nbsp&nbsp&nbsp<input type="button" value="CHANGE STATUS" onclick="changeStatus()" />
+
+</form> 
+</div> 
 
 </body>
 </html>

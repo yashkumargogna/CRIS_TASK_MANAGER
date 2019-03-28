@@ -309,6 +309,14 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 					tbl_row.insertCell(9).appendChild(document.createTextNode(resp["task"]["incharge"]));
 					tbl_row.insertCell(10).appendChild(document.createTextNode(resp["task"]["assign_to"]));
 					tbl_row.insertCell(11).appendChild(document.createTextNode(resp["task"]["type"]));
+					var st_ch_btn=document.createElement('button');
+					st_ch_btn.innerHTML="CHANGE STATUS";
+					
+					st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+					
+					tbl_row.insertCell(12).appendChild(st_ch_btn);
+					tbl_row.insertCell(13).appendChild(document.createTextNode(resp["task"]["status"]));	
 					create_table.appendChild(tbl_row);
 					var fst_tab=div_to_write.getElementsByTagName('table')[0];
 					div_to_write.insertBefore(create_table,fst_tab);
@@ -335,6 +343,14 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 				tbl_row.insertCell(9).appendChild(document.createTextNode(" "));
 				tbl_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
 				tbl_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+				var st_ch_btn=document.createElement('button');
+				st_ch_btn.innerHTML="CHANGE STATUS";
+				
+				st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+				
+				tbl_row.insertCell(12).appendChild(st_ch_btn);
+				tbl_row.insertCell(13).appendChild(document.createTextNode(resp["scrum"]["status"]));
 		tasks_details[resp["scrum"]["task_of"]]["task_scr"][resp["scrum"]["work_id"]]=resp["scrum"]; 
 		
 	
@@ -360,6 +376,14 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 				tbl_row.insertCell(9).appendChild(document.createTextNode(" "));
 				tbl_row.insertCell(10).appendChild(document.createTextNode(resp["scrum"]["assign_to"]));
 				tbl_row.insertCell(11).appendChild(document.createTextNode(resp["scrum"]["type"]));
+				var st_ch_btn=document.createElement('button');
+				st_ch_btn.innerHTML="CHANGE STATUS";
+				
+				st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+				
+				tbl_row.insertCell(12).appendChild(st_ch_btn);
+				tbl_row.insertCell(13).appendChild(document.createTextNode(resp["scrum"]["status"]));
 		tasks_details[resp["scrum"]["task_of"]]["task_spr"][resp["scrum"]["id_rel_to"]]["spr_scr"][resp["scrum"]["work_id"]]=resp["scrum"]; 
 		
 
@@ -385,11 +409,19 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 		tbl_row.insertCell(9).appendChild(document.createTextNode(resp["sprint"]["incharge"]));
 		tbl_row.insertCell(10).appendChild(document.createTextNode(resp["sprint"]["assign_to"]));
 		tbl_row.insertCell(11).appendChild(document.createTextNode(resp["sprint"]["type"]));
+		var st_ch_btn=document.createElement('button');
+		st_ch_btn.innerHTML="CHANGE STATUS";
+		
+		st_ch_btn.addEventListener('click',function(){showStChForm(this);});
+
+		
+		tbl_row.insertCell(12).appendChild(st_ch_btn);
+		tbl_row.insertCell(13).appendChild(document.createTextNode(resp["sprint"]["status"]));	
 		task_table.appendChild(tbl_row);
 		tasks_details[resp["sprint"]["task_of"]]["task_spr"][resp["sprint"]["work_id"]]=resp["sprint"];
 	}
 	
-	if(resp["action"]==="STATUSCHANGE")
+	else if(resp["action"]==="STATUSCHANGE")
 	{
 		var w_id=resp["w_id"];
 		var r_ch_st=resp["status"];
@@ -440,6 +472,7 @@ function loadJSON(str){
 			    }catch (e){
 			       // Internet Explorer Browsers
 			       try{ 
+			    	   
 			          http_request = new ActiveXObject("Msxml2.XMLHTTP");
 						
 			       }catch (e) {
@@ -523,6 +556,7 @@ function arrangeJson()
 						st_ch_btn.innerHTML="CHANGE STATUS";
 						st_ch_btn.addEventListener('click',function(){showStChForm(this);});
 						tbl_row.insertCell(12).appendChild(st_ch_btn);
+						tbl_row.insertCell(13).appendChild(document.createTextNode(tasks_details[key]["status"]));
 				create_table.appendChild(tbl_row);	
 				var tbl_row_index=tbl_row.rowIndex;
 			var scr=tasks_details[key]["task_scr"];
@@ -551,6 +585,7 @@ function arrangeJson()
 
 									
 									scr_row.insertCell(12).appendChild(st_ch_btn);
+									scr_row.insertCell(13).appendChild(document.createTextNode(scr[sid]["status"]));
 		
 						}
 						
@@ -579,6 +614,7 @@ function arrangeJson()
 
 									
 									spr_row.insertCell(12).appendChild(st_ch_btn);
+									spr_row.insertCell(13).appendChild(document.createTextNode(spr[spr_id]["status"]));
 									create_table.appendChild(spr_row);
 									var spr_row_rowIndex=spr_row.rowIndex;
 							var spr_sc=spr[spr_id]["spr_scr"];
@@ -605,7 +641,7 @@ function arrangeJson()
 
 									
 									spr_sc_row.insertCell(12).appendChild(st_ch_btn);
-	
+									spr_sc_row.insertCell(13).appendChild(document.createTextNode(spr_sc[spr_sc_id]["status"]));
 		
 									}
 					}		
@@ -628,6 +664,7 @@ function arrangeJson()
 <%try
 {
 %>
+
 <%@include file="include/NavBar.html" %>
 
    <div id="id01" class="modal" style="display:none;">
@@ -1068,7 +1105,7 @@ function arrangeJson()
 <script>
 function changeStatus()
 {
-	var formch=document.forms.namedItem("changeStatus"); 
+	var formch=document.getElementById("changeStatus"); 
 	var statusFormData=new FormData(formch);
 	var statusData=new URLSearchParams(statusFormData);
 		var http_request_new; 
@@ -1152,7 +1189,7 @@ function showStChForm(work_id)
 	
 </script>
 <div id="status_change_form" class="modal"  style="display:none">
-<form id="changeStatus" class="modal-content animate">
+<form id="changeStatus" class="modal-content animate" method="post">
 <div class="imgcontainer">
       <span onclick="document.getElementById('status_change_form').style.display='none'" class="close" title="Close Modal">&times;</span>
     
