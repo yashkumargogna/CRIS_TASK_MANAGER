@@ -458,9 +458,11 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 	{
 		var w_id=resp["w_id"];
 		var r_ch_st=resp["status"];
+		var r_ch_rms=resp["remarks"];
 		if(w_id.startsWith("T="))
 		{
 			tasks_details[w_id]["status"]=r_ch_st;
+			tasks_details[w_id]["remarks"]=r_ch_rms;
 		}
 		else if(w_id.startsWith("S="))
 		{
@@ -468,6 +470,7 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 				var t_id="T="+split[1];
 				var sprint_id=w_id;
 				tasks_details[t_id]["task_spr"][sprint_id]["status"]=r_ch_st;
+				tasks_details[t_id]["task_spr"][sprint_id]["remarks"]=r_ch_rms;
 				
 		}
 		else if(w_id.startsWith("SC="))
@@ -476,6 +479,7 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 			var t_id="T="+split[1];
 			var scrum_id=w_id;
 			tasks_details[t_id]["task_scr"][scrum_id]["status"]=r_ch_st; 
+			tasks_details[t_id]["task_scr"][scrum_id]["remarks"]=r_ch_rms; 
 		}
 		else if(w_id.startsWith("SR="))
 		{				
@@ -485,6 +489,7 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 			var split_for_sprint=w_id.split("S=");
 			var spr_id="S="+split_for_sprint[1];
 			tasks_details[t_id]["task_spr"][spr_id]["spr_scr"][scrum_of_sprint_id]["status"]=r_ch_st;
+			tasks_details[t_id]["task_spr"][spr_id]["spr_scr"][scrum_of_sprint_id]["remarks"]=r_ch_rms;
 		}
 		emptyDivs();
 		arrangeJson();

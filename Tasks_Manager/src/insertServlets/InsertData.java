@@ -106,7 +106,7 @@ public class InsertData extends HttpServlet
 		String w_id=request.getParameter("work_id").trim();
 		String status=request.getParameter("status");
 		String remarks= request.getParameter("remarks");
-		
+		System.out.println("remarks"+remarks);
 		response.setContentType("application/json");
 		Writer wr = response.getWriter();
 		
@@ -115,16 +115,18 @@ public class InsertData extends HttpServlet
 		{
 			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());	
 			con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","yash");
-			PreparedStatement ps_update_task=con.prepareStatement("UPDATE CRIS_WORKS SET STATUS=? WHERE WORK_ID=?");
+			PreparedStatement ps_update_task=con.prepareStatement("UPDATE CRIS_WORKS SET STATUS=?,REMARKS=? WHERE WORK_ID=?");
 			ps_update_task.setString(1,status);
-			ps_update_task.setString(2,w_id);
+			ps_update_task.setString(2,remarks);
+			ps_update_task.setString(3,w_id);
 			int i=0;
 			i=ps_update_task.executeUpdate();
 		if(i>0)
 		{
 			if(w_id.startsWith("T="))
 				{
-					CommonDetails.dep_tasks.get(ud.getDept()).get(w_id).setStatus(status);	
+					CommonDetails.dep_tasks.get(ud.getDept()).get(w_id).setStatus(status);
+					CommonDetails.dep_tasks.get(ud.getDept()).get(w_id).setRemarks(remarks);
 				}
 				else if(w_id.startsWith("S="))
 				{
@@ -132,6 +134,7 @@ public class InsertData extends HttpServlet
 						String t_id="T="+split[1];
 						String sprint_id=w_id;
 						CommonDetails.dep_tasks.get(ud.getDept()).get(t_id).getTask_spr().get(sprint_id).setStatus(status);
+						CommonDetails.dep_tasks.get(ud.getDept()).get(t_id).getTask_spr().get(sprint_id).setRemarks(remarks);
 				}
 				else if(w_id.startsWith("SC="))
 				{
@@ -139,6 +142,7 @@ public class InsertData extends HttpServlet
 					String t_id="T="+split[1];
 					String scrum_id=w_id;
 					CommonDetails.dep_tasks.get(ud.getDept()).get(t_id).getTask_scr().get(scrum_id).setStatus(status);
+					CommonDetails.dep_tasks.get(ud.getDept()).get(t_id).getTask_scr().get(scrum_id).setRemarks(remarks);
 				}
 				else if(w_id.startsWith("SR="))
 				{				
@@ -149,9 +153,10 @@ public class InsertData extends HttpServlet
 					String spr_id="S="+split_for_sprint[1];
 					
 					CommonDetails.dep_tasks.get(ud.getDept()).get(t_id).getTask_spr().get(spr_id).getSpr_scr().get(scrum_of_sprint_id).setStatus(status);
+					CommonDetails.dep_tasks.get(ud.getDept()).get(t_id).getTask_spr().get(spr_id).getSpr_scr().get(scrum_of_sprint_id).setRemarks(remarks);
 				}
 		}	
-		wr.write("{\"success\":true,\"action\":\"STATUSCHANGE\",\"w_id\":\""+w_id+"\""+",\"status\":\""+status+"\"}");
+		wr.write("{\"success\":true,\"action\":\"STATUSCHANGE\",\"w_id\":\""+w_id+"\""+",\"status\":\""+status+"\",\"remarks\":\""+remarks+"\"}");
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.out.println(e);

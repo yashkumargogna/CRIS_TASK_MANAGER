@@ -623,11 +623,13 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 		{
 			var w_id=resp["w_id"];
 			var r_ch_st=resp["status"];
+			var r_ch_rms=resp["remarks"];
 			if(w_id.startsWith("T="))
 			{
 				if(w_id in tasks_incharge)
 				{
 					tasks_incharge[w_id]["status"]=r_ch_st;
+					tasks_incharge[w_id]["remarks"]=r_ch_rms;
 				}
 			}
 			else if(w_id.startsWith("S="))
@@ -638,10 +640,12 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 					if(t_id in tasks_incharge)
 					{
 						tasks_incharge[t_id]["task_spr"][sprint_id]["status"]=r_ch_st;
+						tasks_incharge[t_id]["task_spr"][sprint_id]["remarks"]=r_ch_rms;
 					}
 					else if(sprint_id in sprints_incharge)
 					{
 						sprints_incharge[sprint_id]["status"]=r_ch_st;
+						sprints_incharge[sprint_id]["remarks"]=r_ch_rms;
 					}
 					
 					
@@ -654,6 +658,7 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 				if(t_id in tasks_incharge)
 				{
 					tasks_incharge[t_id]["task_scr"][scrum_id]["status"]=r_ch_st;
+					tasks_incharge[t_id]["task_scr"][scrum_id]["remarks"]=r_ch_rms;
 				}
 			}
 			else if(w_id.startsWith("SR="))
@@ -666,15 +671,18 @@ function received(event)//HANDLE THE WEB SOCKET MESSAGE RECEIVED
 				if(t_id in tasks_incharge)
 				{
 					tasks_incharge[t_id]["task_spr"][spr_id]["spr_scr"][scrum_of_sprint_id]["status"]=r_ch_st;
+					tasks_incharge[t_id]["task_spr"][spr_id]["spr_scr"][scrum_of_sprint_id]["remarks"]=r_ch_rms;
 				}
 				else if(spr_id in sprints_incharge)
 				{
 					sprints_incharge[spr_id]["spr_scr"][scrum_of_sprint_id]["status"]=r_ch_st;
+					sprints_incharge[spr_id]["spr_scr"][scrum_of_sprint_id]["remarks"]=r_ch_rms;
 				}
 			}
 			if(w_id in all_tasks)
 			{	
 				all_tasks[w_id]["status"]=r_ch_st;
+				all_tasks[w_id]["remarks"]=r_ch_rms;
 			}
 			if(selected_view==="all")
 			{
